@@ -32,7 +32,8 @@
 
         <!-- The content provider serving the (fake) weather data -->
         <provider android:name="WeatherDataProvider"
-            android:authorities="com.example.android.weatherlistwidget.provider" />
+            android:authorities="com.example.android.weatherlistwidget.provider"
+            android:exported="true"/>
     </application>
 
 </manifest>

@@ -60,10 +60,12 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     }
 
     public int getCount() {
+        System.out.println("Service#getCount: " + mCursor.getCount());
         return mCursor.getCount();
     }
 
     public RemoteViews getViewAt(int position) {
+        System.out.println("Service#getViewAt: " + position);
         // Get the data for this position from the content provider
         String day = "Unknown Day";
         int temp = 0;
