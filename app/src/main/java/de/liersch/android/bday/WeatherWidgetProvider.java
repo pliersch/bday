@@ -74,7 +74,6 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
   private static final int sMaxDegrees = 96;
 
   private boolean mIsLargeLayout = true;
-  private int mHeaderWeatherState = 0;
 
   public WeatherWidgetProvider() {
     // Start the worker thread
@@ -91,13 +90,17 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
     // content providers, the data is often updated via a background service, or in response to
     // user interaction in the main app.  To ensure that the widget always reflects the current
     // state of the data, we must listen for changes and update ourselves accordingly.
-    final ContentResolver r = context.getContentResolver();
     if (sDataObserver == null) {
-      final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
-      final ComponentName cn = new ComponentName(context, WeatherWidgetProvider.class);
-      sDataObserver = new WeatherDataProviderObserver(mgr, cn, sWorkerQueue);
-      r.registerContentObserver(WeatherDataProvider.CONTENT_URI, true, sDataObserver);
+      registerContentObserver(context);
     }
+  }
+
+  private void registerContentObserver(Context context) {
+    final ContentResolver r = context.getContentResolver();
+    final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
+    final ComponentName cn = new ComponentName(context, WeatherWidgetProvider.class);
+    sDataObserver = new WeatherDataProviderObserver(mgr, cn, sWorkerQueue);
+    r.registerContentObserver(WeatherDataProvider.CONTENT_URI, true, sDataObserver);
   }
 
   @Override
@@ -105,6 +108,9 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
     final String action = intent.getAction();
     System.out.println("Provider#onReceive: " + action);
     if (action.equals(REFRESH_ACTION)) {
+      if (sDataObserver == null) {
+        registerContentObserver(ctx);
+      }
       // BroadcastReceivers have a limited amount of time to do work, so for this sample, we
       // are triggering an update of the data on another thread.  In practice, this update
       // can be triggered from a background service, or perhaps as a result of user actions
