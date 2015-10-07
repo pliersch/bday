@@ -165,7 +165,8 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
       intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
       intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
       rv = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-      rv.setRemoteAdapter(appWidgetId, R.id.weather_list, intent);
+      //rv.setRemoteAdapter(appWidgetId, R.id.weather_list, intent);
+      rv.setRemoteAdapter(R.id.weather_list, intent);
 
       // Set the empty view to be displayed if the collection is empty.  It must be a sibling
       // view of the collection view.
