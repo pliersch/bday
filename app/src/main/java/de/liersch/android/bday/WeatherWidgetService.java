@@ -21,11 +21,11 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+
+import de.liersch.android.bday.db.ContactsQuery;
 
 /**
  * This is the service that provides the factory to be bound to the collection service.
@@ -135,29 +135,13 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     if (mCursorContacts != null) {
       mCursorContacts.close();
     }
-    Uri uri = ContactsContract.Contacts.CONTENT_URI;
-    String selection = ContactsContract.Contacts.IN_VISIBLE_GROUP + " = ?";
-    String[] selectionArgs = new String[] {"1"};
-    String[] projection = new String[] {
-        ContactsContract.Contacts._ID,
-        ContactsContract.Contacts.DISPLAY_NAME };
-    mCursorContacts = mContext.getContentResolver().query(uri, projection, selection, selectionArgs, null);
+
+    mCursorContacts = ContactsQuery.getInstance().queryVisibleContacts(mContext);
 
     if (mCursorBDay != null) {
       mCursorBDay.close();
     }
-    uri = ContactsContract.Data.CONTENT_URI;
-    projection = new String[] {
-        ContactsContract.Data.CONTACT_ID,
-        ContactsContract.CommonDataKinds.Event.TYPE,
-        ContactsContract.CommonDataKinds.Event.START_DATE,
-        ContactsContract.CommonDataKinds.Event.LABEL };
-    selection = ContactsContract.Data.MIMETYPE + " = ? AND "
-        + ContactsContract.CommonDataKinds.Event.TYPE + " = ?";
-    selectionArgs = new String[] {
-        ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE,
-        String.valueOf(ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY)
-    };
-    mCursorBDay = mContext.getContentResolver().query(uri, projection, selection, selectionArgs, null);
+
+    mCursorBDay = ContactsQuery.getInstance().queryBirthdaysContacts(mContext);
   }
 }

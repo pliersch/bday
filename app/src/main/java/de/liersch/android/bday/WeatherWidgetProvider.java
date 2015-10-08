@@ -29,9 +29,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.provider.ContactsContract;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+
+import de.liersch.android.bday.db.ContactsQuery;
 
 /**
  * Our data observer just notifies an update for all weather widgets when it detects a change.
@@ -197,20 +198,13 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
     } else {
       rv = new RemoteViews(context.getPackageName(), R.layout.widget_layout_small);
 
-      Uri uri = ContactsContract.Contacts.CONTENT_URI;
-      String selection = ContactsContract.Contacts.IN_VISIBLE_GROUP + " = ?";
-      String[] selectionArgs = new String[] {"1"};
-      String[] projection = new String[] {
-          ContactsContract.Contacts._ID,
-          ContactsContract.Contacts.DISPLAY_NAME };
 
-      Cursor c = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
+      Cursor c = ContactsQuery.getInstance().queryVisibleContacts(context);
       if (c.moveToPosition(0)) {
         int tempColIndex = c.getColumnIndex(WeatherDataProvider.Columns.TEMPERATURE);
         int temp = c.getInt(tempColIndex);
         String formatStr = context.getResources().getString(R.string.header_format_string);
-        String header = String.format(formatStr, temp,
-            context.getString(R.string.city_name));
+        String header = String.format(formatStr, temp,  context.getString(R.string.city_name));
         rv.setTextViewText(R.id.city_name, header);
       }
       c.close();
