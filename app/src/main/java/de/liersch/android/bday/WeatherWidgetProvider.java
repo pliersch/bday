@@ -21,8 +21,6 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
@@ -31,10 +29,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.provider.ContactsContract;
 import android.widget.RemoteViews;
 import android.widget.Toast;
-
-import java.util.Random;
 
 /**
  * Our data observer just notifies an update for all weather widgets when it detects a change.
@@ -121,20 +118,26 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
         @Override
         public void run() {
           final ContentResolver r = context.getContentResolver();
-          final Cursor c = r.query(WeatherDataProvider.CONTENT_URI, null, null, null, null);
-          final int count = c.getCount();
-
-          // We disable the data changed observer temporarily since each of the updates
-          // will trigger an onChange() in our data observer.
-          r.unregisterContentObserver(sDataObserver);
-          for (int i = 0; i < count; ++i) {
-            final Uri uri = ContentUris.withAppendedId(WeatherDataProvider.CONTENT_URI, i);
-            final ContentValues values = new ContentValues();
-            values.put(WeatherDataProvider.Columns.TEMPERATURE,
-                new Random().nextInt(sMaxDegrees));
-            r.update(uri, values, null, null);
-          }
-          r.registerContentObserver(WeatherDataProvider.CONTENT_URI, true, sDataObserver);
+//          Uri uri = ContactsContract.Contacts.CONTENT_URI;
+//          String selection = ContactsContract.Contacts.IN_VISIBLE_GROUP + " = ?";
+//          String[] selectionArgs = new String[] {"1"};
+//          String[] projection = new String[] {
+//              ContactsContract.Contacts._ID,
+//              ContactsContract.Contacts.DISPLAY_NAME };
+//          final Cursor c = r.query(uri, projection, selection, selectionArgs, null);
+//          final int count = c.getCount();
+//
+//          // We disable the data changed observer temporarily since each of the updates
+//          // will trigger an onChange() in our data observer.
+//          r.unregisterContentObserver(sDataObserver);
+//          for (int i = 0; i < count; ++i) {
+//            final Uri uri = ContentUris.withAppendedId(WeatherDataProvider.CONTENT_URI, i);
+//            final ContentValues values = new ContentValues();
+//            values.put(WeatherDataProvider.Columns.TEMPERATURE,
+//                new Random().nextInt(sMaxDegrees));
+//            r.update(uri, values, null, null);
+//          }
+//          r.registerContentObserver(WeatherDataProvider.CONTENT_URI, true, sDataObserver);
 
           final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
           final ComponentName cn = new ComponentName(context, WeatherWidgetProvider.class);
@@ -194,9 +197,14 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
     } else {
       rv = new RemoteViews(context.getPackageName(), R.layout.widget_layout_small);
 
-      // Update the header to reflect the weather for "today"
-      Cursor c = context.getContentResolver().query(WeatherDataProvider.CONTENT_URI, null,
-          null, null, null);
+      Uri uri = ContactsContract.Contacts.CONTENT_URI;
+      String selection = ContactsContract.Contacts.IN_VISIBLE_GROUP + " = ?";
+      String[] selectionArgs = new String[] {"1"};
+      String[] projection = new String[] {
+          ContactsContract.Contacts._ID,
+          ContactsContract.Contacts.DISPLAY_NAME };
+
+      Cursor c = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
       if (c.moveToPosition(0)) {
         int tempColIndex = c.getColumnIndex(WeatherDataProvider.Columns.TEMPERATURE);
         int temp = c.getInt(tempColIndex);

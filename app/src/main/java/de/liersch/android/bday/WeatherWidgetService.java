@@ -21,7 +21,9 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -40,7 +42,8 @@ public class WeatherWidgetService extends RemoteViewsService {
  */
 class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   private Context mContext;
-  private Cursor mCursor;
+  private Cursor mCursorContacts;
+  private Cursor mCursorBDay;
   private int mAppWidgetId;
 
   public StackRemoteViewsFactory(Context context, Intent intent) {
@@ -56,27 +59,34 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   }
 
   public void onDestroy() {
-    if (mCursor != null) {
-      mCursor.close();
+    if (mCursorContacts != null) {
+      mCursorContacts.close();
+    }
+    if (mCursorBDay != null) {
+      mCursorBDay.close();
     }
   }
 
   public int getCount() {
-    System.out.println("Service#getCount: " + mCursor.getCount());
-    return mCursor.getCount();
+    System.out.println("Service#getCount: " + mCursorContacts.getCount());
+    return mCursorContacts.getCount();
   }
 
   public RemoteViews getViewAt(int position) {
     System.out.println("Service#getViewAt: " + position);
+
+    String contactID;
+    String bday = "?";
     // Get the data for this position from the content provider
     String day = "Unknown Day";
-    int temp = 0;
-    if (mCursor.moveToPosition(position)) {
-      final int dayColIndex = mCursor.getColumnIndex(WeatherDataProvider.Columns.DAY);
-      final int tempColIndex = mCursor.getColumnIndex(
-          WeatherDataProvider.Columns.TEMPERATURE);
-      day = mCursor.getString(dayColIndex);
-      temp = mCursor.getInt(tempColIndex);
+    if (mCursorContacts.moveToPosition(position)) {
+      contactID = mCursorContacts.getString(0);
+      mCursorBDay.moveToPosition(-1);
+      while (mCursorBDay.moveToNext()) {
+        if (mCursorBDay.getString(0).equals(contactID)) {
+          bday = mCursorBDay.getString(2);
+        }
+      }
     }
 
     // Return a proper item with the proper day and temperature
@@ -84,12 +94,12 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     int layoutId = R.layout.widget_item_week;
     int itemId = R.id.widget_item_week;
 
-    if(temp % 2 == 1) {
+    if(bday == "?") {
       layoutId = R.layout.widget_item_today;
       itemId = R.id.widget_item_today;
     }
     RemoteViews rv = new RemoteViews(mContext.getPackageName(), layoutId);
-    rv.setTextViewText(itemId, String.format(formatStr, temp, day));
+    rv.setTextViewText(itemId, mCursorContacts.getString(1).concat(bday));
 
     // Set the click intent so that we can handle it and show a toast message
     final Intent fillInIntent = new Intent();
@@ -122,10 +132,32 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   public void onDataSetChanged() {
     System.out.println("Service#onDataSetChanged");
     // Refresh the cursor
-    if (mCursor != null) {
-      mCursor.close();
+    if (mCursorContacts != null) {
+      mCursorContacts.close();
     }
-    mCursor = mContext.getContentResolver().query(WeatherDataProvider.CONTENT_URI, null, null,
-        null, null);
+    Uri uri = ContactsContract.Contacts.CONTENT_URI;
+    String selection = ContactsContract.Contacts.IN_VISIBLE_GROUP + " = ?";
+    String[] selectionArgs = new String[] {"1"};
+    String[] projection = new String[] {
+        ContactsContract.Contacts._ID,
+        ContactsContract.Contacts.DISPLAY_NAME };
+    mCursorContacts = mContext.getContentResolver().query(uri, projection, selection, selectionArgs, null);
+
+    if (mCursorBDay != null) {
+      mCursorBDay.close();
+    }
+    uri = ContactsContract.Data.CONTENT_URI;
+    projection = new String[] {
+        ContactsContract.Data.CONTACT_ID,
+        ContactsContract.CommonDataKinds.Event.TYPE,
+        ContactsContract.CommonDataKinds.Event.START_DATE,
+        ContactsContract.CommonDataKinds.Event.LABEL };
+    selection = ContactsContract.Data.MIMETYPE + " = ? AND "
+        + ContactsContract.CommonDataKinds.Event.TYPE + " = ?";
+    selectionArgs = new String[] {
+        ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE,
+        String.valueOf(ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY)
+    };
+    mCursorBDay = mContext.getContentResolver().query(uri, projection, selection, selectionArgs, null);
   }
 }
