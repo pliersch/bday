@@ -16,9 +16,7 @@ public class ContactsQuery {
 		return mInstance;
 	}
 
-	private ContactsQuery() {
-
-	}
+	private ContactsQuery() {}
 
 	public Cursor queryVisibleContacts(Context context) {
 		Uri uri = ContactsContract.Contacts.CONTENT_URI;
@@ -28,14 +26,13 @@ public class ContactsQuery {
 				ContactsContract.Contacts._ID,
 				ContactsContract.Contacts.DISPLAY_NAME };
 
-		Cursor cursor = context.getContentResolver().query(
+		return context.getContentResolver().query(
         uri,
 				projection,
 				selection,
 				selectionArgs,
 				null // Default sort order
 		);
-		return cursor;
 	}
 
 	public Cursor queryBirthdaysContacts(Context context) {
@@ -51,14 +48,13 @@ public class ContactsQuery {
 				ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE,
 				String.valueOf(ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY)
 		};
-		Cursor cursor = context.getContentResolver().query(
+		return context.getContentResolver().query(
 				uri,
 				projection,
 				selection,
 				selectionArgs,
         null // Default sort order
 		);
-		return cursor;
 	}
 
 }
