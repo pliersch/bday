@@ -76,9 +76,7 @@ public class MainActivity extends Activity {
     // big content view set here is displayed.)
     if (Build.VERSION.SDK_INT >= 16) {
       // Inflate and set the layout for the expanded notification view
-      RemoteViews expandedView =
-          new RemoteViews(getPackageName(), R.layout.notification_expanded);
-      notification.bigContentView = expandedView;
+      notification.bigContentView = new RemoteViews(getPackageName(), R.layout.notification_expanded);
     }
     // END_INCLUDE(customLayout)
 
