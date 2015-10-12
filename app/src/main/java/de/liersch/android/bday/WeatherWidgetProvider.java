@@ -126,12 +126,10 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
         }
       });
 
-      final int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-          AppWidgetManager.INVALID_APPWIDGET_ID);
+      final int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
     } else if (action.equals(CLICK_ACTION)) {
       // Show a toast
-      final int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-          AppWidgetManager.INVALID_APPWIDGET_ID);
+      final int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
       final String day = intent.getStringExtra(EXTRA_DAY_ID);
       final String formatStr = ctx.getResources().getString(R.string.toast_format_string);
       Toast.makeText(ctx, String.format(formatStr, day), Toast.LENGTH_SHORT).show();
@@ -207,17 +205,13 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
   public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager,
                                         int appWidgetId, Bundle newOptions) {
 
-    int minWidth = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
-    int maxWidth = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
+//    int minWidth = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
+//    int maxWidth = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
     int minHeight = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
-    int maxHeight = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
+//    int maxHeight = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
 
     RemoteViews layout;
-    if (minHeight < 100) {
-      mIsLargeLayout = false;
-    } else {
-      mIsLargeLayout = true;
-    }
+    mIsLargeLayout = minHeight >= 100;
     layout = buildLayout(context, appWidgetId, mIsLargeLayout);
     appWidgetManager.updateAppWidget(appWidgetId, layout);
   }
