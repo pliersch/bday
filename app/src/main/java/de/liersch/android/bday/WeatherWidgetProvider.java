@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.provider.ContactsContract;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -78,7 +79,8 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
     final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
     final ComponentName cn = new ComponentName(context, WeatherWidgetProvider.class);
     sDataObserver = new WeatherDataProviderObserver(mgr, cn, sWorkerQueue);
-    r.registerContentObserver(WeatherDataProvider.CONTENT_URI, true, sDataObserver);
+    //r.registerContentObserver(ContactsContract.Contacts.CONTENT_URI, true, sDataObserver);
+    context.getApplicationContext().getContentResolver().registerContentObserver(ContactsContract.Contacts.CONTENT_URI, true, sDataObserver);
   }
 
   @Override
@@ -175,8 +177,6 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
       rv.setTextViewText(R.id.city_name, context.getString(R.string.city_name));
     } else {
       rv = new RemoteViews(context.getPackageName(), R.layout.widget_layout_small);
-
-
       Cursor c = ContactsQuery.getInstance().queryVisibleContacts(context);
       if (c.moveToPosition(0)) {
         int tempColIndex = c.getColumnIndex(WeatherDataProvider.Columns.TEMPERATURE);
