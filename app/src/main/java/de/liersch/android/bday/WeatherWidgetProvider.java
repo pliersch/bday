@@ -65,6 +65,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
 
   @Override
   public void onEnabled(Context context) {
+    System.out.println("Provider#onEnabled");
     // Register for external updates to the data to trigger an update of the widget.  When using
     // content providers, the data is often updated via a background service, or in response to
     // user interaction in the main app.  To ensure that the widget always reflects the current
@@ -74,13 +75,25 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
     }
   }
 
+  @Override
+  public void onRestored(Context context, int[] oldWidgetIds, int[] newWidgetIds) {
+    super.onRestored(context, oldWidgetIds, newWidgetIds);
+    System.out.println("Provider#onRestored");
+  }
+
+  @Override
+  public void onDeleted(Context context, int[] appWidgetIds) {
+    super.onDeleted(context, appWidgetIds);
+    System.out.println("Provider#onDeleted");
+  }
+
   private void registerContentObserver(Context context) {
     final ContentResolver r = context.getContentResolver();
     final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
     final ComponentName cn = new ComponentName(context, WeatherWidgetProvider.class);
     sDataObserver = new WeatherDataProviderObserver(mgr, cn, sWorkerQueue);
-    //r.registerContentObserver(ContactsContract.Contacts.CONTENT_URI, true, sDataObserver);
-    context.getApplicationContext().getContentResolver().registerContentObserver(ContactsContract.Contacts.CONTENT_URI, true, sDataObserver);
+    r.registerContentObserver(ContactsContract.Contacts.CONTENT_URI, true, sDataObserver);
+    //context.getApplicationContext().getContentResolver().registerContentObserver(ContactsContract.Contacts.CONTENT_URI, true, sDataObserver);
   }
 
   @Override
@@ -110,7 +123,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
 //          final Cursor c = r.query(uri, projection, selection, selectionArgs, null);
 //          final int count = c.getCount();
 //
-//          // We disable the data changed observer temporarily since each of the updates
+  //          // We disable the data changed observer temporarily since each of the updates
 //          // will trigger an onChange() in our data observer.
 //          r.unregisterContentObserver(sDataObserver);
 //          for (int i = 0; i < count; ++i) {
@@ -193,6 +206,9 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
   @Override
   public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
     System.out.println("Provider#onUpdate: " + appWidgetIds.length);
+    if (sDataObserver == null) {
+      registerContentObserver(context);
+    }
     // Update each of the widgets with the remote adapter
     for (int i = 0; i < appWidgetIds.length; ++i) {
       RemoteViews layout = buildLayout(context, appWidgetIds[i], mIsLargeLayout);
