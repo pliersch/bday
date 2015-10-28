@@ -22,11 +22,11 @@ import de.liersch.android.bday.db.ContactsQuery;
 /**
  * Our data observer just notifies an update for all weather widgets when it detects a change.
  */
-class WeatherDataProviderObserver extends ContentObserver {
+class ContactsObserver extends ContentObserver {
   private AppWidgetManager mAppWidgetManager;
   private ComponentName mComponentName;
 
-  WeatherDataProviderObserver(AppWidgetManager mgr, ComponentName cn, Handler h) {
+  ContactsObserver(AppWidgetManager mgr, ComponentName cn, Handler h) {
     super(h);
     mAppWidgetManager = mgr;
     mComponentName = cn;
@@ -50,7 +50,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
 
   private static HandlerThread sWorkerThread;
   private static Handler sWorkerQueue;
-  private static WeatherDataProviderObserver sDataObserver;
+  private static ContactsObserver contactsObserver;
 
   private boolean mIsLargeLayout = true;
 
@@ -70,7 +70,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
     // content providers, the data is often updated via a background service, or in response to
     // user interaction in the main app.  To ensure that the widget always reflects the current
     // state of the data, we must listen for changes and update ourselves accordingly.
-    if (sDataObserver == null) {
+    if (contactsObserver == null) {
       registerContentObserver(context);
     }
   }
@@ -91,9 +91,9 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
     final ContentResolver r = context.getContentResolver();
     final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
     final ComponentName cn = new ComponentName(context, WeatherWidgetProvider.class);
-    sDataObserver = new WeatherDataProviderObserver(mgr, cn, sWorkerQueue);
-    r.registerContentObserver(ContactsContract.Contacts.CONTENT_URI, true, sDataObserver);
-    //context.getApplicationContext().getContentResolver().registerContentObserver(ContactsContract.Contacts.CONTENT_URI, true, sDataObserver);
+    contactsObserver = new ContactsObserver(mgr, cn, sWorkerQueue);
+    r.registerContentObserver(ContactsContract.Contacts.CONTENT_URI, true, contactsObserver);
+    //context.getApplicationContext().getContentResolver().registerContentObserver(ContactsContract.Contacts.CONTENT_URI, true, contactsObserver);
   }
 
   @Override
@@ -101,7 +101,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
     final String action = intent.getAction();
     System.out.println("Provider#onReceive: " + action);
     if (action.equals(REFRESH_ACTION)) {
-      if (sDataObserver == null) {
+      if (contactsObserver == null) {
         registerContentObserver(ctx);
       }
       // BroadcastReceivers have a limited amount of time to do work, so for this sample, we
@@ -125,7 +125,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
 //
   //          // We disable the data changed observer temporarily since each of the updates
 //          // will trigger an onChange() in our data observer.
-//          r.unregisterContentObserver(sDataObserver);
+//          r.unregisterContentObserver(contactsObserver);
 //          for (int i = 0; i < count; ++i) {
 //            final Uri uri = ContentUris.withAppendedId(WeatherDataProvider.CONTENT_URI, i);
 //            final ContentValues values = new ContentValues();
@@ -133,7 +133,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
 //                new Random().nextInt(sMaxDegrees));
 //            r.update(uri, values, null, null);
 //          }
-//          r.registerContentObserver(WeatherDataProvider.CONTENT_URI, true, sDataObserver);
+//          r.registerContentObserver(WeatherDataProvider.CONTENT_URI, true, contactsObserver);
 
           final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
           final ComponentName cn = new ComponentName(context, WeatherWidgetProvider.class);
@@ -206,7 +206,7 @@ public class WeatherWidgetProvider extends AppWidgetProvider {
   @Override
   public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
     System.out.println("Provider#onUpdate: " + appWidgetIds.length);
-    if (sDataObserver == null) {
+    if (contactsObserver == null) {
       registerContentObserver(context);
     }
     // Update each of the widgets with the remote adapter
