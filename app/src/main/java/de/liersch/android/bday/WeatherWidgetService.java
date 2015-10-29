@@ -77,8 +77,6 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     String contactID;
     String bday = "?";
-    // Get the data for this position from the content provider
-    String day = "Unknown Day";
     if (mCursorContacts.moveToPosition(position)) {
       contactID = mCursorContacts.getString(0);
       mCursorBDay.moveToPosition(-1);
@@ -104,7 +102,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     // Set the click intent so that we can handle it and show a toast message
     final Intent fillInIntent = new Intent();
     final Bundle extras = new Bundle();
-    extras.putString(BDayWidgetProvider.EXTRA_DAY_ID, day);
+    extras.putString(BDayWidgetProvider.EXTRA_DAY_ID, bday);
     fillInIntent.putExtras(extras);
     rv.setOnClickFillInIntent(itemId, fillInIntent);
 
