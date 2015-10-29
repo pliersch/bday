@@ -87,13 +87,6 @@ public class MainActivity extends Activity {
     // END_INCLUDE(notify)
   }
 
-  /**
-   * Create and show a notification with a custom layout.
-   * This callback is defined through the 'onClick' attribute of the
-   * 'Show Notification' button in the XML layout.
-   *
-   * @param v
-   */
   public void showNotificationClicked(View v) {
     createNotification();
   }

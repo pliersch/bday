@@ -186,9 +186,9 @@ public class BDayWidgetProvider extends AppWidgetProvider {
       registerContentObserver(context);
     }
     // Update each of the widgets with the remote adapter
-    for (int i = 0; i < appWidgetIds.length; ++i) {
-      RemoteViews layout = buildLayout(context, appWidgetIds[i], mIsLargeLayout);
-      appWidgetManager.updateAppWidget(appWidgetIds[i], layout);
+    for (int appWidgetId : appWidgetIds) {
+      RemoteViews layout = buildLayout(context, appWidgetId, mIsLargeLayout);
+      appWidgetManager.updateAppWidget(appWidgetId, layout);
     }
     super.onUpdate(context, appWidgetManager, appWidgetIds);
   }

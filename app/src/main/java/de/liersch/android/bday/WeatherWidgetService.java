@@ -92,7 +92,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     int layoutId = R.layout.widget_item_with_date;
     int itemId = R.id.widget_item_week;
 
-    if(bday == "?") {
+    if(bday.equals("?")) {
       layoutId = R.layout.widget_item_without_date;
       itemId = R.id.widget_item_today;
     }
