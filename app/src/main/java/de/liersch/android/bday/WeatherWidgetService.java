@@ -89,11 +89,11 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     // Return a proper item with the proper day and temperature
     final String formatStr = mContext.getResources().getString(R.string.item_format_string);
-    int layoutId = R.layout.widget_item_week;
+    int layoutId = R.layout.widget_item_with_date;
     int itemId = R.id.widget_item_week;
 
     if(bday == "?") {
-      layoutId = R.layout.widget_item_today;
+      layoutId = R.layout.widget_item_without_date;
       itemId = R.id.widget_item_today;
     }
     RemoteViews rv = new RemoteViews(mContext.getPackageName(), layoutId);

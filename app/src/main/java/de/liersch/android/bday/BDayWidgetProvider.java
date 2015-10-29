@@ -8,7 +8,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,8 +15,6 @@ import android.os.HandlerThread;
 import android.provider.ContactsContract;
 import android.widget.RemoteViews;
 import android.widget.Toast;
-
-import de.liersch.android.bday.db.ContactsQuery;
 
 /**
  * data observer notifies an update for all widgets when it detects a change.
@@ -177,15 +174,7 @@ public class BDayWidgetProvider extends AppWidgetProvider {
       rv.setTextViewText(R.id.city_name, context.getString(R.string.city_name));
     } else {
       rv = new RemoteViews(context.getPackageName(), R.layout.widget_layout_small);
-      Cursor c = ContactsQuery.getInstance().queryVisibleContacts(context);
-      if (c.moveToPosition(0)) {
-        int tempColIndex = c.getColumnIndex(WeatherDataProvider.Columns.TEMPERATURE);
-        int temp = c.getInt(tempColIndex);
-        String formatStr = context.getResources().getString(R.string.header_format_string);
-        String header = String.format(formatStr, temp,  context.getString(R.string.city_name));
-        rv.setTextViewText(R.id.city_name, header);
-      }
-      c.close();
+      // TODO: not implements
     }
     return rv;
   }
