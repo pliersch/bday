@@ -104,9 +104,9 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     // Set the click intent so that we can handle it and show a toast message
     final Intent fillInIntent = new Intent();
     final Bundle extras = new Bundle();
-    extras.putString(WeatherWidgetProvider.EXTRA_DAY_ID, day);
+    extras.putString(BDayWidgetProvider.EXTRA_DAY_ID, day);
     fillInIntent.putExtras(extras);
-    rv.setOnClickFillInIntent(layoutId, fillInIntent);
+    rv.setOnClickFillInIntent(itemId, fillInIntent);
 
     return rv;
   }
