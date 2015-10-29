@@ -133,13 +133,11 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     if (mCursorContacts != null) {
       mCursorContacts.close();
     }
-
     mCursorContacts = ContactsQuery.getInstance().queryVisibleContacts(mContext);
 
     if (mCursorBDay != null) {
       mCursorBDay.close();
     }
-
     mCursorBDay = ContactsQuery.getInstance().queryBirthdaysContacts(mContext);
   }
 }
