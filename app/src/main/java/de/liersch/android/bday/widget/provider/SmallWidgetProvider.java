@@ -12,10 +12,6 @@ import android.widget.Toast;
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.widget.service.LargeWidgetService;
 
-/**
- * data observer notifies an update for all widgets when it detects a change.
- */
-
 
 public class SmallWidgetProvider extends BaseWidgetProvider {
 
@@ -25,7 +21,7 @@ public class SmallWidgetProvider extends BaseWidgetProvider {
 
   @Override
   protected String getThreadName() {
-    return "LargeWidgetProvider-worker";
+    return "SmallWidgetProvider-worker";
   }
 
   @Override
@@ -47,7 +43,7 @@ public class SmallWidgetProvider extends BaseWidgetProvider {
         public void run() {
           final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
           final ComponentName cn = new ComponentName(context, LargeWidgetProvider.class);
-          mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.weather_list);
+          mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.stack_view);
         }
       });
 
@@ -72,12 +68,12 @@ public class SmallWidgetProvider extends BaseWidgetProvider {
       final Intent intent = new Intent(context, LargeWidgetService.class);
       intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
       intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
-      rv = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-      rv.setRemoteAdapter(R.id.weather_list, intent);
+      rv = new RemoteViews(context.getPackageName(), R.layout.widget_card_layout);
+      rv.setRemoteAdapter(R.id.stack_view, intent);
 
       // Set the empty view to be displayed if the collection is empty.  It must be a sibling
       // view of the collection view.
-      rv.setEmptyView(R.id.weather_list, R.id.empty_view);
+      rv.setEmptyView(R.id.stack_view, R.id.empty_view);
 
       // Bind a click listener template for the contents of the weather list.  Note that we
       // need to update the intent's data if we set an extra, since the extras will be
@@ -88,7 +84,7 @@ public class SmallWidgetProvider extends BaseWidgetProvider {
       onClickIntent.setData(Uri.parse(onClickIntent.toUri(Intent.URI_INTENT_SCHEME)));
       final PendingIntent onClickPendingIntent = PendingIntent.getBroadcast(context, 0,
           onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-      rv.setPendingIntentTemplate(R.id.weather_list, onClickPendingIntent);
+      rv.setPendingIntentTemplate(R.id.stack_view, onClickPendingIntent);
 
       // Bind the click intent for the refresh button on the widget
       final Intent refreshIntent = new Intent(context, LargeWidgetProvider.class);
@@ -100,7 +96,7 @@ public class SmallWidgetProvider extends BaseWidgetProvider {
       // Restore the minimal header
       rv.setTextViewText(R.id.city_name, context.getString(R.string.city_name));
     } else {
-      rv = new RemoteViews(context.getPackageName(), R.layout.widget_layout_small);
+      rv = new RemoteViews(context.getPackageName(), R.layout.widget_card_layout);
       // TODO: not implements
     }
     return rv;
