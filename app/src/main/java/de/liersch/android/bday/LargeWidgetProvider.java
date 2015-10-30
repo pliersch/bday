@@ -50,7 +50,7 @@ class ContactsObserver extends ContentObserver {
 
 }
 
-public class BDayWidgetProvider extends AppWidgetProvider {
+public class LargeWidgetProvider extends AppWidgetProvider {
   public static String CLICK_ACTION = "com.example.android.weatherlistwidget.CLICK";
   public static String REFRESH_ACTION = "com.example.android.weatherlistwidget.REFRESH";
   public static String EXTRA_DAY_ID = "com.example.android.weatherlistwidget.day";
@@ -61,9 +61,9 @@ public class BDayWidgetProvider extends AppWidgetProvider {
 
   private boolean mIsLargeLayout = true;
 
-  public BDayWidgetProvider() {
+  public LargeWidgetProvider() {
     // Start the worker thread
-    sWorkerThread = new HandlerThread("BDayWidgetProvider-worker");
+    sWorkerThread = new HandlerThread("LargeWidgetProvider-worker");
     sWorkerThread.start();
     sWorkerQueue = new Handler(sWorkerThread.getLooper());
   }
@@ -97,7 +97,7 @@ public class BDayWidgetProvider extends AppWidgetProvider {
   private void registerContentObserver(Context context) {
     final ContentResolver r = context.getContentResolver();
     final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
-    final ComponentName cn = new ComponentName(context, BDayWidgetProvider.class);
+    final ComponentName cn = new ComponentName(context, LargeWidgetProvider.class);
     contactsObserver = new ContactsObserver(mgr, cn, sWorkerQueue);
     r.registerContentObserver(ContactsContract.Contacts.CONTENT_URI, true, contactsObserver);
   }
@@ -120,7 +120,7 @@ public class BDayWidgetProvider extends AppWidgetProvider {
         @Override
         public void run() {
           final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
-          final ComponentName cn = new ComponentName(context, BDayWidgetProvider.class);
+          final ComponentName cn = new ComponentName(context, LargeWidgetProvider.class);
           mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.weather_list);
         }
       });
@@ -142,7 +142,7 @@ public class BDayWidgetProvider extends AppWidgetProvider {
     if (largeLayout) {
       // Specify the service to provide data for the collection widget.  Note that we need to
       // embed the appWidgetId via the data otherwise it will be ignored.
-      final Intent intent = new Intent(context, BDayWidgetService.class);
+      final Intent intent = new Intent(context, LargeWidgetService.class);
       intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
       intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
       rv = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
@@ -155,8 +155,8 @@ public class BDayWidgetProvider extends AppWidgetProvider {
       // Bind a click listener template for the contents of the weather list.  Note that we
       // need to update the intent's data if we set an extra, since the extras will be
       // ignored otherwise.
-      final Intent onClickIntent = new Intent(context, BDayWidgetProvider.class);
-      onClickIntent.setAction(BDayWidgetProvider.CLICK_ACTION);
+      final Intent onClickIntent = new Intent(context, LargeWidgetProvider.class);
+      onClickIntent.setAction(LargeWidgetProvider.CLICK_ACTION);
       onClickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
       onClickIntent.setData(Uri.parse(onClickIntent.toUri(Intent.URI_INTENT_SCHEME)));
       final PendingIntent onClickPendingIntent = PendingIntent.getBroadcast(context, 0,
@@ -164,8 +164,8 @@ public class BDayWidgetProvider extends AppWidgetProvider {
       rv.setPendingIntentTemplate(R.id.weather_list, onClickPendingIntent);
 
       // Bind the click intent for the refresh button on the widget
-      final Intent refreshIntent = new Intent(context, BDayWidgetProvider.class);
-      refreshIntent.setAction(BDayWidgetProvider.REFRESH_ACTION);
+      final Intent refreshIntent = new Intent(context, LargeWidgetProvider.class);
+      refreshIntent.setAction(LargeWidgetProvider.REFRESH_ACTION);
       final PendingIntent refreshPendingIntent = PendingIntent.getBroadcast(context, 0,
           refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT);
       rv.setOnClickPendingIntent(R.id.refresh, refreshPendingIntent);

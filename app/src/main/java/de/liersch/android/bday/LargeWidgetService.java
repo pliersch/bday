@@ -30,7 +30,7 @@ import de.liersch.android.bday.db.ContactsQuery;
 /**
  * This is the service that provides the factory to be bound to the collection service.
  */
-public class BDayWidgetService extends RemoteViewsService {
+public class LargeWidgetService extends RemoteViewsService {
   @Override
   public RemoteViewsFactory onGetViewFactory(Intent intent) {
     return new StackRemoteViewsFactory(this.getApplicationContext(), intent);
@@ -102,7 +102,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     // Set the click intent so that we can handle it and show a toast message
     final Intent fillInIntent = new Intent();
     final Bundle extras = new Bundle();
-    extras.putString(BDayWidgetProvider.EXTRA_DAY_ID, contactID);
+    extras.putString(LargeWidgetProvider.EXTRA_DAY_ID, contactID);
     fillInIntent.putExtras(extras);
     rv.setOnClickFillInIntent(itemId, fillInIntent);
 
