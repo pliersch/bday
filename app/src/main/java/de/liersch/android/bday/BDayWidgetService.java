@@ -30,7 +30,7 @@ import de.liersch.android.bday.db.ContactsQuery;
 /**
  * This is the service that provides the factory to be bound to the collection service.
  */
-public class WeatherWidgetService extends RemoteViewsService {
+public class BDayWidgetService extends RemoteViewsService {
   @Override
   public RemoteViewsFactory onGetViewFactory(Intent intent) {
     return new StackRemoteViewsFactory(this.getApplicationContext(), intent);

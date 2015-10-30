@@ -142,7 +142,7 @@ public class BDayWidgetProvider extends AppWidgetProvider {
     if (largeLayout) {
       // Specify the service to provide data for the collection widget.  Note that we need to
       // embed the appWidgetId via the data otherwise it will be ignored.
-      final Intent intent = new Intent(context, WeatherWidgetService.class);
+      final Intent intent = new Intent(context, BDayWidgetService.class);
       intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
       intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
       rv = new RemoteViews(context.getPackageName(), R.layout.widget_layout);

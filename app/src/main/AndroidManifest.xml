@@ -36,7 +36,7 @@
                        android:resource="@xml/widgetinfo" />
         </receiver>
         <!-- The service serving the RemoteViews to the collection widget -->
-        <service android:name="WeatherWidgetService"
+        <service android:name=".BDayWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS"
             android:exported="false" />
 
