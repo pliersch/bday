@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.liersch.android.bday;
+package de.liersch.android.bday.widget.service;
 
 
 import android.appwidget.AppWidgetManager;
@@ -25,7 +25,9 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import de.liersch.android.bday.R;
 import de.liersch.android.bday.db.ContactsQuery;
+import de.liersch.android.bday.widget.provider.LargeWidgetProvider;
 
 /**
  * This is the service that provides the factory to be bound to the collection service.
