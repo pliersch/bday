@@ -2,74 +2,32 @@ package de.liersch.android.bday.widget.provider;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.provider.ContactsContract;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import de.liersch.android.bday.R;
-import de.liersch.android.bday.widget.ContactsObserver;
 import de.liersch.android.bday.widget.service.LargeWidgetService;
 
 
-public class LargeWidgetProvider extends AppWidgetProvider {
+public class LargeWidgetProvider extends BaseWidgetProvider {
   public static String CLICK_ACTION = "com.example.android.weatherlistwidget.CLICK";
   public static String REFRESH_ACTION = "com.example.android.weatherlistwidget.REFRESH";
   public static String EXTRA_DAY_ID = "com.example.android.weatherlistwidget.day";
 
-  private static HandlerThread sWorkerThread;
-  private static Handler sWorkerQueue;
-  private static ContactsObserver contactsObserver;
 
   private boolean mIsLargeLayout = true;
 
   public LargeWidgetProvider() {
-    // Start the worker thread
-    sWorkerThread = new HandlerThread("LargeWidgetProvider-worker");
-    sWorkerThread.start();
-    sWorkerQueue = new Handler(sWorkerThread.getLooper());
-  }
-
-  // XXX: clear the worker queue if we are destroyed?
-
-  @Override
-  public void onEnabled(Context context) {
-    System.out.println("Provider#onEnabled");
-    // Register for external updates to the data to trigger an update of the widget.  When using
-    // content providers, the data is often updated via a background service, or in response to
-    // user interaction in the main app.  To ensure that the widget always reflects the current
-    // state of the data, we must listen for changes and update ourselves accordingly.
-    if (contactsObserver == null) {
-      registerContentObserver(context);
-    }
+    super();
   }
 
   @Override
-  public void onRestored(Context context, int[] oldWidgetIds, int[] newWidgetIds) {
-    super.onRestored(context, oldWidgetIds, newWidgetIds);
-    System.out.println("Provider#onRestored");
-  }
-
-  @Override
-  public void onDeleted(Context context, int[] appWidgetIds) {
-    super.onDeleted(context, appWidgetIds);
-    System.out.println("Provider#onDeleted");
-  }
-
-  private void registerContentObserver(Context context) {
-    final ContentResolver r = context.getContentResolver();
-    final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
-    final ComponentName cn = new ComponentName(context, LargeWidgetProvider.class);
-    contactsObserver = new ContactsObserver(mgr, cn, sWorkerQueue);
-    r.registerContentObserver(ContactsContract.Contacts.CONTENT_URI, true, contactsObserver);
+  protected String getThreadName() {
+    return "LargeWidgetProvider-worker";
   }
 
   @Override
@@ -103,11 +61,11 @@ public class LargeWidgetProvider extends AppWidgetProvider {
       final String formatStr = ctx.getResources().getString(R.string.toast_format_string);
       Toast.makeText(ctx, String.format(formatStr, day), Toast.LENGTH_SHORT).show();
     }
-
     super.onReceive(ctx, intent);
   }
 
-  private RemoteViews buildLayout(Context context, int appWidgetId, boolean largeLayout) {
+  @Override
+  protected RemoteViews buildLayout(Context context, int appWidgetId, boolean largeLayout) {
     RemoteViews rv;
     if (largeLayout) {
       // Specify the service to provide data for the collection widget.  Note that we need to
@@ -147,34 +105,5 @@ public class LargeWidgetProvider extends AppWidgetProvider {
       // TODO: not implements
     }
     return rv;
-  }
-
-  @Override
-  public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-    System.out.println("Provider#onUpdate: " + appWidgetIds.length);
-    if (contactsObserver == null) {
-      registerContentObserver(context);
-    }
-    // Update each of the widgets with the remote adapter
-    for (int appWidgetId : appWidgetIds) {
-      RemoteViews layout = buildLayout(context, appWidgetId, mIsLargeLayout);
-      appWidgetManager.updateAppWidget(appWidgetId, layout);
-    }
-    super.onUpdate(context, appWidgetManager, appWidgetIds);
-  }
-
-  @Override
-  public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager,
-                                        int appWidgetId, Bundle newOptions) {
-
-//    int minWidth = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
-//    int maxWidth = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
-    int minHeight = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
-//    int maxHeight = newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
-
-    RemoteViews layout;
-    mIsLargeLayout = minHeight >= 100;
-    layout = buildLayout(context, appWidgetId, mIsLargeLayout);
-    appWidgetManager.updateAppWidget(appWidgetId, layout);
   }
 }
