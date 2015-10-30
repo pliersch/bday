@@ -27,7 +27,14 @@
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/widgetinfo" />
         </receiver>
-
+        <receiver android:name=".BDayWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <!-- This specifies the widget provider info -->
+            <meta-data android:name="android.appwidget.provider"
+                       android:resource="@xml/widgetinfo" />
+        </receiver>
         <!-- The service serving the RemoteViews to the collection widget -->
         <service android:name="WeatherWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS"
