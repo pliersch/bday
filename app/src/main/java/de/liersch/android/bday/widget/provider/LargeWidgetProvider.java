@@ -14,12 +14,6 @@ import de.liersch.android.bday.widget.service.LargeWidgetService;
 
 
 public class LargeWidgetProvider extends BaseWidgetProvider {
-  public static String CLICK_ACTION = "com.example.android.weatherlistwidget.CLICK";
-  public static String REFRESH_ACTION = "com.example.android.weatherlistwidget.REFRESH";
-  public static String EXTRA_DAY_ID = "com.example.android.weatherlistwidget.day";
-
-
-  private boolean mIsLargeLayout = true;
 
   public LargeWidgetProvider() {
     super();

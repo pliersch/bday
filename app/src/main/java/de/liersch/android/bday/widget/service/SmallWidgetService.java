@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import de.liersch.android.bday.R;
 import de.liersch.android.bday.db.ContactsQuery;
 import de.liersch.android.bday.widget.provider.LargeWidgetProvider;
 
