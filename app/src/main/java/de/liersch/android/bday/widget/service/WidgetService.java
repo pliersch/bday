@@ -81,6 +81,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
       mCursorBDay.moveToPosition(-1);
       while (mCursorBDay.moveToNext()) {
         if (mCursorBDay.getString(0).equals(contactID)) {
+          CalendarUtil.getInstance();
           bday = mCursorBDay.getString(2);
         }
       }
