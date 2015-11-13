@@ -12,14 +12,14 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".widget.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".BDayWidgetProvider">
+        <receiver android:name=".widget.provider.LargeWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -27,9 +27,16 @@
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/widgetinfo" />
         </receiver>
-
+        <receiver android:name=".widget.provider.SmallWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <!-- This specifies the widget provider info -->
+            <meta-data android:name="android.appwidget.provider"
+                       android:resource="@xml/stackwidgetinfo" />
+        </receiver>
         <!-- The service serving the RemoteViews to the collection widget -->
-        <service android:name="WeatherWidgetService"
+        <service android:name=".widget.service.WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS"
             android:exported="false" />
 

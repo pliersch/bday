@@ -15,7 +15,7 @@
 -->
 <resources>
     <string name="app_name">Birthday-App</string>
-    <string name="empty_view_text">No cities found…</string>
+    <string name="empty_view_text">Loading</string>
     <string name="toast_format_string">%1$s!</string>
     <string name="item_format_string">%1$d\u00B0 on %2$s</string>
     <string name="header_format_string">%1$d\u00B0 in %2$s</string>

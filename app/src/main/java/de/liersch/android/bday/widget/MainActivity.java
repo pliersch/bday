@@ -1,4 +1,4 @@
-package de.liersch.android.bday;
+package de.liersch.android.bday.widget;
 
 import android.app.Activity;
 import android.app.Notification;
@@ -13,6 +13,8 @@ import android.widget.RemoteViews;
 
 import java.text.DateFormat;
 import java.util.Date;
+
+import de.liersch.android.bday.R;
 
 public class MainActivity extends Activity {
 

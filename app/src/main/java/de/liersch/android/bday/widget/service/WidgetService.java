@@ -1,36 +1,31 @@
-/*
- * Copyright (C) 2011 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package de.liersch.android.bday;
+package de.liersch.android.bday.widget.service;
 
 
 import android.appwidget.AppWidgetManager;
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import java.io.InputStream;
+
+import de.liersch.android.bday.R;
 import de.liersch.android.bday.db.ContactsQuery;
+import de.liersch.android.bday.widget.provider.BaseWidgetProvider;
+import de.liersch.android.bday.widget.provider.LargeWidgetProvider;
 
 /**
  * This is the service that provides the factory to be bound to the collection service.
  */
-public class WeatherWidgetService extends RemoteViewsService {
+public class WidgetService extends RemoteViewsService {
   @Override
   public RemoteViewsFactory onGetViewFactory(Intent intent) {
     return new StackRemoteViewsFactory(this.getApplicationContext(), intent);
@@ -41,9 +36,11 @@ public class WeatherWidgetService extends RemoteViewsService {
  * This is the factory that will provide data to the collection widget.
  */
 class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
+  private final int mProviderId;
   private Context mContext;
   private Cursor mCursorContacts;
   private Cursor mCursorBDay;
+  private Cursor mCursorPhoto;
   private int mAppWidgetId;
 
   public StackRemoteViewsFactory(Context context, Intent intent) {
@@ -51,6 +48,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     mContext = context;
     mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
         AppWidgetManager.INVALID_APPWIDGET_ID);
+    mProviderId = intent.getIntExtra(BaseWidgetProvider.PROVIDER_ID, 0);
   }
 
   public void onCreate() {
@@ -65,6 +63,9 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     if (mCursorBDay != null) {
       mCursorBDay.close();
     }
+    if (mCursorPhoto != null) {
+      mCursorPhoto.close();
+    }
   }
 
   public int getCount() {
@@ -73,12 +74,18 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   }
 
   public RemoteViews getViewAt(int position) {
-    System.out.println("Service#getViewAt: " + position);
+    System.out.println("Service#getViewAt: " + position + " for provider " + mProviderId);
+
 
     String contactID = "";
     String bday = "?";
+    long l = 0;
+    //InputStream inputStream = null;
     if (mCursorContacts.moveToPosition(position)) {
       contactID = mCursorContacts.getString(0);
+      String szId = mCursorContacts.getString(mCursorContacts.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
+      l = Long.parseLong(szId);
+
       mCursorBDay.moveToPosition(-1);
       while (mCursorBDay.moveToNext()) {
         if (mCursorBDay.getString(0).equals(contactID)) {
@@ -96,13 +103,26 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
       layoutId = R.layout.widget_item_without_date;
       itemId = R.id.widget_item_today;
     }
+
+    if(mProviderId == 1) {
+      layoutId = R.layout.widget_card_item_new;
+      itemId = R.id.widget_card_item_new;
+    }
     RemoteViews rv = new RemoteViews(mContext.getPackageName(), layoutId);
     rv.setTextViewText(itemId, mCursorContacts.getString(1).concat(bday));
+
+    if(mProviderId == 1) {
+      Bitmap bitmap = loadContactPhoto(mContext.getContentResolver(), l);
+      if(bitmap != null) {
+        System.out.println("foobar" + bitmap.getHeight());
+        rv.setImageViewBitmap(R.id.imageView2, bitmap);
+      }
+    }
 
     // Set the click intent so that we can handle it and show a toast message
     final Intent fillInIntent = new Intent();
     final Bundle extras = new Bundle();
-    extras.putString(BDayWidgetProvider.EXTRA_DAY_ID, contactID);
+    extras.putString(LargeWidgetProvider.EXTRA_DAY_ID, contactID);
     fillInIntent.putExtras(extras);
     rv.setOnClickFillInIntent(itemId, fillInIntent);
 
@@ -139,5 +159,18 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
       mCursorBDay.close();
     }
     mCursorBDay = ContactsQuery.getInstance().queryBirthdaysContacts(mContext);
+
+    if (mCursorPhoto != null) {
+      mCursorPhoto.close();
+    }
+  }
+
+  private Bitmap loadContactPhoto(ContentResolver cr, long  id) {
+    Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id);
+    InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(cr, uri, true);
+    if (input == null) {
+      return null;
+    }
+    return BitmapFactory.decodeStream(input);
   }
 }
