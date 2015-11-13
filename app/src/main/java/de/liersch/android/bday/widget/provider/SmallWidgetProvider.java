@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -67,6 +68,9 @@ public class SmallWidgetProvider extends BaseWidgetProvider {
       // embed the appWidgetId via the data otherwise it will be ignored.
       final Intent intent = new Intent(context, LargeWidgetService.class);
       intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+      final Bundle extras = new Bundle();
+      extras.putInt(BaseWidgetProvider.PROVIDER_ID, 1);
+      intent.putExtras(extras);
       intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
       rv = new RemoteViews(context.getPackageName(), R.layout.widget_card_layout);
       rv.setRemoteAdapter(R.id.stack_view, intent);

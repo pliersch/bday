@@ -46,6 +46,7 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   private Context mContext;
   private Cursor mCursorContacts;
   private Cursor mCursorBDay;
+  private Cursor mCursorPhoto;
   private int mAppWidgetId;
 
   public SmallRemoteViewsFactory(Context context, Intent intent) {
@@ -67,6 +68,9 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     if (mCursorBDay != null) {
       mCursorBDay.close();
     }
+    if (mCursorPhoto != null) {
+      mCursorPhoto.close();
+    }
   }
 
   public int getCount() {
@@ -81,6 +85,7 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     String bday = "?";
     if (mCursorContacts.moveToPosition(position)) {
       contactID = mCursorContacts.getString(0);
+      //mCursorPhoto = ContactsQuery.getInstance().queryContactPhoto(mContext, contactID);
       mCursorBDay.moveToPosition(-1);
       while (mCursorBDay.moveToNext()) {
         if (mCursorBDay.getString(0).equals(contactID)) {
@@ -141,5 +146,9 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
       mCursorBDay.close();
     }
     mCursorBDay = ContactsQuery.getInstance().queryBirthdaysContacts(mContext);
+
+    if (mCursorPhoto != null) {
+      mCursorPhoto.close();
+    }
   }
 }
