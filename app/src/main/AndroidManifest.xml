@@ -36,7 +36,7 @@
                        android:resource="@xml/stackwidgetinfo" />
         </receiver>
         <!-- The service serving the RemoteViews to the collection widget -->
-        <service android:name=".widget.service.LargeWidgetService"
+        <service android:name=".widget.service.WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS"
             android:exported="false" />
 

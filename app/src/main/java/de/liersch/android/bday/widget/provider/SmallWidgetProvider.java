@@ -11,7 +11,7 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import de.liersch.android.bday.R;
-import de.liersch.android.bday.widget.service.LargeWidgetService;
+import de.liersch.android.bday.widget.service.WidgetService;
 
 
 public class SmallWidgetProvider extends BaseWidgetProvider {
@@ -66,7 +66,7 @@ public class SmallWidgetProvider extends BaseWidgetProvider {
     if (largeLayout) {
       // Specify the service to provide data for the collection widget.  Note that we need to
       // embed the appWidgetId via the data otherwise it will be ignored.
-      final Intent intent = new Intent(context, LargeWidgetService.class);
+      final Intent intent = new Intent(context, WidgetService.class);
       intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
       final Bundle extras = new Bundle();
       extras.putInt(BaseWidgetProvider.PROVIDER_ID, 1);
