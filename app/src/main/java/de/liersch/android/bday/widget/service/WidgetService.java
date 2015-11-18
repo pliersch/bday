@@ -1,7 +1,6 @@
 package de.liersch.android.bday.widget.service;
 
 
-import android.appwidget.AppWidgetManager;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -40,14 +39,10 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   private Context mContext;
   private Cursor mCursorContacts;
   private Cursor mCursorBDay;
-  private Cursor mCursorPhoto;
-  private int mAppWidgetId;
 
   public StackRemoteViewsFactory(Context context, Intent intent) {
     System.out.println("StackRemoteViewsFactory#constructor");
     mContext = context;
-    mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-        AppWidgetManager.INVALID_APPWIDGET_ID);
     mProviderId = intent.getIntExtra(BaseWidgetProvider.PROVIDER_ID, 0);
   }
 
@@ -62,9 +57,6 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     }
     if (mCursorBDay != null) {
       mCursorBDay.close();
-    }
-    if (mCursorPhoto != null) {
-      mCursorPhoto.close();
     }
   }
 
@@ -89,6 +81,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
       mCursorBDay.moveToPosition(-1);
       while (mCursorBDay.moveToNext()) {
         if (mCursorBDay.getString(0).equals(contactID)) {
+          CalendarUtil.getInstance();
           bday = mCursorBDay.getString(2);
         }
       }
@@ -106,7 +99,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     if(mProviderId == 1) {
       layoutId = R.layout.widget_card_item_new;
-      itemId = R.id.widget_card_item_new;
+      itemId = R.id.textViewWidgetName;
     }
     RemoteViews rv = new RemoteViews(mContext.getPackageName(), layoutId);
     rv.setTextViewText(itemId, mCursorContacts.getString(1).concat(bday));
@@ -160,9 +153,6 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     }
     mCursorBDay = ContactsQuery.getInstance().queryBirthdaysContacts(mContext);
 
-    if (mCursorPhoto != null) {
-      mCursorPhoto.close();
-    }
   }
 
   private Bitmap loadContactPhoto(ContentResolver cr, long  id) {
