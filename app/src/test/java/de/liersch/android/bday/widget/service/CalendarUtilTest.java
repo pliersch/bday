@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class CalendarUtilTest {
 
   private CalendarUtil mUtil;
-  
+
   @Before
   public void setUp() throws Exception {
     mUtil = CalendarUtil.getInstance();
@@ -106,14 +106,22 @@ public class CalendarUtilTest {
   //
   //----------------------------------
 
-
   @Test
   public void test_getMonthAndDaysLeft_first_to_last_day_of_year() throws Exception {
     Calendar from = getCalendar(2015, 0, 1);
     Calendar to = getCalendar(2015, 11, 31);
     int[] result = mUtil.getMonthAndDaysLeft(from, to);
-    //int days = to.get(Calendar.DAY_OF_YEAR);
     assertEquals(11, result[0]);
+    assertEquals(30, result[1]);
+  }
+
+  @Test
+  public void test_getMonthAndDaysLeft_with_february() throws Exception {
+    Calendar from = getCalendar(2015, 1, 15);
+    Calendar to = getCalendar(2015, 2, 15);
+    int[] result = mUtil.getMonthAndDaysLeft(from, to);
+    assertEquals(0, result[0]);
+    assertEquals(28, result[1]);
   }
 
   //----------------------------------

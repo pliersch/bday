@@ -23,23 +23,23 @@ public class CalendarUtil {
   public int[] getMonthAndDaysLeft(Calendar from, Calendar to) {
 
     int diffYear = to.get(Calendar.YEAR) - from.get(Calendar.YEAR);
-    int diffMonth = diffYear * 12 + to.get(Calendar.MONTH) - from.get(Calendar.MONTH);
+    int monthLeft = diffYear * 12 + to.get(Calendar.MONTH) - from.get(Calendar.MONTH) - 1;
 
-    int fullMonth = diffMonth > 0 ? diffMonth - 1 : 0;
+    int maxDaysFromMonth = from.getActualMaximum(Calendar.DATE);
 
-    int numDaysThisMonth = from.getActualMaximum(Calendar.DATE);
-    numDaysThisMonth -= from.get(Calendar.DATE);
-    int numDaysThisBirthdayMonth = to.get(Calendar.DATE);
-    int numDaysLeft = numDaysThisMonth + numDaysThisBirthdayMonth;
+    int daysFrom =  maxDaysFromMonth - from.get(Calendar.DATE);
 
-    int months = Math.ceil(numDaysLeft / 30.5);
-    int days = numDaysLeft - 30;
+    int daysTo = to.get(Calendar.DATE);
+    int daysLeft = daysFrom + daysTo;
 
-    months += fullMonth;
+    if(daysLeft > maxDaysFromMonth) {
+      monthLeft += 1;
+      daysLeft -= maxDaysFromMonth;
+    }
 
     int[] result = new int[2];
-    result[0] = months;
-    result[1] = days;
+    result[0] = monthLeft;
+    result[1] = daysLeft;
     return result;
   }
 
