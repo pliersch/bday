@@ -88,7 +88,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
           bday = mCursorBDay.getString(2);
           Calendar today = Calendar.getInstance();
           Calendar birthday = mCalendarUtil.toCalendar(bday);
-          birthday = mCalendarUtil.computeNextPossibleEvent(today, birthday);
+          birthday = mCalendarUtil.computeNextPossibleEvent(birthday, today);
           daysLeftToBDay = mCalendarUtil.getDaysLeft(today, birthday);
         }
       }

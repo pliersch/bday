@@ -51,4 +51,5 @@
     <string name="expanded_image">Two Androids on top of each other. Symbolises an expanded
         notification.
     </string>
+    <string name="title_activity_configuration">ConfigurationActivity</string>
 </resources>
