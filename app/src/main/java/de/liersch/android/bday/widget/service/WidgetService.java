@@ -15,6 +15,7 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import java.io.InputStream;
+import java.util.Calendar;
 
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.db.ContactsQuery;
@@ -39,11 +40,13 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   private Context mContext;
   private Cursor mCursorContacts;
   private Cursor mCursorBDay;
+  private CalendarUtil mCalendarUtil;
 
   public StackRemoteViewsFactory(Context context, Intent intent) {
     System.out.println("StackRemoteViewsFactory#constructor");
     mContext = context;
     mProviderId = intent.getIntExtra(BaseWidgetProvider.PROVIDER_ID, 0);
+    mCalendarUtil = CalendarUtil.getInstance();
   }
 
   public void onCreate() {
@@ -71,6 +74,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     String contactID = "";
     String bday = "?";
+    int daysLeftToBDay = 0;
     long l = 0;
     //InputStream inputStream = null;
     if (mCursorContacts.moveToPosition(position)) {
@@ -81,8 +85,11 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
       mCursorBDay.moveToPosition(-1);
       while (mCursorBDay.moveToNext()) {
         if (mCursorBDay.getString(0).equals(contactID)) {
-          CalendarUtil.getInstance();
           bday = mCursorBDay.getString(2);
+          Calendar today = Calendar.getInstance();
+          Calendar birthday = mCalendarUtil.toCalendar(bday);
+          birthday = mCalendarUtil.computeNextPossibleEvent(today, birthday);
+          daysLeftToBDay = mCalendarUtil.getDaysLeft(today, birthday);
         }
       }
     }
@@ -102,7 +109,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
       itemId = R.id.textViewWidgetName;
     }
     RemoteViews rv = new RemoteViews(mContext.getPackageName(), layoutId);
-    rv.setTextViewText(itemId, mCursorContacts.getString(1).concat(bday));
+    rv.setTextViewText(itemId, mCursorContacts.getString(1).concat(Integer.toString(daysLeftToBDay)));
 
     if(mProviderId == 1) {
       Bitmap bitmap = loadContactPhoto(mContext.getContentResolver(), l);
