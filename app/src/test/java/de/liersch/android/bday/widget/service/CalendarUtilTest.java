@@ -27,7 +27,7 @@ public class CalendarUtilTest {
   public void test_toCalendar() throws Exception {
     Calendar result = mUtil.toCalendar("2000-01-01");
     assertEquals(2000, result.get(Calendar.YEAR));
-    assertEquals(1, result.get(Calendar.MONTH));
+    assertEquals(0, result.get(Calendar.MONTH));
     assertEquals(1, result.get(Calendar.DATE));
   }
 

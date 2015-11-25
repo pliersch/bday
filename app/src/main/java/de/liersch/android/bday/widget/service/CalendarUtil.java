@@ -62,7 +62,7 @@ public class CalendarUtil {
     int month = Integer.parseInt(split[1]);
     int day = Integer.parseInt(split[2]);
     Calendar calendar = Calendar.getInstance();
-    calendar.set(year, month, day, 0, 0);
+    calendar.set(year, month - 1, day, 0, 0);
     return calendar;
   }
 
