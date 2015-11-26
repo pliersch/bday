@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "de.liersch.android.bday"
@@ -17,6 +17,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+/*    sourceSets {
+        main {
+            res.srcDirs = [
+                    ['src/main/res/layout/activities',
+                     'src/main/res/layout/notifications',
+                     'src/main/res/layout/widgets',
+                     'src/main/res/layout',
+                     'src/main/res']
+
+            ]
+        }
+    }*/
 }
 
 dependencies {
