@@ -8,9 +8,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import de.liersch.android.bday.R;
+import de.liersch.android.bday.app.MainActivity;
 import de.liersch.android.bday.widget.service.WidgetService;
 
 
@@ -52,9 +52,6 @@ public class SmallWidgetProvider extends BaseWidgetProvider {
     } else if (action.equals(CLICK_ACTION)) {
       // Show a toast
       final int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-      final String day = intent.getStringExtra(EXTRA_DAY_ID);
-      final String formatStr = ctx.getResources().getString(R.string.toast_format_string);
-      Toast.makeText(ctx, String.format(formatStr, day), Toast.LENGTH_SHORT).show();
     }
 
     super.onReceive(ctx, intent);
@@ -79,23 +76,20 @@ public class SmallWidgetProvider extends BaseWidgetProvider {
       // view of the collection view.
       rv.setEmptyView(R.id.stack_view, R.id.empty_view);
 
-      // Bind a click listener template for the contents of the weather list.  Note that we
-      // need to update the intent's data if we set an extra, since the extras will be
-      // ignored otherwise.
-      final Intent onClickIntent = new Intent(context, LargeWidgetProvider.class);
-      onClickIntent.setAction(LargeWidgetProvider.CLICK_ACTION);
-      onClickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-      onClickIntent.setData(Uri.parse(onClickIntent.toUri(Intent.URI_INTENT_SCHEME)));
-      final PendingIntent onClickPendingIntent = PendingIntent.getBroadcast(context, 0,
-          onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-      rv.setPendingIntentTemplate(R.id.stack_view, onClickPendingIntent);
+      final Intent activityIntent = new Intent(context, MainActivity.class);
+      PendingIntent activityPendingIntent = PendingIntent.getActivity(context, 0, activityIntent, 0);
+      rv.setOnClickPendingIntent(R.id.imageView2, activityPendingIntent);
 
-      // Bind the click intent for the refresh button on the widget
-      final Intent refreshIntent = new Intent(context, LargeWidgetProvider.class);
-      refreshIntent.setAction(LargeWidgetProvider.REFRESH_ACTION);
-      final PendingIntent refreshPendingIntent = PendingIntent.getBroadcast(context, 0,
-          refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-      rv.setOnClickPendingIntent(R.id.refresh, refreshPendingIntent);
+//      // Bind a click listener template for the contents of the weather list.  Note that we
+//      // need to update the intent's data if we set an extra, since the extras will be
+//      // ignored otherwise.
+//      final Intent onClickIntent = new Intent(context, LargeWidgetProvider.class);
+//      onClickIntent.setAction(LargeWidgetProvider.CLICK_ACTION);
+//      onClickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+//      onClickIntent.setData(Uri.parse(onClickIntent.toUri(Intent.URI_INTENT_SCHEME)));
+//      final PendingIntent onClickPendingIntent = PendingIntent.getBroadcast(context, 0,
+//          onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//      rv.setPendingIntentTemplate(R.id.stack_view, onClickPendingIntent);
 
       // Restore the minimal header
       rv.setTextViewText(R.id.city_name, context.getString(R.string.city_name));

@@ -16,14 +16,14 @@ import java.util.Date;
 
 import de.liersch.android.bday.R;
 
-public class MainActivity extends Activity {
+public class NotificationActivity extends Activity {
 
   @Override
 
 
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+    setContentView(R.layout.activity_notification);
   }
 
   private void createNotification() {
@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
 
     // BEGIN_INCLUDE(intent)
     //Create Intent to launch this Activity again if the notification is clicked.
-    Intent i = new Intent(this, MainActivity.class);
+    Intent i = new Intent(this, NotificationActivity.class);
     i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
     PendingIntent intent = PendingIntent.getActivity(this, 0, i,
         PendingIntent.FLAG_UPDATE_CURRENT);

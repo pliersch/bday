@@ -8,9 +8,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import de.liersch.android.bday.R;
+import de.liersch.android.bday.app.MainActivity;
 import de.liersch.android.bday.widget.service.WidgetService;
 
 
@@ -52,9 +52,6 @@ public class LargeWidgetProvider extends BaseWidgetProvider {
     } else if (action.equals(CLICK_ACTION)) {
       // Show a toast
       final int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-      final String day = intent.getStringExtra(EXTRA_DAY_ID);
-      final String formatStr = ctx.getResources().getString(R.string.toast_format_string);
-      Toast.makeText(ctx, String.format(formatStr, day), Toast.LENGTH_SHORT).show();
     }
     super.onReceive(ctx, intent);
   }
@@ -87,6 +84,7 @@ public class LargeWidgetProvider extends BaseWidgetProvider {
       onClickIntent.setAction(LargeWidgetProvider.CLICK_ACTION);
       onClickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
       onClickIntent.setData(Uri.parse(onClickIntent.toUri(Intent.URI_INTENT_SCHEME)));
+
       final PendingIntent onClickPendingIntent = PendingIntent.getBroadcast(context, 0,
           onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
       rv.setPendingIntentTemplate(R.id.weather_list, onClickPendingIntent);
@@ -97,6 +95,11 @@ public class LargeWidgetProvider extends BaseWidgetProvider {
       final PendingIntent refreshPendingIntent = PendingIntent.getBroadcast(context, 0,
           refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT);
       rv.setOnClickPendingIntent(R.id.refresh, refreshPendingIntent);
+
+
+      final Intent activityIntent = new Intent(context, MainActivity.class);
+      PendingIntent activityPendingIntent = PendingIntent.getActivity(context, 0, activityIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+      rv.setOnClickPendingIntent(R.id.btn_widget_options, activityPendingIntent);
 
       // Restore the minimal header
       rv.setTextViewText(R.id.city_name, context.getString(R.string.city_name));

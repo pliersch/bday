@@ -114,12 +114,10 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     if(mProviderId == 1) {
       Bitmap bitmap = loadContactPhoto(mContext.getContentResolver(), l);
       if(bitmap != null) {
-        System.out.println("foobar" + bitmap.getHeight());
         rv.setImageViewBitmap(R.id.imageView2, bitmap);
       }
     }
 
-    // Set the click intent so that we can handle it and show a toast message
     final Intent fillInIntent = new Intent();
     final Bundle extras = new Bundle();
     extras.putString(LargeWidgetProvider.EXTRA_DAY_ID, contactID);
