@@ -25,7 +25,7 @@ import de.liersch.android.bday.R;
 import de.liersch.android.bday.app.util.CircleTransform;
 import de.liersch.android.bday.app.util.ViewModel;
 import de.liersch.android.bday.notification.DateService;
-import de.liersch.android.bday.service.ContactService;
+import de.liersch.android.bday.db.ContactService;
 
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnItemClickListener {
