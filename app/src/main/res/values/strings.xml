@@ -25,6 +25,7 @@
     <string name="image_description">a description</string>
 
     <string name="options">Options</string>
+    <string name="db_reset">DB RESET</string>
 
     <string name="textWidgetName">Name</string>
 

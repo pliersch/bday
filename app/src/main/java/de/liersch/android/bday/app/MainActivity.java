@@ -1,5 +1,6 @@
 package de.liersch.android.bday.app;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -23,6 +24,8 @@ import java.util.List;
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.app.util.CircleTransform;
 import de.liersch.android.bday.app.util.ViewModel;
+import de.liersch.android.bday.notification.DateService;
+import de.liersch.android.bday.service.ContactService;
 
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnItemClickListener {
@@ -51,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     initToolbar();
     setupDrawerLayout();
 
+    startService(new Intent(this, DateService.class));
+    startService(new Intent(this, ContactService.class));
+
     content = findViewById(R.id.content);
 
     NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -61,6 +67,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
       setRecyclerAdapter(recyclerView);
     }
+  }
+
+  @Override
+  protected void onDestroy() {
+    stopService(new Intent(this, DateService.class));
+    stopService(new Intent(this, ContactService.class));
+    super.onDestroy();
   }
 
   @Override public void onEnterAnimationComplete() {

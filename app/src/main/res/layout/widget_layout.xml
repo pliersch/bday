@@ -76,7 +76,7 @@
         android:background="#F8F8F8"
         android:orientation="horizontal">
         <Button
-            android:id="@+id/refresh"
+            android:id="@+id/btn_refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"
@@ -88,12 +88,23 @@
             android:textSize="14sp" />
         <Button
             android:id="@+id/btn_widget_options"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"
             android:gravity="center"
             android:background="#F8F8F8"
             android:text="@string/options"
+            android:textAllCaps="true"
+            android:textColor="#232323"
+            android:textSize="14sp" />
+        <Button
+            android:id="@+id/btn_widget_db_reset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:gravity="center"
+            android:background="#F8F8F8"
+            android:text="@string/db_reset"
             android:textAllCaps="true"
             android:textColor="#232323"
             android:textSize="14sp" />

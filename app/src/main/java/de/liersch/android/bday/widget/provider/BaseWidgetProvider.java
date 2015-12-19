@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -13,14 +14,8 @@ import android.widget.RemoteViews;
 
 import de.liersch.android.bday.widget.ContactsObserver;
 
-/**
- * data observer notifies an update for all widgets when it detects a change.
- */
-
-
 public abstract class BaseWidgetProvider extends AppWidgetProvider {
   public static String CLICK_ACTION = "com.example.android.weatherlistwidget.CLICK";
-  public static String REFRESH_ACTION = "com.example.android.weatherlistwidget.REFRESH";
   public static String EXTRA_DAY_ID = "com.example.android.weatherlistwidget.day";
   public static String PROVIDER_ID = "de.liersch.android.bday.provider";
 
@@ -33,6 +28,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
 
   public BaseWidgetProvider() {
     super();
+    System.out.println("BaseWidgetProvider#constructor");
     initThread(getThreadName());
   }
 
@@ -49,6 +45,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
   @Override
   public void onEnabled(Context context) {
     System.out.println("Provider#onEnabled");
+
     // Register for external updates to the data to trigger an update of the widget.  When using
     // content providers, the data is often updated via a background service, or in response to
     // user interaction in the main app.  To ensure that the widget always reflects the current
@@ -74,7 +71,6 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
     final ContentResolver r = context.getContentResolver();
     final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
     final ComponentName cn = new ComponentName(context, this.getClass());
-    //final ComponentName cn = new ComponentName(context, LargeWidgetProvider.class);
     contactsObserver = new ContactsObserver(mgr, cn, sWorkerQueue);
     r.registerContentObserver(ContactsContract.Contacts.CONTENT_URI, true, contactsObserver);
   }
@@ -82,8 +78,14 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
   protected abstract RemoteViews buildLayout(Context context, int appWidgetId, boolean largeLayout);
 
   @Override
+  public void onReceive(Context context, Intent intent) {
+    super.onReceive(context, intent);
+  }
+
+  @Override
   public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
     System.out.println("Provider#onUpdate: " + appWidgetIds.length);
+
     if (contactsObserver == null) {
       registerContentObserver(context);
     }

@@ -20,7 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".app.DetailActivity"
             android:parentActivityName=".app.MainActivity">
@@ -48,7 +47,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widgetinfo"/>
         </receiver>
-
         <receiver android:name=".widget.provider.SmallWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
@@ -64,7 +62,14 @@
             android:name=".widget.service.WidgetService"
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS"/>
-
+        <service
+            android:name=".notification.DateService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service
+            android:name=".service.ContactService"
+            android:enabled="true"
+            android:exported="false"/>
     </application>
 
 </manifest>

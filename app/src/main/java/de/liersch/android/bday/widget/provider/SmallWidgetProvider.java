@@ -2,7 +2,6 @@ package de.liersch.android.bday.widget.provider;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -28,28 +27,8 @@ public class SmallWidgetProvider extends BaseWidgetProvider {
   @Override
   public void onReceive(Context ctx, Intent intent) {
     final String action = intent.getAction();
-    System.out.println("Provider#onReceive: " + action);
-    if (action.equals(REFRESH_ACTION)) {
-      if (contactsObserver == null) {
-        registerContentObserver(ctx);
-      }
-      // BroadcastReceivers have a limited amount of time to do work, so for this sample, we
-      // are triggering an update of the data on another thread.  In practice, this update
-      // can be triggered from a background service, or perhaps as a result of user actions
-      // inside the main application.
-      final Context context = ctx;
-      sWorkerQueue.removeMessages(0);
-      sWorkerQueue.post(new Runnable() {
-        @Override
-        public void run() {
-          final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
-          final ComponentName cn = new ComponentName(context, LargeWidgetProvider.class);
-          mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.stack_view);
-        }
-      });
-
-      final int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-    } else if (action.equals(CLICK_ACTION)) {
+    System.out.println("Provider#onReceive: " + ctx.toString() + action);
+    if (action.equals(CLICK_ACTION)) {
       // Show a toast
       final int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
     }
@@ -79,17 +58,6 @@ public class SmallWidgetProvider extends BaseWidgetProvider {
       final Intent activityIntent = new Intent(context, MainActivity.class);
       PendingIntent activityPendingIntent = PendingIntent.getActivity(context, 0, activityIntent, 0);
       rv.setOnClickPendingIntent(R.id.imageView2, activityPendingIntent);
-
-//      // Bind a click listener template for the contents of the weather list.  Note that we
-//      // need to update the intent's data if we set an extra, since the extras will be
-//      // ignored otherwise.
-//      final Intent onClickIntent = new Intent(context, LargeWidgetProvider.class);
-//      onClickIntent.setAction(LargeWidgetProvider.CLICK_ACTION);
-//      onClickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-//      onClickIntent.setData(Uri.parse(onClickIntent.toUri(Intent.URI_INTENT_SCHEME)));
-//      final PendingIntent onClickPendingIntent = PendingIntent.getBroadcast(context, 0,
-//          onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//      rv.setPendingIntentTemplate(R.id.stack_view, onClickPendingIntent);
 
       // Restore the minimal header
       rv.setTextViewText(R.id.city_name, context.getString(R.string.city_name));

@@ -11,10 +11,14 @@ import android.widget.RemoteViews;
 
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.app.MainActivity;
+import de.liersch.android.bday.db.DatabaseManager;
 import de.liersch.android.bday.widget.service.WidgetService;
 
 
 public class LargeWidgetProvider extends BaseWidgetProvider {
+
+  public static String REFRESH_ACTION = "com.example.android.weatherlistwidget.REFRESH";
+  public static String RESET_DATABASE_ACTION = "com.example.android.weatherlistwidget.RESET_DATABASE";
 
   public LargeWidgetProvider() {
     super();
@@ -27,8 +31,9 @@ public class LargeWidgetProvider extends BaseWidgetProvider {
 
   @Override
   public void onReceive(Context ctx, Intent intent) {
+
     final String action = intent.getAction();
-    System.out.println("Provider#onReceive: " + action);
+    System.out.println("Provider#onReceive: " + ctx.toString() + action);
     if (action.equals(REFRESH_ACTION)) {
       if (contactsObserver == null) {
         registerContentObserver(ctx);
@@ -52,6 +57,8 @@ public class LargeWidgetProvider extends BaseWidgetProvider {
     } else if (action.equals(CLICK_ACTION)) {
       // Show a toast
       final int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+    } else if (action.equals(RESET_DATABASE_ACTION)) {
+      DatabaseManager.getInstance(ctx).reset();
     }
     super.onReceive(ctx, intent);
   }
@@ -60,6 +67,10 @@ public class LargeWidgetProvider extends BaseWidgetProvider {
   protected RemoteViews buildLayout(Context context, int appWidgetId, boolean largeLayout) {
     RemoteViews rv;
     if (largeLayout) {
+      rv = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+      rv.setEmptyView(R.id.weather_list, R.id.empty_view);
+      rv.setTextViewText(R.id.city_name, context.getString(R.string.city_name));
+
       // Specify the service to provide data for the collection widget.  Note that we need to
       // embed the appWidgetId via the data otherwise it will be ignored.
       final Intent intent = new Intent(context, WidgetService.class);
@@ -70,18 +81,16 @@ public class LargeWidgetProvider extends BaseWidgetProvider {
       intent.putExtras(extras);
 
       intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
-      rv = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
       rv.setRemoteAdapter(R.id.weather_list, intent);
 
       // Set the empty view to be displayed if the collection is empty.  It must be a sibling
       // view of the collection view.
-      rv.setEmptyView(R.id.weather_list, R.id.empty_view);
 
       // Bind a click listener template for the contents of the weather list.  Note that we
       // need to update the intent's data if we set an extra, since the extras will be
       // ignored otherwise.
       final Intent onClickIntent = new Intent(context, LargeWidgetProvider.class);
-      onClickIntent.setAction(LargeWidgetProvider.CLICK_ACTION);
+      onClickIntent.setAction(CLICK_ACTION);
       onClickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
       onClickIntent.setData(Uri.parse(onClickIntent.toUri(Intent.URI_INTENT_SCHEME)));
 
@@ -91,18 +100,20 @@ public class LargeWidgetProvider extends BaseWidgetProvider {
 
       // Bind the click intent for the refresh button on the widget
       final Intent refreshIntent = new Intent(context, LargeWidgetProvider.class);
-      refreshIntent.setAction(LargeWidgetProvider.REFRESH_ACTION);
+      refreshIntent.setAction(REFRESH_ACTION);
       final PendingIntent refreshPendingIntent = PendingIntent.getBroadcast(context, 0,
           refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-      rv.setOnClickPendingIntent(R.id.refresh, refreshPendingIntent);
+      rv.setOnClickPendingIntent(R.id.btn_refresh, refreshPendingIntent);
 
+      final Intent onClickDbIntent = new Intent(context, LargeWidgetProvider.class);
+      onClickDbIntent.setAction(RESET_DATABASE_ACTION);
+      onClickDbIntent.setData(Uri.parse(onClickDbIntent.toUri(Intent.URI_INTENT_SCHEME)));
+      PendingIntent dbPendingIntent = PendingIntent.getBroadcast(context, 0, onClickDbIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+      rv.setOnClickPendingIntent(R.id.btn_widget_db_reset, dbPendingIntent);
 
       final Intent activityIntent = new Intent(context, MainActivity.class);
       PendingIntent activityPendingIntent = PendingIntent.getActivity(context, 0, activityIntent, PendingIntent.FLAG_CANCEL_CURRENT);
       rv.setOnClickPendingIntent(R.id.btn_widget_options, activityPendingIntent);
-
-      // Restore the minimal header
-      rv.setTextViewText(R.id.city_name, context.getString(R.string.city_name));
     } else {
       rv = new RemoteViews(context.getPackageName(), R.layout.widget_layout_small);
       // TODO: not implements
