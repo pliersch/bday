@@ -21,14 +21,10 @@ public class CalendarUtil {
   }
 
   public int[] getMonthAndDaysLeft(Calendar from, Calendar to) {
-
     int diffYear = to.get(Calendar.YEAR) - from.get(Calendar.YEAR);
     int monthLeft = diffYear * 12 + to.get(Calendar.MONTH) - from.get(Calendar.MONTH) - 1;
-
     int maxDaysFromMonth = from.getActualMaximum(Calendar.DATE);
-
     int daysFrom =  maxDaysFromMonth - from.get(Calendar.DATE);
-
     int daysTo = to.get(Calendar.DATE);
     int daysLeft = daysFrom + daysTo;
 
@@ -65,5 +61,4 @@ public class CalendarUtil {
     calendar.set(year, month - 1, day, 0, 0);
     return calendar;
   }
-
 }

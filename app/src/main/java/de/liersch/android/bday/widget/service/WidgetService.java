@@ -18,7 +18,7 @@ import java.io.InputStream;
 import java.util.Calendar;
 
 import de.liersch.android.bday.R;
-import de.liersch.android.bday.db.ContactsQuery;
+import de.liersch.android.bday.db.DatabaseManager;
 import de.liersch.android.bday.widget.provider.BaseWidgetProvider;
 import de.liersch.android.bday.widget.provider.LargeWidgetProvider;
 
@@ -38,8 +38,7 @@ public class WidgetService extends RemoteViewsService {
 class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   private final int mProviderId;
   private Context mApplicationContext;
-  private Cursor mCursorContacts;
-  private Cursor mCursorBDay;
+  private Cursor mCursorBirthday;
   private CalendarUtil mCalendarUtil;
   private static int sAvailableWidgets = 0;
 
@@ -58,56 +57,47 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
   public void onDestroy() {
     if(--sAvailableWidgets == 0) {
-      mCursorContacts.close();
-      mCursorBDay.close();
+//      mCursorContacts.close();
+//      mCursorBDay.close();
     }
   }
 
   public int getCount() {
-    System.out.println("Service#getCount: " + mCursorContacts.getCount());
-    return mCursorContacts.getCount();
+    final int count = mCursorBirthday.getCount();
+    System.out.println("Service#getCount: " + count);
+    if(count == 0) {
+
+    }
+    return count;
   }
 
   public RemoteViews getViewAt(int position) {
-    System.out.println("Service#getViewAt: " + position + " for provider " + mProviderId);
     String contactID = "";
     String bday = "?";
     int daysLeftToBDay = 0;
-    long l = 0;
-    if (mCursorContacts.moveToPosition(position)) {
-      contactID = mCursorContacts.getString(0);
-      String szId = mCursorContacts.getString(mCursorContacts.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
-      l = Long.parseLong(szId);
-
-      mCursorBDay.moveToPosition(-1);
-      while (mCursorBDay.moveToNext()) {
-        if (mCursorBDay.getString(0).equals(contactID)) {
-          bday = mCursorBDay.getString(2);
-          Calendar today = Calendar.getInstance();
-          Calendar birthday = mCalendarUtil.toCalendar(bday);
-          birthday = mCalendarUtil.computeNextPossibleEvent(birthday, today);
-          daysLeftToBDay = mCalendarUtil.getDaysLeft(today, birthday);
-        }
-      }
+    if (mCursorBirthday.moveToPosition(position)) {
+      contactID = mCursorBirthday.getString(0);
+      System.out.println("Service#getViewAt: " + position + " | provider " + mProviderId);
+      System.out.println("WriteContact: " + contactID);
+      bday = mCursorBirthday.getString(2);
+      Calendar today = Calendar.getInstance();
+      Calendar birthday = mCalendarUtil.toCalendar(bday);
+      birthday = mCalendarUtil.computeNextPossibleEvent(birthday, today);
+      daysLeftToBDay = mCalendarUtil.getDaysLeft(today, birthday);
     }
 
     int layoutId = R.layout.widget_item_with_date;
     int itemId = R.id.widget_item_week;
-
-    if(bday.equals("?")) {
-      layoutId = R.layout.widget_item_without_date;
-      itemId = R.id.widget_item_today;
-    }
 
     if(mProviderId == 1) {
       layoutId = R.layout.widget_card_item_new;
       itemId = R.id.textViewWidgetName;
     }
     RemoteViews rv = new RemoteViews(mApplicationContext.getPackageName(), layoutId);
-    rv.setTextViewText(itemId, mCursorContacts.getString(1).concat(Integer.toString(daysLeftToBDay)));
+    rv.setTextViewText(itemId, mCursorBirthday.getString(1).concat(Integer.toString(daysLeftToBDay)));
 
     if(mProviderId == 1) {
-      Bitmap bitmap = loadContactPhoto(mApplicationContext.getContentResolver(), l);
+      Bitmap bitmap = loadContactPhoto(mApplicationContext.getContentResolver(),  Long.parseLong(contactID));
       if(bitmap != null) {
         rv.setImageViewBitmap(R.id.imageView2, bitmap);
       }
@@ -143,15 +133,10 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   public void onDataSetChanged() {
     System.out.println("Service#onDataSetChanged");
     // Refresh the cursor
-    if (mCursorContacts != null) {
-      mCursorContacts.close();
+    if (mCursorBirthday != null) {
+      mCursorBirthday.close();
     }
-    mCursorContacts = ContactsQuery.getInstance().queryVisibleContacts(mApplicationContext);
-
-    if (mCursorBDay != null) {
-      mCursorBDay.close();
-    }
-    mCursorBDay = ContactsQuery.getInstance().queryBirthdaysContacts(mApplicationContext);
+    mCursorBirthday = DatabaseManager.getInstance(mApplicationContext).read();
   }
 
   private Bitmap loadContactPhoto(ContentResolver cr, long  id) {

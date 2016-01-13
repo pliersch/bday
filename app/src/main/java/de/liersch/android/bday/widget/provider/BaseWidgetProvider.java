@@ -46,10 +46,10 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
   public void onEnabled(Context context) {
     System.out.println("Provider#onEnabled");
 
-    // Register for external updates to the data to trigger an update of the widget.  When using
+    // Register for external updates to the data to trigger an addContact of the widget.  When using
     // content providers, the data is often updated via a background service, or in response to
     // user interaction in the main app.  To ensure that the widget always reflects the current
-    // state of the data, we must listen for changes and update ourselves accordingly.
+    // state of the data, we must listen for changes and addContact ourselves accordingly.
     if (contactsObserver == null) {
       registerContentObserver(context);
     }

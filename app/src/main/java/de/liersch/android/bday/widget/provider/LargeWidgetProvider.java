@@ -39,7 +39,7 @@ public class LargeWidgetProvider extends BaseWidgetProvider {
         registerContentObserver(ctx);
       }
       // BroadcastReceivers have a limited amount of time to do work, so for this sample, we
-      // are triggering an update of the data on another thread.  In practice, this update
+      // are triggering an addContact of the data on another thread.  In practice, this addContact
       // can be triggered from a background service, or perhaps as a result of user actions
       // inside the main application.
       final Context context = ctx;
@@ -87,7 +87,7 @@ public class LargeWidgetProvider extends BaseWidgetProvider {
       // view of the collection view.
 
       // Bind a click listener template for the contents of the weather list.  Note that we
-      // need to update the intent's data if we set an extra, since the extras will be
+      // need to addContact the intent's data if we set an extra, since the extras will be
       // ignored otherwise.
       final Intent onClickIntent = new Intent(context, LargeWidgetProvider.class);
       onClickIntent.setAction(CLICK_ACTION);

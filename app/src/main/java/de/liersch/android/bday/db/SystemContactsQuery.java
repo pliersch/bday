@@ -5,18 +5,18 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 
-public class ContactsQuery {
+public class SystemContactsQuery {
 
-	private static ContactsQuery mInstance;
+	private static SystemContactsQuery mInstance;
 
-	public static ContactsQuery getInstance(){
+	public static SystemContactsQuery getInstance(){
 		if (mInstance == null) {
-			mInstance = new ContactsQuery();
+			mInstance = new SystemContactsQuery();
 		}
 		return mInstance;
 	}
 
-	private ContactsQuery() {}
+	private SystemContactsQuery() {}
 
 	public Cursor queryVisibleContacts(Context context) {
 		Uri uri = ContactsContract.Contacts.CONTENT_URI;

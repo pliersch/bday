@@ -17,12 +17,14 @@ public class ContactService extends Service {
   private ContactsObserver mContactsObserver;
   private Handler mHandler;
   private HandlerThread mWorkerThread;
-  private ContentResolver resolver;
+  private ContentResolver mResolver;
+  private ContactController mContactController;
 
   private void registerContentObserver(Context context) {
-    resolver = context.getContentResolver();
     mContactsObserver = new ContactsObserver(mHandler);
-    resolver.registerContentObserver(ContactsContract.Contacts.CONTENT_URI, true, mContactsObserver);
+    mContactController = new ContactController(getApplicationContext());
+    mResolver = context.getContentResolver();
+    mResolver.registerContentObserver(ContactsContract.Contacts.CONTENT_URI, true, mContactsObserver);
   }
 
   protected void initThread() {
@@ -40,7 +42,7 @@ public class ContactService extends Service {
 
   @Override
   public void onDestroy() {
-    resolver.unregisterContentObserver(mContactsObserver);
+    mResolver.unregisterContentObserver(mContactsObserver);
     super.onDestroy();
   }
 
@@ -79,11 +81,7 @@ public class ContactService extends Service {
     @Override
     public void onChange(boolean selfChange, Uri uri) {
       System.out.println("DataProvider#onChange");
-      // The data has changed, so notify the widget that the collection view needs to be updated.
-      // In response, the factory's onDataSetChanged() will be called which will requery the
-      // cursor for the new data.
-      //mAppWidgetManager.notifyAppWidgetViewDataChanged(
-      //mAppWidgetManager.getAppWidgetIds(mComponentName), R.id.weather_list);
+      mContactController.refresh();
     }
   }
 }

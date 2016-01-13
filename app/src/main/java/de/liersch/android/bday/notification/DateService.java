@@ -11,7 +11,7 @@ import android.os.IBinder;
 
 import java.util.List;
 
-import de.liersch.android.bday.db.ContactsQuery;
+import de.liersch.android.bday.db.SystemContactsQuery;
 import de.liersch.android.bday.db.DatabaseManager;
 
 public class DateService extends Service {
@@ -75,7 +75,7 @@ public class DateService extends Service {
         notifyNextDays();
 
 
-        final Cursor contactCursor = ContactsQuery.getInstance().queryVisibleContacts(getApplicationContext());
+        final Cursor contactCursor = SystemContactsQuery.getInstance().queryVisibleContacts(getApplicationContext());
 
 
         // TODO maybe closed db
@@ -93,7 +93,7 @@ public class DateService extends Service {
           }
         }
 
-        //mDatabaseManager.update(l);
+        //mDatabaseManager.addContact(l);
 
       }
 
@@ -101,11 +101,11 @@ public class DateService extends Service {
         if (mCursorContacts != null) {
           mCursorContacts.close();
         }
-        mCursorContacts = ContactsQuery.getInstance().queryVisibleContacts(getApplicationContext());
+        mCursorContacts = SystemContactsQuery.getInstance().queryVisibleContacts(getApplicationContext());
         if (mCursorBDay != null) {
           mCursorBDay.close();
         }
-        mCursorBDay = ContactsQuery.getInstance().queryBirthdaysContacts(getApplicationContext());
+        mCursorBDay = SystemContactsQuery.getInstance().queryBirthdaysContacts(getApplicationContext());
       }
 
       private void notifyNextDays() {
