@@ -90,7 +90,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     int itemId = R.id.widget_item_week;
 
     if(mProviderId == 1) {
-      layoutId = R.layout.widget_card_item_new;
+      layoutId = R.layout.widget_card_item;
       itemId = R.id.textViewWidgetName;
     }
     RemoteViews rv = new RemoteViews(mApplicationContext.getPackageName(), layoutId);
