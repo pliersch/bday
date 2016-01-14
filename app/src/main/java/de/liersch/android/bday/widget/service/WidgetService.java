@@ -86,7 +86,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
       daysLeftToBDay = mCalendarUtil.getDaysLeft(today, birthday);
     }
 
-    int layoutId = R.layout.widget_item_with_date;
+    int layoutId = R.layout.widget_list_item;
     int itemId = R.id.widget_item_week;
 
     if(mProviderId == 1) {

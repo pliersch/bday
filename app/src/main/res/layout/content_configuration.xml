@@ -13,6 +13,6 @@
     tools:context="de.liersch.android.bday.widget.ConfigurationActivity"
     tools:showIn="@layout/activity_configuration">
 
-    <include layout="@layout/widget_layout"/>
+    <include layout="@layout/widget_list_layout"/>
 
 </RelativeLayout>

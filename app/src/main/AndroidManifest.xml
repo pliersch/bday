@@ -48,7 +48,7 @@
             <!-- This specifies the widget provider info -->
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widgetinfo"/>
+                android:resource="@xml/list_widget_info"/>
         </receiver>
         <receiver android:name=".widget.provider.SmallWidgetProvider">
             <intent-filter>
@@ -57,7 +57,7 @@
             <!-- This specifies the widget provider info -->
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/stackwidgetinfo"/>
+                android:resource="@xml/stack_widget_info"/>
         </receiver>
 
         <!-- The service serving the RemoteViews to the collection widget -->

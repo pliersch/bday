@@ -67,7 +67,7 @@ public class LargeWidgetProvider extends BaseWidgetProvider {
   protected RemoteViews buildLayout(Context context, int appWidgetId, boolean largeLayout) {
     RemoteViews rv;
     if (largeLayout) {
-      rv = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+      rv = new RemoteViews(context.getPackageName(), R.layout.widget_list_layout);
       rv.setEmptyView(R.id.weather_list, R.id.empty_view);
       rv.setTextViewText(R.id.city_name, context.getString(R.string.city_name));
 
@@ -115,7 +115,7 @@ public class LargeWidgetProvider extends BaseWidgetProvider {
       PendingIntent activityPendingIntent = PendingIntent.getActivity(context, 0, activityIntent, PendingIntent.FLAG_CANCEL_CURRENT);
       rv.setOnClickPendingIntent(R.id.btn_widget_options, activityPendingIntent);
     } else {
-      rv = new RemoteViews(context.getPackageName(), R.layout.widget_layout_small);
+      rv = new RemoteViews(context.getPackageName(), R.layout.widget_small_layout);
       // TODO: not implements
     }
     return rv;
