@@ -20,7 +20,7 @@ import java.util.Calendar;
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.db.DatabaseManager;
 import de.liersch.android.bday.widget.provider.BaseWidgetProvider;
-import de.liersch.android.bday.widget.provider.LargeWidgetProvider;
+import de.liersch.android.bday.widget.provider.ListWidgetProvider;
 
 /**
  * This is the service that provides the factory to be bound to the collection service.
@@ -105,7 +105,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     final Intent fillInIntent = new Intent();
     final Bundle extras = new Bundle();
-    extras.putString(LargeWidgetProvider.EXTRA_DAY_ID, contactID);
+    extras.putString(ListWidgetProvider.EXTRA_DAY_ID, contactID);
     fillInIntent.putExtras(extras);
     rv.setOnClickFillInIntent(itemId, fillInIntent);
 

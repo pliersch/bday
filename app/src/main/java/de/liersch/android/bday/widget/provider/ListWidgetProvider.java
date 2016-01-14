@@ -15,18 +15,18 @@ import de.liersch.android.bday.db.DatabaseManager;
 import de.liersch.android.bday.widget.service.WidgetService;
 
 
-public class LargeWidgetProvider extends BaseWidgetProvider {
+public class ListWidgetProvider extends BaseWidgetProvider {
 
   public static String REFRESH_ACTION = "com.example.android.weatherlistwidget.REFRESH";
   public static String RESET_DATABASE_ACTION = "com.example.android.weatherlistwidget.RESET_DATABASE";
 
-  public LargeWidgetProvider() {
+  public ListWidgetProvider() {
     super();
   }
 
   @Override
   protected String getThreadName() {
-    return "LargeWidgetProvider-worker";
+    return "ListWidgetProvider-worker";
   }
 
   @Override
@@ -48,7 +48,7 @@ public class LargeWidgetProvider extends BaseWidgetProvider {
         @Override
         public void run() {
           final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
-          final ComponentName cn = new ComponentName(context, LargeWidgetProvider.class);
+          final ComponentName cn = new ComponentName(context, ListWidgetProvider.class);
           mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.weather_list);
         }
       });
@@ -89,7 +89,7 @@ public class LargeWidgetProvider extends BaseWidgetProvider {
       // Bind a click listener template for the contents of the weather list.  Note that we
       // need to addContact the intent's data if we set an extra, since the extras will be
       // ignored otherwise.
-      final Intent onClickIntent = new Intent(context, LargeWidgetProvider.class);
+      final Intent onClickIntent = new Intent(context, ListWidgetProvider.class);
       onClickIntent.setAction(CLICK_ACTION);
       onClickIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
       onClickIntent.setData(Uri.parse(onClickIntent.toUri(Intent.URI_INTENT_SCHEME)));
@@ -99,13 +99,13 @@ public class LargeWidgetProvider extends BaseWidgetProvider {
       rv.setPendingIntentTemplate(R.id.weather_list, onClickPendingIntent);
 
       // Bind the click intent for the refresh button on the widget
-      final Intent refreshIntent = new Intent(context, LargeWidgetProvider.class);
+      final Intent refreshIntent = new Intent(context, ListWidgetProvider.class);
       refreshIntent.setAction(REFRESH_ACTION);
       final PendingIntent refreshPendingIntent = PendingIntent.getBroadcast(context, 0,
           refreshIntent, PendingIntent.FLAG_UPDATE_CURRENT);
       rv.setOnClickPendingIntent(R.id.btn_refresh, refreshPendingIntent);
 
-      final Intent onClickDbIntent = new Intent(context, LargeWidgetProvider.class);
+      final Intent onClickDbIntent = new Intent(context, ListWidgetProvider.class);
       onClickDbIntent.setAction(RESET_DATABASE_ACTION);
       onClickDbIntent.setData(Uri.parse(onClickDbIntent.toUri(Intent.URI_INTENT_SCHEME)));
       PendingIntent dbPendingIntent = PendingIntent.getBroadcast(context, 0, onClickDbIntent, PendingIntent.FLAG_CANCEL_CURRENT);

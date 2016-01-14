@@ -13,15 +13,15 @@ import de.liersch.android.bday.app.MainActivity;
 import de.liersch.android.bday.widget.service.WidgetService;
 
 
-public class SmallWidgetProvider extends BaseWidgetProvider {
+public class StackWidgetProvider extends BaseWidgetProvider {
 
-  public SmallWidgetProvider() {
+  public StackWidgetProvider() {
     super();
   }
 
   @Override
   protected String getThreadName() {
-    return "SmallWidgetProvider-worker";
+    return "StackWidgetProvider-worker";
   }
 
   @Override
