@@ -79,7 +79,6 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     if (mCursorBirthday.moveToPosition(position)) {
       contactID = mCursorBirthday.getString(0);
       System.out.println("Service#getViewAt: " + position + " | provider " + mProviderId);
-      System.out.println("WriteContact: " + contactID);
       Calendar today = Calendar.getInstance();
       Calendar birthday = mCalendarUtil.toCalendar(mCursorBirthday.getString(2));
       birthday = mCalendarUtil.computeNextPossibleEvent(birthday, today);
