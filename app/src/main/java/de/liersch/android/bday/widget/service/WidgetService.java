@@ -56,6 +56,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   }
 
   public void onDestroy() {
+    // TODO
     if(--sAvailableWidgets == 0) {
 //      mCursorContacts.close();
 //      mCursorBDay.close();
@@ -65,6 +66,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   public int getCount() {
     final int count = mCursorBirthday.getCount();
     System.out.println("Service#getCount: " + count);
+    // TODO
     if(count == 0) {
 
     }
@@ -73,15 +75,13 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
   public RemoteViews getViewAt(int position) {
     String contactID = "";
-    String bday = "?";
     int daysLeftToBDay = 0;
     if (mCursorBirthday.moveToPosition(position)) {
       contactID = mCursorBirthday.getString(0);
       System.out.println("Service#getViewAt: " + position + " | provider " + mProviderId);
       System.out.println("WriteContact: " + contactID);
-      bday = mCursorBirthday.getString(2);
       Calendar today = Calendar.getInstance();
-      Calendar birthday = mCalendarUtil.toCalendar(bday);
+      Calendar birthday = mCalendarUtil.toCalendar(mCursorBirthday.getString(2));
       birthday = mCalendarUtil.computeNextPossibleEvent(birthday, today);
       daysLeftToBDay = mCalendarUtil.getDaysLeft(today, birthday);
     }
