@@ -45,7 +45,6 @@
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
-            <!-- This specifies the widget provider info -->
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/list_widget_info"/>
@@ -54,15 +53,25 @@
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
-            <!-- This specifies the widget provider info -->
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/stack_widget_info"/>
         </receiver>
-
+        <receiver android:name=".widget.provider.SmallWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/small_widget_info"/>
+        </receiver>
         <!-- The service serving the RemoteViews to the collection widget -->
         <service
             android:name=".widget.service.WidgetService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+        <service
+            android:name=".widget.service.SmallWidgetService"
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS"/>
         <service

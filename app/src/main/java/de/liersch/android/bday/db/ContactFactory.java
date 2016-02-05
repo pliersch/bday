@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.liersch.android.bday.beans.Contact;
+import de.liersch.android.bday.util.DateParser;
 
 public class ContactFactory {
   private static ContactFactory ourInstance = new ContactFactory();
@@ -31,11 +32,14 @@ public class ContactFactory {
       while (cursorBDay.moveToNext()) {
         if (cursorBDay.getString(0).equals(contactID)) {
           bday = cursorBDay.getString(2);
-          String name = cursorContacts.getString(1);
-          // TODO: implement boolean notified (current hard coded with false)
-          Contact contact = new Contact(l, name, bday, false);
-          systemContacts.add(contact);
-          System.out.println("xxx " + l + " | " +  name + " | "  + bday);
+          // TODO: ignoring german format (used by skype contacts)
+          if(bday.matches(DateParser.ENGLISH_FORMAT)) {
+            String name = cursorContacts.getString(1);
+            // TODO: implement boolean notified (current hard coded with false)
+            Contact contact = new Contact(l, name, bday, false);
+            systemContacts.add(contact);
+            System.out.println("xxx " + l + " | " +  name + " | "  + bday);
+          }
         }
       }
     }

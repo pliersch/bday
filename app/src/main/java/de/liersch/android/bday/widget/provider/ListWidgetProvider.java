@@ -69,7 +69,6 @@ public class ListWidgetProvider extends BaseWidgetProvider {
     if (largeLayout) {
       rv = new RemoteViews(context.getPackageName(), R.layout.widget_list_layout);
       rv.setEmptyView(R.id.weather_list, R.id.empty_view);
-      rv.setTextViewText(R.id.city_name, context.getString(R.string.city_name));
 
       // Specify the service to provide data for the collection widget.  Note that we need to
       // embed the appWidgetId via the data otherwise it will be ignored.
@@ -77,7 +76,7 @@ public class ListWidgetProvider extends BaseWidgetProvider {
       intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
 
       final Bundle extras = new Bundle();
-      extras.putInt(BaseWidgetProvider.PROVIDER_ID, 0);
+      extras.putInt(PROVIDER_ID, 0);
       intent.putExtras(extras);
 
       intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));

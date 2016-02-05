@@ -26,24 +26,24 @@ import de.liersch.android.bday.widget.provider.ListWidgetProvider;
 /**
  * This is the service that provides the factory to be bound to the collection service.
  */
-public class WidgetService extends RemoteViewsService {
+public class SmallWidgetService extends RemoteViewsService {
   @Override
   public RemoteViewsFactory onGetViewFactory(Intent intent) {
-    return new StackRemoteViewsFactory(this.getApplicationContext(), intent);
+    return new SmallRemoteViewsFactory(this.getApplicationContext(), intent);
   }
 }
 
 /**
  * This is the factory that will provide data to the collection widget.
  */
-class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
+class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   private final int mProviderId;
   private Context mApplicationContext;
   private Cursor mCursorBirthday;
   private CalendarUtil mCalendarUtil;
   private static int sAvailableWidgets = 0;
 
-  public StackRemoteViewsFactory(Context context, Intent intent) {
+  public SmallRemoteViewsFactory(Context context, Intent intent) {
     System.out.println("StackRemoteViewsFactory#constructor context: " + context.toString());
     mApplicationContext = context;
     mProviderId = intent.getIntExtra(BaseWidgetProvider.PROVIDER_ID, 0);
@@ -59,26 +59,19 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   public void onDestroy() {
     // TODO
     if(--sAvailableWidgets == 0) {
-//      mCursorContacts.close();
-//      mCursorBDay.close();
+//      mCursorBirthday.close();
     }
   }
 
   public int getCount() {
-    final int count = mCursorBirthday.getCount();
-    System.out.println("Service#getCount: " + count);
-    // TODO
-    if(count == 0) {
-
-    }
-    return count;
+    return 1;
   }
 
   public RemoteViews getViewAt(int position) {
     String contactID = "";
     int daysLeftToBDay = 0;
     if (mCursorBirthday.moveToPosition(position)) {
-      contactID = mCursorBirthday.getString(0);
+      contactID = mCursorBirthday.getString(position);
       System.out.println("Service#getViewAt: " + position + " | provider " + mProviderId);
       Calendar today = Calendar.getInstance();
       Calendar birthday = mCalendarUtil.toCalendar(mCursorBirthday.getString(2));
@@ -86,21 +79,15 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
       daysLeftToBDay = mCalendarUtil.getDaysLeft(today, birthday);
     }
 
-    int layoutId = R.layout.widget_list_item;
-    int itemId = R.id.widget_item_list;
+    int layoutId = R.layout.widget_small_item;
+    int itemId = R.id.widget_item_small;
 
-    if(mProviderId == 1) {
-      layoutId = R.layout.widget_card_item;
-      itemId = R.id.textViewWidgetName;
-    }
     RemoteViews rv = new RemoteViews(mApplicationContext.getPackageName(), layoutId);
     rv.setTextViewText(itemId, mCursorBirthday.getString(1).concat(Integer.toString(daysLeftToBDay)));
 
-    if(mProviderId == 1) {
-      Bitmap bitmap = loadContactPhoto(mApplicationContext.getContentResolver(),  Long.parseLong(contactID));
-      if(bitmap != null) {
-        rv.setImageViewBitmap(R.id.imageView2, bitmap);
-      }
+    Bitmap bitmap = loadContactPhoto(mApplicationContext.getContentResolver(), Long.parseLong(contactID));
+    if (bitmap != null) {
+      rv.setImageViewBitmap(R.id.imageView2, bitmap);
     }
 
     final Intent fillInIntent = new Intent();
@@ -119,7 +106,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
   public int getViewTypeCount() {
     // Technically, we have two types of views (the dark and light background views)
-    return 2;
+    return 1;
   }
 
   public long getItemId(int position) {

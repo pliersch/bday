@@ -13,24 +13,24 @@ import de.liersch.android.bday.app.MainActivity;
 import de.liersch.android.bday.widget.service.WidgetService;
 
 
-public class StackWidgetProvider extends BaseWidgetProvider {
+public class SmallWidgetProvider extends BaseWidgetProvider {
 
-  public StackWidgetProvider() {
+  public SmallWidgetProvider() {
     super();
   }
 
   @Override
   protected String getThreadName() {
-    return "StackWidgetProvider-worker";
+    return "SmallWidgetProvider-worker";
   }
 
   @Override
   public void onReceive(Context ctx, Intent intent) {
     final String action = intent.getAction();
     System.out.println("Provider#onReceive: " + ctx.toString() + action);
+    // TODO
     if (action.equals(CLICK_ACTION)) {
-      // Show a toast
-      final int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+
     }
 
     super.onReceive(ctx, intent);
@@ -58,9 +58,6 @@ public class StackWidgetProvider extends BaseWidgetProvider {
       final Intent activityIntent = new Intent(context, MainActivity.class);
       PendingIntent activityPendingIntent = PendingIntent.getActivity(context, 0, activityIntent, 0);
       rv.setOnClickPendingIntent(R.id.imageView2, activityPendingIntent);
-
-//      // Restore the minimal header
-//      rv.setTextViewText(R.id.city_name, context.getString(R.string.city_name));
     } else {
       rv = new RemoteViews(context.getPackageName(), R.layout.widget_card_layout);
       // TODO: not implements

@@ -24,7 +24,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="match_parent"
         android:background="#F8F8F8"
         android:orientation="horizontal">
         <ImageView
@@ -34,15 +34,6 @@
             android:padding="12dp"
             android:scaleType="fitStart"
             android:adjustViewBounds="true"
-            android:src="@drawable/sunny" />
-        <TextView
-            android:id="@+id/city_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/city_name"
-            android:textAllCaps="true"
-            android:textColor="#232323"
-            android:textSize="24sp" />
+            android:src="@drawable/preview_small_widget" />
     </LinearLayout>
 </LinearLayout>

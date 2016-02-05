@@ -1,12 +1,11 @@
-package de.liersch.android.bday.widget.service;
+package de.liersch.android.bday.util;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.Exception;
 import java.util.Calendar;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class CalendarUtilTest {
 
@@ -137,3 +136,4 @@ public class CalendarUtilTest {
   }
 
 }
+

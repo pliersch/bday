@@ -1,4 +1,4 @@
-package de.liersch.android.bday.widget.service;
+package de.liersch.android.bday.util;
 
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
