@@ -57,7 +57,7 @@ public class StackWidgetProvider extends BaseWidgetProvider {
 
       final Intent activityIntent = new Intent(context, MainActivity.class);
       PendingIntent activityPendingIntent = PendingIntent.getActivity(context, 0, activityIntent, 0);
-      rv.setOnClickPendingIntent(R.id.imageView2, activityPendingIntent);
+      rv.setOnClickPendingIntent(R.id.widget_card_image_view, activityPendingIntent);
 
 //      // Restore the minimal header
 //      rv.setTextViewText(R.id.city_name, context.getString(R.string.city_name));

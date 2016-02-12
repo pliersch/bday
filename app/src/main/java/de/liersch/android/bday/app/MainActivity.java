@@ -1,7 +1,6 @@
 package de.liersch.android.bday.app;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -24,8 +23,8 @@ import java.util.List;
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.app.util.CircleTransform;
 import de.liersch.android.bday.app.util.ViewModel;
-import de.liersch.android.bday.notification.DateService;
 import de.liersch.android.bday.db.ContactService;
+import de.liersch.android.bday.notification.DateService;
 
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnItemClickListener {
@@ -64,13 +63,15 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     final ImageView avatar = (ImageView) header.findViewById(R.id.avatar);
     Picasso.with(this).load(AVATAR_URL).transform(new CircleTransform()).into(avatar);
 
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+    // TODO
+    //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
       setRecyclerAdapter(recyclerView);
-    }
+    //}
   }
 
   @Override
   protected void onDestroy() {
+    // TODO: killing service? really?
     stopService(new Intent(this, DateService.class));
     stopService(new Intent(this, ContactService.class));
     super.onDestroy();
@@ -85,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
   private void initRecyclerView() {
     recyclerView = (RecyclerView) findViewById(R.id.recycler);
     recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-
   }
 
   private void setRecyclerAdapter(RecyclerView recyclerView) {

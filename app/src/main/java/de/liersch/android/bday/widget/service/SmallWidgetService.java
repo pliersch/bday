@@ -87,7 +87,7 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     Bitmap bitmap = loadContactPhoto(mApplicationContext.getContentResolver(), Long.parseLong(contactID));
     if (bitmap != null) {
-      rv.setImageViewBitmap(R.id.imageView2, bitmap);
+      rv.setImageViewBitmap(R.id.widget_card_image_view, bitmap);
     }
 
     final Intent fillInIntent = new Intent();
@@ -95,7 +95,6 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     extras.putString(ListWidgetProvider.EXTRA_DAY_ID, contactID);
     fillInIntent.putExtras(extras);
     rv.setOnClickFillInIntent(itemId, fillInIntent);
-
     return rv;
   }
 

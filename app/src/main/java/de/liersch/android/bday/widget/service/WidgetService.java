@@ -91,7 +91,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     if(mProviderId == 1) {
       layoutId = R.layout.widget_card_item;
-      itemId = R.id.textViewWidgetName;
+      itemId = R.id.widget_card_text_view;
     }
     RemoteViews rv = new RemoteViews(mApplicationContext.getPackageName(), layoutId);
     rv.setTextViewText(itemId, mCursorBirthday.getString(1).concat(Integer.toString(daysLeftToBDay)));
@@ -99,7 +99,9 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     if(mProviderId == 1) {
       Bitmap bitmap = loadContactPhoto(mApplicationContext.getContentResolver(),  Long.parseLong(contactID));
       if(bitmap != null) {
-        rv.setImageViewBitmap(R.id.imageView2, bitmap);
+        rv.setImageViewBitmap(R.id.widget_card_image_view, bitmap);
+      } else {
+        rv.setImageViewResource(R.id.widget_card_image_view, R.drawable.ic_account_circle_white_48dp);
       }
     }
 
