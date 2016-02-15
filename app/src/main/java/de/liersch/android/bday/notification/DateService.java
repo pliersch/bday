@@ -5,26 +5,20 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
 import android.os.Binder;
 import android.os.IBinder;
 
 import java.util.List;
 
-import de.liersch.android.bday.db.SystemContactsQuery;
-import de.liersch.android.bday.db.DatabaseManager;
+import de.liersch.android.bday.notification.util.Notifier;
 
 public class DateService extends Service {
 
   public static final String ACTION_BROADCAST = "de.liersch.android.bday.DATE_SERVICE";
   private ServiceBinder mBinder = new ServiceBinder();
-  private DatabaseManager mDatabaseManager;
   private BroadcastReceiver mReceiver;
-  private NotificationBuilder mNotificationBuilder;
-  private Cursor mCursorContacts;
-  private Cursor mCursorBDay;
-
   private List<Long> userIdNextDays;
+  private Notifier mNotifier;
 
   // TODO
 
@@ -36,15 +30,13 @@ public class DateService extends Service {
   @Override
   public void onCreate() {
     super.onCreate();
-    mDatabaseManager = DatabaseManager.getInstance(getApplicationContext());
-    mNotificationBuilder = new NotificationBuilder();
     mReceiver  = createReceiver();
   }
 
   @Override
   public void onDestroy() {
     unregisterReceiver(mReceiver);
-    mDatabaseManager.close();
+    mNotifier.destroy();
     super.onDestroy();
   }
 
@@ -66,63 +58,10 @@ public class DateService extends Service {
       @Override
       public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
-        System.out.println("Foobar" + action);
-
-        refreshCursor();
-        computeNextBirthdays();
-        updateNextBirthdays();
-        notifyToday();
-        notifyNextDays();
-
-
-        final Cursor contactCursor = SystemContactsQuery.getInstance().queryVisibleContacts(getApplicationContext());
-
-
-        // TODO maybe closed db
-        final Cursor read = mDatabaseManager.read();
-        if(read != null) {
-          read.moveToPosition(-1);
-          while (read.moveToNext()) {
-            final String id = read.getString(0);
-            final String userID = read.getString(1);
-            final String send = read.getString(2);
-            System.out.println("db entries: " + id + "," + userID + "," + send);
-            if(userID.equals("62")) {
-              mNotificationBuilder.createNotification(userID, 100, getApplicationContext());
-            }
-          }
-        }
-
-        //mDatabaseManager.addContact(l);
-
+        System.out.println("DateService#BroadcastReceiver#onReceive" + action);
+        mNotifier = new Notifier(getApplicationContext());
+        mNotifier.notifyBirthdays();
       }
-
-      private void refreshCursor() {
-        if (mCursorContacts != null) {
-          mCursorContacts.close();
-        }
-        mCursorContacts = SystemContactsQuery.getInstance().queryVisibleContacts(getApplicationContext());
-        if (mCursorBDay != null) {
-          mCursorBDay.close();
-        }
-        mCursorBDay = SystemContactsQuery.getInstance().queryBirthdaysContacts(getApplicationContext());
-      }
-
-      private void notifyNextDays() {
-
-      }
-
-      private void notifyToday() {
-      }
-
-      private void computeNextBirthdays() {
-        //CalendarUtil.getInstance().
-      }
-
-      private void updateNextBirthdays() {
-      }
-
-
     };
     return receiver;
   }
@@ -130,5 +69,4 @@ public class DateService extends Service {
   public class ServiceBinder extends Binder {
     // Schnittstellenmethoden für den Service
   }
-
 }

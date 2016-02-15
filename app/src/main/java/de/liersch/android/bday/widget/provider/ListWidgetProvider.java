@@ -12,6 +12,7 @@ import android.widget.RemoteViews;
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.app.OldMainActivity;
 import de.liersch.android.bday.db.DatabaseManager;
+import de.liersch.android.bday.notification.util.Notifier;
 import de.liersch.android.bday.widget.service.WidgetService;
 
 
@@ -35,6 +36,11 @@ public class ListWidgetProvider extends BaseWidgetProvider {
     final String action = intent.getAction();
     System.out.println("Provider#onReceive: " + ctx.toString() + action);
     if (action.equals(REFRESH_ACTION)) {
+
+
+      Notifier notifier = new Notifier(ctx);
+      notifier.notifyBirthdays();
+
       if (contactsObserver == null) {
         registerContentObserver(ctx);
       }
