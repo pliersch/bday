@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 
 import de.liersch.android.bday.R;
-import de.liersch.android.bday.app.MainActivity;
+import de.liersch.android.bday.activity.MainActivity;
 import de.liersch.android.bday.widget.service.SmallWidgetService;
 
 

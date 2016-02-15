@@ -27,7 +27,7 @@ import de.liersch.android.bday.db.ContactService;
 import de.liersch.android.bday.notification.DateService;
 
 
-public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnItemClickListener {
+public class OldMainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnItemClickListener {
 
   public static final String AVATAR_URL = "http://lorempixel.com/200/200/people/1/";
 

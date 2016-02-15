@@ -79,11 +79,8 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
       daysLeftToBDay = mCalendarUtil.getDaysLeft(today, birthday);
     }
 
-    int layoutId = R.layout.widget_small_item;
-    int itemId = R.id.widget_item_small;
-
-    RemoteViews rv = new RemoteViews(mApplicationContext.getPackageName(), layoutId);
-    rv.setTextViewText(itemId, mCursorBirthday.getString(1).concat(Integer.toString(daysLeftToBDay)));
+    RemoteViews rv = new RemoteViews(mApplicationContext.getPackageName(), R.layout.widget_small_item);
+    rv.setTextViewText(R.id.widget_item_small, mCursorBirthday.getString(1).concat(Integer.toString(daysLeftToBDay)));
 
     Bitmap bitmap = loadContactPhoto(mApplicationContext.getContentResolver(), Long.parseLong(contactID));
     if (bitmap != null) {
@@ -94,7 +91,7 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     final Bundle extras = new Bundle();
     extras.putString(ListWidgetProvider.EXTRA_DAY_ID, contactID);
     fillInIntent.putExtras(extras);
-    rv.setOnClickFillInIntent(itemId, fillInIntent);
+    rv.setOnClickFillInIntent(R.id.widget_card_image_view, fillInIntent);
     return rv;
   }
 

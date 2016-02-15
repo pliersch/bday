@@ -13,7 +13,7 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import de.liersch.android.bday.R;
-import de.liersch.android.bday.app.MainActivity;
+import de.liersch.android.bday.app.OldMainActivity;
 
 public class NotificationBuilder {
 
@@ -21,7 +21,7 @@ public class NotificationBuilder {
     NotificationCompat.Builder builder = new NotificationCompat.Builder(mApplicationContext);
 
     //Create Intent to launch this Activity again if the notification is clicked.
-    Intent i = new Intent(mApplicationContext, MainActivity.class);
+    Intent i = new Intent(mApplicationContext, OldMainActivity.class);
     i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
     PendingIntent intent = PendingIntent.getActivity(mApplicationContext, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
     builder.setContentIntent(intent);

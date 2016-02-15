@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 
 import de.liersch.android.bday.R;
-import de.liersch.android.bday.app.MainActivity;
+import de.liersch.android.bday.app.OldMainActivity;
 import de.liersch.android.bday.db.DatabaseManager;
 import de.liersch.android.bday.widget.service.WidgetService;
 
@@ -110,7 +110,7 @@ public class ListWidgetProvider extends BaseWidgetProvider {
       PendingIntent dbPendingIntent = PendingIntent.getBroadcast(context, 0, onClickDbIntent, PendingIntent.FLAG_CANCEL_CURRENT);
       rv.setOnClickPendingIntent(R.id.btn_widget_db_reset, dbPendingIntent);
 
-      final Intent activityIntent = new Intent(context, MainActivity.class);
+      final Intent activityIntent = new Intent(context, OldMainActivity.class);
       PendingIntent activityPendingIntent = PendingIntent.getActivity(context, 0, activityIntent, PendingIntent.FLAG_CANCEL_CURRENT);
       rv.setOnClickPendingIntent(R.id.btn_widget_options, activityPendingIntent);
     } else {
