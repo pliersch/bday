@@ -3,11 +3,15 @@ package de.liersch.android.bday.notification.util;
 import android.content.Context;
 import android.database.Cursor;
 
+import java.util.Calendar;
+
 import de.liersch.android.bday.db.DatabaseManager;
 import de.liersch.android.bday.notification.NotificationBuilder;
+import de.liersch.android.bday.util.CalendarUtil;
 
 public class Notifier {
 
+  public static int TIME_RANGE = 40;
   private final Context mApplicationContext;
 
   public Notifier(Context applicationContext) {
@@ -16,40 +20,33 @@ public class Notifier {
 
   public void notifyBirthdays() {
 // TODO maybe closed db
-    final Cursor read = DatabaseManager.getInstance(mApplicationContext).read();
-    if (read != null) {
-      NotificationBuilder notificationBuilder = new NotificationBuilder();
-      read.moveToPosition(-1);
-      while (read.moveToNext()) {
-        final String userID = read.getString(0);
-        final String name = read.getString(1);
-        final String bday = read.getString(2);
-        final String send = read.getString(3);
-        System.out.println("Notifier#notifyBirthdays db entries: " + userID + "," + name + "," + send);
-        //if (userID.equals("62")) {
-          notificationBuilder.createNotification(name, 100, mApplicationContext);
-        //}
+    final Cursor cursor = DatabaseManager.getInstance(mApplicationContext).read();
+    if (cursor != null) {
+      cursor.moveToPosition(-1);
+      while (cursor.moveToNext()) {
+        final String userID = cursor.getString(0);
+        final String name = cursor.getString(1);
+        final String bday = cursor.getString(2);
+        final String send = cursor.getString(3);
+        System.out.println("Notifier#notifyBirthdays db entries: " + userID + "," + name + ","  + bday + "," + send);
+
+        final int daysLeft = computeDaysLeft(bday);
+        if (daysLeft <= TIME_RANGE) {
+          new NotificationBuilder().createNotification(Long.parseLong(userID), name, daysLeft, mApplicationContext);
+        }
       }
     }
   }
 
-  public void notifyNextDays() {
-
-  }
-
-  public void notifyToday() {
-  }
-
-  public void computeNextBirthdays() {
-    //CalendarUtil.getInstance().
-  }
-
-  public void updateNextBirthdays() {
+  private int computeDaysLeft(String bday) {
+    Calendar now = Calendar.getInstance();
+    final CalendarUtil calendarUtil = CalendarUtil.getInstance();
+    Calendar birthday = calendarUtil.toCalendar(bday);
+    birthday = calendarUtil.computeNextPossibleEvent(birthday, now);
+    return calendarUtil.getDaysLeft(now, birthday);
   }
 
   public void destroy() {
     DatabaseManager.getInstance(mApplicationContext).close();
   }
-
-
 }
