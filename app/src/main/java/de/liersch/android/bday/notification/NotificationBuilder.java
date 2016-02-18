@@ -6,11 +6,13 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import de.liersch.android.bday.R;
@@ -23,22 +25,19 @@ public class NotificationBuilder {
     System.out.println("NotificationBuilder#createNotification for: " + name);
     NotificationCompat.Builder builder = new NotificationCompat.Builder(applicationContext);
 
-    //Create Intent to launch this Activity again if the notification is clicked.
     Intent intent = new Intent(applicationContext, MainActivity.class);
     intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
     PendingIntent pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    builder.setContentIntent(pendingIntent);
-
     String tickerText = buildTickerText(name, daysLeft, applicationContext);
-    builder.setTicker(tickerText);
 
-    // Sets the small icon for the ticker
-    builder.setSmallIcon(R.drawable.ic_stat_custom);
 
-    // Cancel the notification when clicked
-    builder.setAutoCancel(true);
+    builder
+        .setContentIntent(pendingIntent)
+        .setTicker(tickerText)
+        .setSmallIcon(R.drawable.ic_stautsbar_icon)
+        .setLargeIcon(BitmapFactory.decodeResource(applicationContext.getResources(),R.drawable.ic_menu_share))
+        .setAutoCancel(true);
 
-    // Build the notification
     Notification notification = builder.build();
 
     // Inflate the notification layout as RemoteViews
@@ -49,13 +48,15 @@ public class NotificationBuilder {
     //final String text = applicationContext.getResources().getString(R.string.collapsed, time);
     contentView.setTextViewText(R.id.textView, tickerText);
     final Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(applicationContext.getContentResolver(), userID);
-    contentView.setImageViewBitmap(R.id.imageView, bitmap);
+    if (bitmap != null) {
+      contentView.setImageViewBitmap(R.id.imageView, bitmap);
+    }
 
-        /* Workaround: Need to set the content view here directly on the notification.
-         * NotificationCompatBuilder contains a bug that prevents this from working on platform
-         * versions HoneyComb.
-         * See https://code.google.com/p/android/issues/detail?id=30495
-         */
+    /* Workaround: Need to set the content view here directly on the notification.
+     * NotificationCompatBuilder contains a bug that prevents this from working on platform
+     * versions HoneyComb.
+     * See https://code.google.com/p/android/issues/detail?id=30495
+     */
     notification.contentView = contentView;
 
     // Add a big content view to the notification if supported.
@@ -65,13 +66,15 @@ public class NotificationBuilder {
     if (Build.VERSION.SDK_INT >= 16) {
       // Inflate and set the layout for the expanded notification view
       final RemoteViews bigContentView = new RemoteViews(applicationContext.getPackageName(), R.layout.notification_expanded);
-      bigContentView.setImageViewBitmap(R.id.imageView, bitmap);
+      if (bitmap != null) {
+        bigContentView.setImageViewBitmap(R.id.imageView, bitmap);
+      }
       notification.bigContentView = bigContentView;
     }
 
     // Use the NotificationManager to show the notification
     NotificationManager nm = (NotificationManager) applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
-    int notificationId = (int) (System.currentTimeMillis()%10000);
+    int notificationId = (int) Calendar.getInstance().getTimeInMillis();
     nm.notify(notificationId, notification);
   }
 
