@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 
 import de.liersch.android.bday.R;
-import de.liersch.android.bday.app.MainActivity;
+import de.liersch.android.bday.app.OldMainActivity;
 import de.liersch.android.bday.widget.service.WidgetService;
 
 
@@ -55,9 +55,9 @@ public class StackWidgetProvider extends BaseWidgetProvider {
       // view of the collection view.
       rv.setEmptyView(R.id.stack_view, R.id.empty_view);
 
-      final Intent activityIntent = new Intent(context, MainActivity.class);
+      final Intent activityIntent = new Intent(context, OldMainActivity.class);
       PendingIntent activityPendingIntent = PendingIntent.getActivity(context, 0, activityIntent, 0);
-      rv.setOnClickPendingIntent(R.id.imageView2, activityPendingIntent);
+      rv.setOnClickPendingIntent(R.id.widget_card_image_view, activityPendingIntent);
 
 //      // Restore the minimal header
 //      rv.setTextViewText(R.id.city_name, context.getString(R.string.city_name));

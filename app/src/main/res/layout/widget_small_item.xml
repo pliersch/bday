@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/widget_item_small"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="46dp"
-    android:paddingLeft="25dp"
-    android:gravity="center_vertical"
-    android:background="#ebff00"
-    android:textColor="#232323"
-    android:textSize="20sp" />
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/widget_card_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_account_circle_white_48dp"/>
+
+    <TextView
+        android:id="@+id/widget_item_small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#40000000"
+        android:gravity="end"
+        android:singleLine="true"
+        android:text="@string/textWidgetName"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#ffffff"/>
+
+</FrameLayout>

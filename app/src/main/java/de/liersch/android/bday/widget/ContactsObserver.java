@@ -35,6 +35,9 @@ public class ContactsObserver extends ContentObserver {
     // cursor for the new data.
     mAppWidgetManager.notifyAppWidgetViewDataChanged(
         mAppWidgetManager.getAppWidgetIds(mComponentName), R.id.weather_list);
+    mAppWidgetManager.notifyAppWidgetViewDataChanged(
+        mAppWidgetManager.getAppWidgetIds(mComponentName), R.id.stack_view);
+    mAppWidgetManager.notifyAppWidgetViewDataChanged(
+        mAppWidgetManager.getAppWidgetIds(mComponentName), R.id.small_stack_view);
   }
 }
-

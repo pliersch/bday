@@ -1,5 +1,13 @@
 package de.liersch.android.bday.db;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.ContactsContract;
+
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -19,6 +27,16 @@ public class ContactUtil {
     }
     return mInstance;
   }
+
+  public Bitmap loadContactPhoto(ContentResolver cr, long  id) {
+    Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id);
+    InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(cr, uri, true);
+    if (input == null) {
+      return null;
+    }
+    return BitmapFactory.decodeStream(input);
+  }
+
 
 
   public List<Contact> sortContacts(List<Contact> contacts) {
