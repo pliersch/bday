@@ -14,7 +14,7 @@
         <item
             android:id="@+id/drawer_favourite"
             android:icon="@android:drawable/ic_dialog_info"
-            android:title="@string/city_name"/>
+            android:title="foo"/>
 
         <item
             android:id="@+id/drawer_downloaded"
@@ -24,7 +24,7 @@
         <item
             android:id="@+id/drawer_more"
             android:icon="@android:drawable/ic_dialog_info"
-            android:title="@string/city_name"/>
+            android:title="bar"/>
 
         <item
             android:id="@+id/drawer_settings"

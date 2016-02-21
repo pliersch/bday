@@ -1,23 +1,18 @@
 package de.liersch.android.bday.widget.service;
 
 
-import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import java.io.InputStream;
 import java.util.Calendar;
 
 import de.liersch.android.bday.R;
+import de.liersch.android.bday.db.ContactUtil;
 import de.liersch.android.bday.db.DatabaseManager;
 import de.liersch.android.bday.util.CalendarUtil;
 import de.liersch.android.bday.widget.provider.BaseWidgetProvider;
@@ -97,7 +92,8 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     rv.setTextViewText(itemId, mCursorBirthday.getString(1).concat(Integer.toString(daysLeftToBDay)));
 
     if(mProviderId == 1) {
-      Bitmap bitmap = loadContactPhoto(mApplicationContext.getContentResolver(),  Long.parseLong(contactID));
+      Bitmap bitmap =
+          ContactUtil.getInstance().loadContactPhoto(mApplicationContext.getContentResolver(), Long.parseLong(contactID));
       if(bitmap != null) {
         rv.setImageViewBitmap(R.id.widget_card_image_view, bitmap);
       } else {
@@ -140,14 +136,4 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     }
     mCursorBirthday = DatabaseManager.getInstance(mApplicationContext).read();
   }
-
-  private Bitmap loadContactPhoto(ContentResolver cr, long  id) {
-    Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id);
-    InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(cr, uri, true);
-    if (input == null) {
-      return null;
-    }
-    return BitmapFactory.decodeStream(input);
-  }
-
 }

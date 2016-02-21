@@ -21,8 +21,8 @@
             android:layout_gravity="center_vertical"
             android:layout_toLeftOf="@+id/imageView"
             android:gravity="center"
-            android:text="@string/expanded"
-            android:textAppearance="@style/NotificationContent"/>
+            android:text="@string/notification_expanded"
+            android:textAppearance="@android:style/TextAppearance.StatusBar.EventContent.Title"/>
 
         <ImageView
             android:id="@+id/imageView"
