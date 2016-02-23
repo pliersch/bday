@@ -23,7 +23,7 @@ public class ContactFactory {
     String contactID;
     String bday;
     List<Contact> systemContacts = new ArrayList<Contact>();
-    Cursor cursorBDay = SystemContactsQuery.getInstance().queryBirthdaysContacts(applicationContext);
+    Cursor cursorBDay = SystemContactsQuery.getInstance().queryBirthdayContacts(applicationContext);
     Cursor cursorContacts = SystemContactsQuery.getInstance().queryVisibleContacts(applicationContext);
     while (cursorContacts.moveToNext()) {
       contactID = cursorContacts.getString(0);

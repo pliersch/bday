@@ -16,7 +16,7 @@ import de.liersch.android.bday.notification.util.Notifier;
 public class SummaryNotificationBuilder extends NotificationBuilder {
 
   public void createNotification(ArrayList<Long> ids, ArrayList<String> names, ArrayList<Integer> days, Context applicationContext) {
-    PendingIntent pendingIntent = getPendingIntent(applicationContext);
+    PendingIntent pendingIntent = getOpenActivityIntent(applicationContext);
     final Resources resources = applicationContext.getResources();
     String tickerText = resources.getString(R.string.notification_summary_content_title, names.size(), Notifier.TIME_RANGE);
     String contentText = "";
