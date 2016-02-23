@@ -105,7 +105,7 @@ public class SystemContactsQuery {
   public Cursor queryPhoneNumbers(Context context) {
     Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
     String[] projection = new String[]{
-        ContactsContract.Contacts._ID,
+        ContactsContract.Data.CONTACT_ID,
         ContactsContract.Contacts.DISPLAY_NAME,
         ContactsContract.CommonDataKinds.Phone.NUMBER,
         ContactsContract.CommonDataKinds.Phone.TYPE,
@@ -116,26 +116,25 @@ public class SystemContactsQuery {
     String selection = ContactsContract.Contacts.IN_VISIBLE_GROUP + " = ?";
     String[] selectionArgs = new String[]{"1"}; // TODO: 1-> google contacts. same like in queryBirthdayContacts?
 
-//    return context.getContentResolver().query(
-//        uri,
-//        projection,
-//        selection,
-//        selectionArgs,
-//        ContactsContract.Contacts.LOOKUP_KEY + " DESC"
-//    );
-
     ContentResolver cr = context.getContentResolver();
-    // Read Contacts
     Cursor c = cr.query(uri, projection, selection, selectionArgs, ContactsContract.Contacts.LOOKUP_KEY + " DESC");
     if (c.getCount() > 0) {
       while (c.moveToNext()) {
-        String id = c.getString(c.getColumnIndex(ContactsContract.Contacts._ID));
+        String id = c.getString(c.getColumnIndex(ContactsContract.Data.CONTACT_ID));
         String type = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
         String Phone_number = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
         String name = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
         System.out.println(id + ": " + name + ": " + Phone_number + " : " + type);
       }
     }
-    return c;
+    c.close();
+
+    return context.getContentResolver().query(
+        uri,
+        projection,
+        selection,
+        selectionArgs,
+        ContactsContract.Contacts.LOOKUP_KEY + " DESC"
+    );
   }
 }

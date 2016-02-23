@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v4.app.NotificationCompat;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import de.liersch.android.bday.R;
@@ -24,14 +23,14 @@ public class SingleNotificationBuilder extends NotificationBuilder {
   public void createNotification(long userID, String name, int daysLeft, Context applicationContext) {
     System.out.println("SummaryNotificationBuilder#createSingleNotification for: " + name);
 
-    ArrayList<String> numbers = readPhoneNumbers(applicationContext, userID);
-    PendingIntent phoneMainIntent = null;
+    String[] numbers = readPhoneNumbers(applicationContext, userID);
+    PendingIntent phoneHomeIntent = null;
     PendingIntent phoneMobileIntent = null;
-    if (numbers.get(0) != null) {
-      phoneMainIntent = getCallPhoneIntent(applicationContext, numbers.get(0));
+    if (numbers[0] != null) {
+      phoneHomeIntent = getCallPhoneIntent(applicationContext, numbers[0]);
     }
-    if (numbers.get(1) != null) {
-      phoneMobileIntent = getCallPhoneIntent(applicationContext, numbers.get(1));
+    if (numbers[1] != null) {
+      phoneMobileIntent = getCallPhoneIntent(applicationContext, numbers[1]);
     }
 
     PendingIntent pendingIntent = getOpenActivityIntent(applicationContext);
@@ -50,12 +49,12 @@ public class SingleNotificationBuilder extends NotificationBuilder {
         .setContentText(tickerText)
         .setAutoCancel(true);
 
-    if (phoneMainIntent != null) {
-      builder.addAction(R.drawable.ic_call_black_24dp, "CALL", phoneMainIntent);
+    if (phoneHomeIntent != null) {
+      builder.addAction(R.drawable.ic_call_black_24dp, "Home", phoneHomeIntent);
     }
 
     if (phoneMobileIntent != null) {
-      builder.addAction(R.drawable.ic_call_black_24dp, "CALL", phoneMobileIntent);
+      builder.addAction(R.drawable.ic_call_black_24dp, "Mobile", phoneMobileIntent);
     }
 
     Notification notification = builder.build();
@@ -74,22 +73,22 @@ public class SingleNotificationBuilder extends NotificationBuilder {
     nm.notify(notificationId, notification);
   }
 
-  private ArrayList<String> readPhoneNumbers(Context applicationContext, long userID) {
+  private String[] readPhoneNumbers(Context applicationContext, long userID) {
     Cursor c = SystemContactsQuery.getInstance().queryPhoneNumber(applicationContext, userID);
     SystemContactsQuery.getInstance().queryPhoneNumbers(applicationContext);
-    final ArrayList<String> numbers = new ArrayList<>(2);
-    boolean mainFounded = false;
+    final String[] numbers = new String[2];
+    boolean homeFounded = false;
     boolean mobileFounded = false;
     if (c.getCount() > 0) {
       while (c.moveToNext()) {
         final int phoneType = Integer.parseInt(c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE)));
-        if (phoneType == ContactsContract.CommonDataKinds.Phone.TYPE_MAIN && !mainFounded) {
-          mainFounded = true;
-          numbers.add(c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+        if (phoneType == ContactsContract.CommonDataKinds.Phone.TYPE_HOME && !homeFounded) {
+          homeFounded = true;
+          numbers[0] = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
         }
         if (phoneType == ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE && !mobileFounded) {
           mobileFounded = true;
-          numbers.add(c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+          numbers[1] = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
         }
       }
     }
