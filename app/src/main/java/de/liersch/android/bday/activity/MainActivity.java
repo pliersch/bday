@@ -1,5 +1,6 @@
 package de.liersch.android.bday.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -14,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import de.liersch.android.bday.R;
+import de.liersch.android.bday.db.ContactService;
+import de.liersch.android.bday.notification.DateService;
 
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
@@ -21,6 +24,10 @@ public class MainActivity extends AppCompatActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    startService(new Intent(this, DateService.class));
+    startService(new Intent(this, ContactService.class));
+
     setContentView(R.layout.activity_main);
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
@@ -42,6 +49,14 @@ public class MainActivity extends AppCompatActivity
 
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
+  }
+
+  @Override
+  protected void onDestroy() {
+    // TODO: killing service? really?
+    stopService(new Intent(this, DateService.class));
+    stopService(new Intent(this, ContactService.class));
+    super.onDestroy();
   }
 
   @Override

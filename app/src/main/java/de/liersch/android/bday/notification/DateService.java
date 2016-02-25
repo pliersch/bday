@@ -42,15 +42,10 @@ public class DateService extends Service {
 
   @Override
   public int onStartCommand(Intent intent, int flags, int startId) {
-    registerReceiver(mReceiver, createIntentFilter());
+    final IntentFilter intentFilter = new IntentFilter();
+    intentFilter.addAction(Intent.ACTION_DATE_CHANGED);
+    registerReceiver(mReceiver, intentFilter);
     return super.onStartCommand(intent, flags, startId);
-  }
-
-  private IntentFilter createIntentFilter() {
-    final IntentFilter s_intentFilter = new IntentFilter();
-    //s_intentFilter.addAction(Intent.ACTION_TIME_TICK);
-    s_intentFilter.addAction(Intent.ACTION_DATE_CHANGED);
-    return s_intentFilter;
   }
 
   private BroadcastReceiver createReceiver() {
