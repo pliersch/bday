@@ -75,7 +75,8 @@ public class SingleNotificationBuilder extends NotificationBuilder {
 
   private String[] readPhoneNumbers(Context applicationContext, long userID) {
     Cursor c = SystemContactsQuery.getInstance().queryPhoneNumber(applicationContext, userID);
-    SystemContactsQuery.getInstance().queryPhoneNumbers(applicationContext);
+//    final Cursor cursor = SystemContactsQuery.getInstance().queryPhoneNumbers(applicationContext);
+//    cursor.close();
     final String[] numbers = new String[2];
     boolean homeFounded = false;
     boolean mobileFounded = false;

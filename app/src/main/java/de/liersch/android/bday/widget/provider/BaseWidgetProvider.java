@@ -40,7 +40,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
     sWorkerQueue = new Handler(sWorkerThread.getLooper());
   }
 
-  // XXX: clear the worker queue if we are destroyed?
+  // TODO: clear the worker queue if we are destroyed?
 
   @Override
   public void onEnabled(Context context) {
