@@ -48,7 +48,7 @@ public class DatabaseManager {
       cursor = mDatabase.query(
           TABLE_NOTIFICATIONS,
           new String[]{"user_id", "name", "bday", "notified"},
-          null, null, null, null, "_id");
+          null, null, null, null, null);
     }
     return cursor;
   }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import de.liersch.android.bday.beans.Contact;
@@ -97,7 +98,7 @@ public class ContactController {
 
   private void writeAllContacts(List<Contact> contacts) {
     mDatabaseManager.deleteAllContacts();
-    contacts = ContactUtil.getInstance().sortContacts(contacts);
+    contacts = ContactUtil.getInstance().sortContacts(contacts, Calendar.getInstance());
     for (Contact contact : contacts) {
       mDatabaseManager.addContact(contact);
     }

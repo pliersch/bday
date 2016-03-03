@@ -39,24 +39,23 @@ public class ContactUtil {
 
 
 
-  public List<Contact> sortContacts(List<Contact> contacts) {
+  public List<Contact> sortContacts(List<Contact> contacts, Calendar date) {
     Collections.sort(contacts, new CustomComparator());
-    Calendar today = Calendar.getInstance();
     final DateParser dateParser = new DateParser();
-    final int monthToday = today.get(Calendar.MONTH) + 1;
+    final int monthToday = date.get(Calendar.MONTH) + 1;
+
     int i;
     for (i = 0; i < contacts.size(); i++) {
-      Contact contact = contacts.get(i);
-      final String bday = contact.bday;
+      final String bday = contacts.get(i).bday;
       final int monthBirthday = dateParser.getMonth(bday);
+
       if(monthBirthday >= monthToday) {
         if(monthBirthday > monthToday) {
           break;
         }
-        final int dayToday = today.get(Calendar.DATE);
-        final int dayBirthday = dateParser.getDay(bday.substring(8, 10));
+        final int dayToday = date.get(Calendar.DATE);
+        final int dayBirthday = dateParser.getDay(bday);
         if(dayBirthday >= dayToday) {
-          System.out.println(i);
           break;
         }
       }
