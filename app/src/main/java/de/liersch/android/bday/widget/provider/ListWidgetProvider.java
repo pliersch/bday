@@ -35,15 +35,12 @@ public class ListWidgetProvider extends BaseWidgetProvider {
 
     final String action = intent.getAction();
     System.out.println("Provider#onReceive: " + ctx.toString() + action);
-    if (action.equals(REFRESH_ACTION)) {
+    if (action.equals(REFRESH_ACTION) || action.equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
 
 
       Notifier notifier = new Notifier(ctx);
       notifier.notifyBirthdays();
 
-      if (contactsObserver == null) {
-        registerContentObserver(ctx);
-      }
       // BroadcastReceivers have a limited amount of time to do work, so for this sample, we
       // are triggering an addContact of the data on another thread.  In practice, this addContact
       // can be triggered from a background service, or perhaps as a result of user actions
