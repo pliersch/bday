@@ -74,11 +74,11 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     int daysLeftToBDay = 0;
     if (mCursorBirthday.moveToPosition(position)) {
       contactID = mCursorBirthday.getString(0);
-      System.out.println("Service#getViewAt: " + position + " | provider " + mProviderId);
       Calendar today = Calendar.getInstance();
       Calendar birthday = mCalendarUtil.toCalendar(mCursorBirthday.getString(2));
       birthday = mCalendarUtil.computeNextPossibleEvent(birthday, today);
       daysLeftToBDay = mCalendarUtil.getDaysLeft(today, birthday);
+      System.out.println("Service#getViewAt: " + position + " | provider " + mProviderId + " | daysLeft " + daysLeftToBDay);
     }
 
     int layoutId = R.layout.widget_list_item;

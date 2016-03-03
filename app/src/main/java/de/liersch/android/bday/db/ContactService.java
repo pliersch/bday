@@ -1,6 +1,8 @@
 package de.liersch.android.bday.db;
 
 import android.app.Service;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +13,8 @@ import android.os.HandlerThread;
 import android.os.IBinder;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
+
+import de.liersch.android.bday.widget.provider.ListWidgetProvider;
 
 public class ContactService extends Service {
 
@@ -58,6 +62,17 @@ public class ContactService extends Service {
     return super.onStartCommand(intent, flags, startId);
   }
 
+  private void notifyChanges() {
+    Intent intent = new Intent(getApplicationContext(), ListWidgetProvider.class);
+    intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+
+    // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+    // since it seems the onUpdate() is only fired on that:
+    int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), ListWidgetProvider.class));
+    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
+    getApplication().sendBroadcast(intent);
+  }
+
   @Nullable
   @Override
   public IBinder onBind(Intent intent) {
@@ -82,6 +97,7 @@ public class ContactService extends Service {
     public void onChange(boolean selfChange, Uri uri) {
       System.out.println("DataProvider#onChange");
       mContactController.refresh();
+      notifyChanges();
     }
   }
 }
