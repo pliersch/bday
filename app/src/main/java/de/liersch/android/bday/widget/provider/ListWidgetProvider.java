@@ -12,7 +12,6 @@ import android.widget.RemoteViews;
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.app.OldMainActivity;
 import de.liersch.android.bday.db.DatabaseManager;
-import de.liersch.android.bday.notification.util.Notifier;
 import de.liersch.android.bday.widget.service.WidgetService;
 
 
@@ -36,10 +35,6 @@ public class ListWidgetProvider extends BaseWidgetProvider {
     final String action = intent.getAction();
     System.out.println("Provider#onReceive: " + ctx.toString() + action);
     if (action.equals(REFRESH_ACTION) || action.equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
-
-
-      Notifier notifier = new Notifier(ctx);
-      notifier.notifyBirthdays();
 
       // BroadcastReceivers have a limited amount of time to do work, so for this sample, we
       // are triggering an addContact of the data on another thread.  In practice, this addContact
