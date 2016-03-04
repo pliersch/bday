@@ -13,6 +13,7 @@ public class DatabaseManager {
   private static DatabaseManager dbManager;
   private final DatabaseHelper db;
   private SQLiteDatabase mDatabase;
+  private Context mApplicationContext;
 
   private static final String DB_NAME = "bday.db";
   private static final String TABLE_NOTIFICATIONS = "notifications";
@@ -37,6 +38,7 @@ public class DatabaseManager {
 
   private DatabaseManager(Context context) {
     db = new DatabaseHelper(context);
+    mApplicationContext = context;
   }
 
   public Cursor read() {
@@ -46,7 +48,7 @@ public class DatabaseManager {
       cursor = mDatabase.query(
           TABLE_NOTIFICATIONS,
           new String[]{"user_id", "name", "bday", "notified"},
-          null, null, null, null, "_id");
+          null, null, null, null, null);
     }
     return cursor;
   }
