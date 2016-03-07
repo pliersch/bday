@@ -1,19 +1,21 @@
 package de.liersch.android.bday.notification.util;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import de.liersch.android.bday.db.DatabaseManager;
-import de.liersch.android.bday.notification.SummaryNotificationBuilder;
 import de.liersch.android.bday.notification.SingleNotificationBuilder;
+import de.liersch.android.bday.notification.SummaryNotificationBuilder;
+import de.liersch.android.bday.settings.SettingsActivity;
 import de.liersch.android.bday.util.CalendarUtil;
 
 public class Notifier {
 
-  public static int TIME_RANGE = 200;
   private final Context mApplicationContext;
 
   public Notifier(Context applicationContext) {
@@ -23,12 +25,17 @@ public class Notifier {
   // TODO: remove or update old notifications
   // SEE: http://developer.android.com/training/notify-user/managing.html
   public void notifyBirthdays() {
-// TODO maybe closed db
+
+    // TODO maybe closed db
     final Cursor cursor = DatabaseManager.getInstance(mApplicationContext).read();
     if (cursor != null) {
       ArrayList<Long> ids = new ArrayList<Long>();
       ArrayList<String> names = new ArrayList<String>();
       ArrayList<Integer> days = new ArrayList<Integer>();
+      SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mApplicationContext);
+      final int first = Integer.parseInt(sharedPref.getString(SettingsActivity.FIRST_ALTER, "30"));
+      //sharedPref.getInt();
+      final int second = Integer.parseInt(sharedPref.getString(SettingsActivity.SECOND_ALTER, "3"));
       cursor.moveToPosition(-1);
       while (cursor.moveToNext()) {
         final String userID = cursor.getString(0);
@@ -39,9 +46,9 @@ public class Notifier {
 
         final int daysLeft = computeDaysLeft(bday);
 
-        if (daysLeft < 20) {
+        if (daysLeft < second) {
           new SingleNotificationBuilder().createNotification(Long.parseLong(userID), name, daysLeft, mApplicationContext);
-        } else if (daysLeft <= TIME_RANGE) {
+        } else if (daysLeft <= first) {
           ids.add(Long.parseLong(userID));
           names.add(name);
           days.add(daysLeft);

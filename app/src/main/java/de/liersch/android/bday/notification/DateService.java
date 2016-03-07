@@ -8,8 +8,6 @@ import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.IBinder;
 
-import java.util.List;
-
 import de.liersch.android.bday.notification.util.Notifier;
 
 public class DateService extends Service {
@@ -17,7 +15,6 @@ public class DateService extends Service {
   public static final String ACTION_BROADCAST = "de.liersch.android.bday.DATE_SERVICE";
   private ServiceBinder mBinder = new ServiceBinder();
   private BroadcastReceiver mReceiver;
-  private List<Long> userIdNextDays;
   private Notifier mNotifier;
 
   // TODO
@@ -36,7 +33,9 @@ public class DateService extends Service {
   @Override
   public void onDestroy() {
     unregisterReceiver(mReceiver);
-    mNotifier.destroy();
+    if (mNotifier != null) {
+      mNotifier.destroy();
+    }
     super.onDestroy();
   }
 
