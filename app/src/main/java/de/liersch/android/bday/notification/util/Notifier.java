@@ -56,7 +56,7 @@ public class Notifier {
       }
       if (ids.size() > 1) {
         new SummaryNotificationBuilder().createNotification(ids, names, days, mApplicationContext);
-      } else {
+      } else if (ids.size() > 0){
         new SingleNotificationBuilder().createNotification(ids.get(0), names.get(0), days.get(0), mApplicationContext);
       }
     }

@@ -15,6 +15,7 @@ import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 
 import de.liersch.android.bday.widget.provider.ListWidgetProvider;
+import de.liersch.android.bday.widget.provider.SmallWidgetProvider;
 
 public class ContactService extends Service {
 
@@ -69,6 +70,9 @@ public class ContactService extends Service {
     // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
     // since it seems the onUpdate() is only fired on that:
     int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), ListWidgetProvider.class));
+    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
+    getApplication().sendBroadcast(intent);
+    ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), SmallWidgetProvider.class));
     intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
     getApplication().sendBroadcast(intent);
   }
