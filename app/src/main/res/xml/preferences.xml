@@ -3,20 +3,38 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="@string/settings">
-        <EditTextPreference
+        <CheckBoxPreference
+            android:key="alarm_in_silent_mode"
+            android:title="this is a title"
+            android:summary="this is a summary" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="data_usage"
+        android:title="another Category">
+
+        <ListPreference
             android:title="@string/first_alert"
             android:key="first"
-            android:defaultValue="30"
-            />
+            android:entries="@array/settings_first_alert_entries"
+            android:entryValues="@array/settings_first_alert_values"
+            android:dialogTitle="wählen" />
+
         <EditTextPreference
             android:title="@string/second_alert"
             android:key="second"
-            android:defaultValue="7"
-            />
+            android:defaultValue="7"/>
+
     </PreferenceCategory>
 <!--    <PreferenceCategory
         android:title="@string/txt_voreinstellungen_persoenliches"
         >
+
+
+
+                    android:defaultValue="30"
+            android:order="1"
+
+
         <ListPreference
             android:entries="@array/lieblingsfarbe"
             android:entryValues="@array/lieblingsfarbwerte"

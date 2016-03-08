@@ -4,21 +4,25 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import de.liersch.android.bday.R;
-import de.liersch.android.bday.notification.util.Notifier;
+import de.liersch.android.bday.settings.SettingsActivity;
 
 public class SummaryNotificationBuilder extends NotificationBuilder {
 
   public void createNotification(ArrayList<Long> ids, ArrayList<String> names, ArrayList<Integer> days, Context applicationContext) {
     PendingIntent pendingIntent = getOpenActivityIntent(applicationContext);
     final Resources resources = applicationContext.getResources();
-    String tickerText = resources.getString(R.string.notification_summary_content_title, names.size(), Notifier.TIME_RANGE);
+    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+    final int first = Integer.parseInt(sharedPref.getString(SettingsActivity.FIRST_ALTER, "30"));
+    String tickerText = resources.getString(R.string.notification_summary_content_title, names.size(), first);
     String contentText = "";
     for (String name : names) {
       contentText += name + ", ";

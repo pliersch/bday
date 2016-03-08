@@ -17,9 +17,10 @@ import android.view.View;
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.db.ContactService;
 import de.liersch.android.bday.notification.DateService;
+import de.liersch.android.bday.settings.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity
-    implements NavigationView.OnNavigationItemSelectedListener {
+    implements NavigationView.OnNavigationItemSelectedListener  {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +84,9 @@ public class MainActivity extends AppCompatActivity
     // as you specify a parent activity in AndroidManifest.xml.
     int id = item.getItemId();
 
-    //noinspection SimplifiableIfStatement
     if (id == R.id.action_settings) {
+      Intent intent = new Intent(this, SettingsActivity.class);
+      startActivity(intent);
       return true;
     }
 
