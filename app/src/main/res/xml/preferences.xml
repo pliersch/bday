@@ -19,10 +19,13 @@
             android:entryValues="@array/settings_first_alert_values"
             android:dialogTitle="wählen" />
 
-        <EditTextPreference
+        <ListPreference
             android:title="@string/second_alert"
             android:key="second"
-            android:defaultValue="7"/>
+            android:entries="@array/settings_second_alert_entries"
+            android:entryValues="@array/settings_second_alert_values"
+            android:dialogTitle="wählen"
+            android:defaultValue="3"/>
 
     </PreferenceCategory>
 <!--    <PreferenceCategory
