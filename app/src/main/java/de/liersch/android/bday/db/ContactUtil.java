@@ -75,7 +75,7 @@ public class ContactUtil {
     final int monthFirst = dateParser.getMonth(firstContact.bday);
     final int dayFirst = dateParser.getDay(firstContact.bday);
 
-    for (Contact contact : contacts) {
+    for (Contact contact : sortedContacts) {
       final int monthCurrent = dateParser.getMonth(contact.bday);
       final int dayCurrent = dateParser.getDay(contact.bday);
       if (monthFirst == monthCurrent && dayFirst == dayCurrent) {
