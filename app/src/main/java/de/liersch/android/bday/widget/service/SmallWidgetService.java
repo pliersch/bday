@@ -3,19 +3,19 @@ package de.liersch.android.bday.widget.service;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import java.util.Calendar;
+import java.util.List;
 
 import de.liersch.android.bday.R;
+import de.liersch.android.bday.beans.Contact;
+import de.liersch.android.bday.db.ContactController;
 import de.liersch.android.bday.db.ContactUtil;
-import de.liersch.android.bday.db.DatabaseManager;
 import de.liersch.android.bday.util.CalendarUtil;
-import de.liersch.android.bday.widget.provider.BaseWidgetProvider;
 import de.liersch.android.bday.widget.provider.ListWidgetProvider;
 
 /**
@@ -32,16 +32,13 @@ public class SmallWidgetService extends RemoteViewsService {
  * This is the factory that will provide data to the collection widget.
  */
 class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
-  private final int mProviderId;
   private Context mApplicationContext;
-  private Cursor mCursorBirthday;
   private CalendarUtil mCalendarUtil;
   private static int sAvailableWidgets = 0;
 
   public SmallRemoteViewsFactory(Context context, Intent intent) {
     System.out.println("StackRemoteViewsFactory#constructor context: " + context.toString());
     mApplicationContext = context;
-    mProviderId = intent.getIntExtra(BaseWidgetProvider.PROVIDER_ID, 0);
     mCalendarUtil = CalendarUtil.getInstance();
   }
 
@@ -59,32 +56,42 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   }
 
   public int getCount() {
-    return 1;
+    final ContactController contactController = new ContactController(mApplicationContext);
+    final int size = contactController.getNextBirthdayContacts(Calendar.getInstance()).size();
+    System.out.println("SmallWidgetService#getCount " + size);
+    return size;
+    //return 1;
   }
 
   public RemoteViews getViewAt(int position) {
-    String contactID = "";
-    int daysLeftToBDay = 0;
-    if (mCursorBirthday.moveToPosition(position)) {
-      contactID = mCursorBirthday.getString(position);
-      System.out.println("Service#getViewAt: " + position + " | provider " + mProviderId);
-      Calendar today = Calendar.getInstance();
-      Calendar birthday = mCalendarUtil.toCalendar(mCursorBirthday.getString(2));
-      birthday = mCalendarUtil.computeNextPossibleEvent(birthday, today);
-      daysLeftToBDay = mCalendarUtil.getDaysLeft(today, birthday);
-    }
+    System.out.println("SmallWidgetService#getViewAt: " + position);
 
+    final Calendar today = Calendar.getInstance();
+    final List<Contact> nextBirthdayContacts = new ContactController(mApplicationContext).getNextBirthdayContacts(today);
+
+    long contactID;
+    int daysLeftToBDay;
+
+    final int size = nextBirthdayContacts.size();
+    final int hour = today.get(Calendar.HOUR_OF_DAY);
+    final int current = hour % size;
+    final Contact contact = nextBirthdayContacts.get(current);
+    contactID = contact.userID;
+    Calendar birthday = mCalendarUtil.toCalendar(contact.bday);
+    birthday = mCalendarUtil.computeNextPossibleEvent(birthday, today);
+    daysLeftToBDay = mCalendarUtil.getDaysLeft(today, birthday);
     RemoteViews rv = new RemoteViews(mApplicationContext.getPackageName(), R.layout.widget_small_item);
-    rv.setTextViewText(R.id.widget_item_small, mCursorBirthday.getString(1).concat(Integer.toString(daysLeftToBDay)));
+    rv.setTextViewText(R.id.widget_item_small, contact.name.concat(Integer.toString(daysLeftToBDay)));
 
-    Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(mApplicationContext.getContentResolver(), Long.parseLong(contactID));
+    Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(mApplicationContext.getContentResolver(), contactID);
     if (bitmap != null) {
       rv.setImageViewBitmap(R.id.widget_card_image_view, bitmap);
     }
 
     final Intent fillInIntent = new Intent();
     final Bundle extras = new Bundle();
-    extras.putString(ListWidgetProvider.EXTRA_DAY_ID, contactID);
+    // TODO try without casting
+    extras.putString(ListWidgetProvider.EXTRA_DAY_ID, String.valueOf(contactID));
     fillInIntent.putExtras(extras);
     rv.setOnClickFillInIntent(R.id.widget_card_image_view, fillInIntent);
     return rv;
@@ -110,10 +117,5 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
   public void onDataSetChanged() {
     System.out.println("Service#onDataSetChanged");
-    // Refresh the cursor
-    if (mCursorBirthday != null) {
-      mCursorBirthday.close();
-    }
-    mCursorBirthday = DatabaseManager.getInstance(mApplicationContext).read();
   }
 }

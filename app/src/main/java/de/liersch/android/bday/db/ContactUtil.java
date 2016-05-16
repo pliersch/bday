@@ -37,8 +37,6 @@ public class ContactUtil {
     return BitmapFactory.decodeStream(input);
   }
 
-
-
   public List<Contact> sortContacts(List<Contact> contacts, Calendar date) {
     Collections.sort(contacts, new CustomComparator());
     final DateParser dateParser = new DateParser();
@@ -66,6 +64,27 @@ public class ContactUtil {
     sorted.addAll(contacts1);
     sorted.addAll(contacts2);
     return sorted;
+  }
+
+  public List<Contact> getNextBirthdayContacts(List<Contact> contacts, Calendar date) {
+    final List<Contact> sortedContacts = sortContacts(contacts, date);
+    List<Contact> next = new ArrayList<Contact>();
+    final Contact firstContact = sortedContacts.remove(0);
+    next.add(firstContact);
+    final DateParser dateParser = new DateParser();
+    final int monthFirst = dateParser.getMonth(firstContact.bday);
+    final int dayFirst = dateParser.getDay(firstContact.bday);
+
+    for (Contact contact : contacts) {
+      final int monthCurrent = dateParser.getMonth(contact.bday);
+      final int dayCurrent = dateParser.getDay(contact.bday);
+      if (monthFirst == monthCurrent && dayFirst == dayCurrent) {
+        next.add(contact);
+      } else {
+        break;
+      }
+    }
+    return next;
   }
 
   class CustomComparator implements Comparator<Contact> {
