@@ -19,8 +19,7 @@ import de.liersch.android.bday.db.ContactService;
 import de.liersch.android.bday.notification.DateService;
 import de.liersch.android.bday.settings.SettingsActivity;
 
-public class MainActivity extends AppCompatActivity
-    implements NavigationView.OnNavigationItemSelectedListener  {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
