@@ -116,6 +116,6 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   }
 
   public void onDataSetChanged() {
-    System.out.println("Service#onDataSetChanged");
+    System.out.println("SmallWidgetService#onDataSetChanged");
   }
 }

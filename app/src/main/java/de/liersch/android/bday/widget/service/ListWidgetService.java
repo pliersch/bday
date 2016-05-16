@@ -21,7 +21,7 @@ import de.liersch.android.bday.widget.provider.ListWidgetProvider;
 /**
  * This is the service that provides the factory to be bound to the collection service.
  */
-public class WidgetService extends RemoteViewsService {
+public class ListWidgetService extends RemoteViewsService {
   @Override
   public RemoteViewsFactory onGetViewFactory(Intent intent) {
     return new StackRemoteViewsFactory(this.getApplicationContext(), intent);
@@ -61,7 +61,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
   public int getCount() {
     final int count = mCursorBirthday.getCount();
-    System.out.println("Service#getCount: " + count);
+    System.out.println("ListWidgetService#getCount: " + count);
     // TODO
     if(count == 0) {
 
@@ -78,7 +78,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
       Calendar birthday = mCalendarUtil.toCalendar(mCursorBirthday.getString(2));
       birthday = mCalendarUtil.computeNextPossibleEvent(birthday, today);
       daysLeftToBDay = mCalendarUtil.getDaysLeft(today, birthday);
-      System.out.println("Service#getViewAt: " + position + " | provider " + mProviderId + " | daysLeft " + daysLeftToBDay);
+      System.out.println("ListWidgetService#getViewAt: " + position + " | provider " + mProviderId + " | daysLeft " + daysLeftToBDay);
     }
 
     int layoutId = R.layout.widget_list_item;
@@ -129,7 +129,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   }
 
   public void onDataSetChanged() {
-    System.out.println("Service#onDataSetChanged");
+    System.out.println("ListWidgetService#onDataSetChanged");
     // Refresh the cursor
     if (mCursorBirthday != null) {
       mCursorBirthday.close();

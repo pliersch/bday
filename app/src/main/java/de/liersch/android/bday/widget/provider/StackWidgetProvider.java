@@ -10,7 +10,7 @@ import android.widget.RemoteViews;
 
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.app.OldMainActivity;
-import de.liersch.android.bday.widget.service.WidgetService;
+import de.liersch.android.bday.widget.service.ListWidgetService;
 
 
 public class StackWidgetProvider extends BaseWidgetProvider {
@@ -42,7 +42,7 @@ public class StackWidgetProvider extends BaseWidgetProvider {
     if (largeLayout) {
       // Specify the service to provide data for the collection widget.  Note that we need to
       // embed the appWidgetId via the data otherwise it will be ignored.
-      final Intent intent = new Intent(context, WidgetService.class);
+      final Intent intent = new Intent(context, ListWidgetService.class);
       intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
       final Bundle extras = new Bundle();
       extras.putInt(PROVIDER_ID, 1);
