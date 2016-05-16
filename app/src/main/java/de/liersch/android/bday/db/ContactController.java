@@ -42,7 +42,12 @@ public class ContactController {
     while (cursor.moveToNext()) {
       contacts.add(createContact(cursor));
     }
+    cursor.close();
     return contacts;
+  }
+
+  public List<Contact> getNextBirthdayContacts(Calendar date) {
+    return ContactUtil.getInstance().getNextBirthdayContacts(getContacts(), date);
   }
 
   private void addContact(List<Contact> birthdayContacts, List<Contact> systemContacts) {
