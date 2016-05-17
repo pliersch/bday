@@ -2,13 +2,14 @@ package de.liersch.android.bday.notification.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
-import de.liersch.android.bday.db.DatabaseManager;
+import de.liersch.android.bday.beans.Contact;
+import de.liersch.android.bday.db.ContactController;
 import de.liersch.android.bday.notification.SingleNotificationBuilder;
 import de.liersch.android.bday.notification.SummaryNotificationBuilder;
 import de.liersch.android.bday.settings.SettingsActivity;
@@ -27,37 +28,28 @@ public class Notifier {
   public void notifyBirthdays() {
 
     // TODO maybe closed db
-    final Cursor cursor = DatabaseManager.getInstance(mApplicationContext).read();
-    if (cursor != null) {
-      ArrayList<Long> ids = new ArrayList<Long>();
-      ArrayList<String> names = new ArrayList<String>();
+
+    final List<Contact> sortedContacts = new ContactController(mApplicationContext).getSortedContacts(Calendar.getInstance());
+    if (sortedContacts.size() > 0) {
+      List<Contact> contacts = new ArrayList<Contact>();
       ArrayList<Integer> days = new ArrayList<Integer>();
       SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mApplicationContext);
       final int first = Integer.parseInt(sharedPref.getString(SettingsActivity.FIRST_ALTER, "30"));
-      //sharedPref.getInt();
       final int second = Integer.parseInt(sharedPref.getString(SettingsActivity.SECOND_ALTER, "3"));
-      cursor.moveToPosition(-1);
-      while (cursor.moveToNext()) {
-        final String userID = cursor.getString(0);
-        final String name = cursor.getString(1);
-        final String bday = cursor.getString(2);
-        final String send = cursor.getString(3);
-        System.out.println("Notifier#notifyBirthdays db entries: " + userID + "," + name + "," + bday + "," + send);
 
-        final int daysLeft = computeDaysLeft(bday);
-
-        if (daysLeft < second) {
-          new SingleNotificationBuilder().createNotification(Long.parseLong(userID), name, daysLeft, mApplicationContext);
+      for (Contact contact : sortedContacts) {
+        final int daysLeft = computeDaysLeft(contact.bday);
+        if (daysLeft <= second) {
+          new SingleNotificationBuilder().createNotification(contact, daysLeft, mApplicationContext);
         } else if (daysLeft <= first) {
-          ids.add(Long.parseLong(userID));
-          names.add(name);
+          contacts.add(contact);
           days.add(daysLeft);
         }
       }
-      if (ids.size() > 1) {
-        new SummaryNotificationBuilder().createNotification(ids, names, days, mApplicationContext);
-      } else if (ids.size() > 0){
-        new SingleNotificationBuilder().createNotification(ids.get(0), names.get(0), days.get(0), mApplicationContext);
+      if (days.size() > 1) {
+        new SummaryNotificationBuilder().createNotification(contacts, days, mApplicationContext);
+      } else if (days.size() > 0){
+        new SingleNotificationBuilder().createNotification(contacts.get(0), days.get(0), mApplicationContext);
       }
     }
   }
@@ -71,6 +63,6 @@ public class Notifier {
   }
 
   public void destroy() {
-    DatabaseManager.getInstance(mApplicationContext).close();
+    // TODO: delete obsolete ?
   }
 }

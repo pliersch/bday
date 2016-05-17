@@ -46,6 +46,11 @@ public class ContactController {
     return contacts;
   }
 
+  public List<Contact> getSortedContacts(Calendar date) {
+    final List<Contact> sortedContacts = ContactUtil.getInstance().sortContacts(getContacts(), date);
+    return sortedContacts;
+  }
+
   public List<Contact> getNextBirthdayContacts(Calendar date) {
     return ContactUtil.getInstance().getNextBirthdayContacts(getContacts(), date);
   }

@@ -48,15 +48,15 @@ public class ContactFactory {
     return systemContacts;
   }
 
-  public List<Contact> createBirthdayContacts(Context applicationContext) {
-    Cursor cursorBirthday = DatabaseManager.getInstance(applicationContext).read();
-    List<Contact> contacts = new ArrayList<Contact>();
-    while (cursorBirthday.moveToNext()) {
-      contacts.add(createContact(cursorBirthday));
-    }
-    cursorBirthday.close();
-    return contacts;
-  }
+//  public List<Contact> createBirthdayContacts(Context applicationContext) {
+//    Cursor cursorBirthday = DatabaseManager.getInstance(applicationContext).read();
+//    List<Contact> contacts = new ArrayList<Contact>();
+//    while (cursorBirthday.moveToNext()) {
+//      contacts.add(createContact(cursorBirthday));
+//    }
+//    cursorBirthday.close();
+//    return contacts;
+//  }
 
   // TODO: same method exists in ContactController
   private Contact createContact(Cursor cursorBirthday) {
