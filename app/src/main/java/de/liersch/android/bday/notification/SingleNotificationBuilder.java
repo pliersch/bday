@@ -15,12 +15,15 @@ import android.support.v4.app.NotificationCompat;
 import java.util.Calendar;
 
 import de.liersch.android.bday.R;
+import de.liersch.android.bday.beans.Contact;
 import de.liersch.android.bday.db.ContactUtil;
 import de.liersch.android.bday.db.SystemContactsQuery;
 
 public class SingleNotificationBuilder extends NotificationBuilder {
 
-  public void createNotification(long userID, String name, int daysLeft, Context applicationContext) {
+  public void createNotification(Contact contact, int daysLeft, Context applicationContext) {
+    final String name = contact.name;
+    final long userID = contact.userID;
     System.out.println("SummaryNotificationBuilder#createSingleNotification for: " + name);
 
     String[] numbers = readPhoneNumbers(applicationContext, userID);
