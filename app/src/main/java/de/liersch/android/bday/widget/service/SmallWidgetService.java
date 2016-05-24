@@ -37,7 +37,7 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   private static int sAvailableWidgets = 0;
 
   public SmallRemoteViewsFactory(Context context, Intent intent) {
-    System.out.println("StackRemoteViewsFactory#constructor context: " + context.toString());
+    System.out.println("SmallWidgetService StackRemoteViewsFactory#constructor");
     mApplicationContext = context;
     mCalendarUtil = CalendarUtil.getInstance();
   }

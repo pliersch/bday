@@ -39,7 +39,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   private static int sAvailableWidgets = 0;
 
   public StackRemoteViewsFactory(Context context, Intent intent) {
-    System.out.println("StackRemoteViewsFactory#constructor context: " + context.toString());
+    System.out.println("ListWidgetService StackRemoteViewsFactory#constructor");
     mApplicationContext = context;
     mProviderId = intent.getIntExtra(BaseWidgetProvider.PROVIDER_ID, 0);
     mCalendarUtil = CalendarUtil.getInstance();
