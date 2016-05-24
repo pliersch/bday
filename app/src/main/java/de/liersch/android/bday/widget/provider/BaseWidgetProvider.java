@@ -45,7 +45,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
 
   @Override
   public void onRestored(Context context, int[] oldWidgetIds, int[] newWidgetIds) {
-    System.out.println("Provider#onRestored");
+    System.out.println(TAG + "#onRestored");
     super.onRestored(context, oldWidgetIds, newWidgetIds);
   }
 
