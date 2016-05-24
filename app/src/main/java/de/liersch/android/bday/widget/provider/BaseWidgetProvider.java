@@ -14,6 +14,8 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
   public static String EXTRA_DAY_ID = "com.example.android.weatherlistwidget.day";
   public static String PROVIDER_ID = "de.liersch.android.bday.provider";
 
+  protected String TAG = "not set";
+
 
   protected static HandlerThread sWorkerThread;
   protected static Handler sWorkerQueue;
@@ -38,31 +40,32 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
 
   @Override
   public void onEnabled(Context context) {
-    System.out.println("Provider#onEnabled");
+    System.out.println(TAG + "#onEnabled");
   }
 
   @Override
   public void onRestored(Context context, int[] oldWidgetIds, int[] newWidgetIds) {
-    super.onRestored(context, oldWidgetIds, newWidgetIds);
     System.out.println("Provider#onRestored");
+    super.onRestored(context, oldWidgetIds, newWidgetIds);
   }
 
   @Override
   public void onDeleted(Context context, int[] appWidgetIds) {
+    System.out.println(TAG + "#onDeleted");
     super.onDeleted(context, appWidgetIds);
-    System.out.println("Provider#onDeleted");
   }
 
   protected abstract RemoteViews buildLayout(Context context, int appWidgetId, boolean largeLayout);
 
   @Override
   public void onReceive(Context context, Intent intent) {
+    System.out.println(TAG + "#onReceive: " + context.toString() + intent);
     super.onReceive(context, intent);
   }
 
   @Override
   public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-    System.out.println("Provider#onUpdate: " + appWidgetIds.length);
+    System.out.println(TAG + "#onUpdate");
 
     // Update each of the widgets with the remote adapter
     for (int appWidgetId : appWidgetIds) {

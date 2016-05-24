@@ -17,6 +17,7 @@ public class SmallWidgetProvider extends BaseWidgetProvider {
 
   public SmallWidgetProvider() {
     super();
+    TAG = SmallWidgetProvider.class.getSimpleName();
   }
 
   @Override
@@ -25,9 +26,13 @@ public class SmallWidgetProvider extends BaseWidgetProvider {
   }
 
   @Override
+  public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    super.onUpdate(context, appWidgetManager, appWidgetIds);
+  }
+
+  @Override
   public void onReceive(Context ctx, Intent intent) {
     final String action = intent.getAction();
-    System.out.println("Provider#onReceive: " + ctx.toString() + action);
     // TODO
     if (action.equals(CLICK_ACTION)) {
 

@@ -20,8 +20,10 @@ public class ListWidgetProvider extends BaseWidgetProvider {
   public static String REFRESH_ACTION = "com.example.android.weatherlistwidget.REFRESH";
   public static String RESET_DATABASE_ACTION = "com.example.android.weatherlistwidget.RESET_DATABASE";
 
+
   public ListWidgetProvider() {
     super();
+    TAG = ListWidgetProvider.class.getSimpleName();
   }
 
   @Override
@@ -33,7 +35,6 @@ public class ListWidgetProvider extends BaseWidgetProvider {
   public void onReceive(Context ctx, Intent intent) {
 
     final String action = intent.getAction();
-    System.out.println("Provider#onReceive: " + ctx.toString() + action);
     if (action.equals(REFRESH_ACTION) || action.equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE)) {
 
       // BroadcastReceivers have a limited amount of time to do work, so for this sample, we
