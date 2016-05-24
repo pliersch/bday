@@ -24,7 +24,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
 
   public BaseWidgetProvider() {
     super();
-    System.out.println("BaseWidgetProvider#constructor");
+    System.out.println(TAG + "#constructor");
     initThread(getThreadName());
   }
 
