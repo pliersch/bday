@@ -27,6 +27,7 @@
 
 
     <!-- Notification -->
+    <string name="notification_birthday_content_title">%1$s has birthday today.</string>
     <string name="notification_single_content_title">%1$s has birthday in %2$d days.</string>
     <string name="notification_summary_content_title">%1$d birthdays in the next %2$d days.</string>
     <string name="notification_expanded">expanded text here.</string>

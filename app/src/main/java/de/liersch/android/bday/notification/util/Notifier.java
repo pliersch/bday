@@ -10,6 +10,7 @@ import java.util.List;
 
 import de.liersch.android.bday.beans.Contact;
 import de.liersch.android.bday.db.ContactController;
+import de.liersch.android.bday.notification.BirthdayNofificationBuilder;
 import de.liersch.android.bday.notification.SingleNotificationBuilder;
 import de.liersch.android.bday.notification.SummaryNotificationBuilder;
 import de.liersch.android.bday.settings.SettingsActivity;
@@ -39,8 +40,8 @@ public class Notifier {
 
       for (Contact contact : sortedContacts) {
         final int daysLeft = computeDaysLeft(contact.bday);
-        if (daysLeft <= second) {
-          new SingleNotificationBuilder().createNotification(contact, daysLeft, mApplicationContext);
+        if (daysLeft == 0) {
+          new BirthdayNofificationBuilder().createNotification(contact, mApplicationContext);
         } else if (daysLeft <= first) {
           contacts.add(contact);
           days.add(daysLeft);
