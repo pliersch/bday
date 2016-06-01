@@ -20,6 +20,8 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:loopViews="true"
+        android:autoStart="true"
+        android:flipInterval="5000"
         android:clickable="true"/>
 
 </FrameLayout>

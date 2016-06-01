@@ -37,7 +37,7 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   private static int sAvailableWidgets = 0;
 
   public SmallRemoteViewsFactory(Context context, Intent intent) {
-    System.out.println("StackRemoteViewsFactory#constructor context: " + context.toString());
+    System.out.println("SmallWidgetService StackRemoteViewsFactory#constructor");
     mApplicationContext = context;
     mCalendarUtil = CalendarUtil.getInstance();
   }
@@ -60,7 +60,6 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     final int size = contactController.getNextBirthdayContacts(Calendar.getInstance()).size();
     System.out.println("SmallWidgetService#getCount " + size);
     return size;
-    //return 1;
   }
 
   public RemoteViews getViewAt(int position) {
@@ -76,12 +75,14 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     final int hour = today.get(Calendar.HOUR_OF_DAY);
     final int current = hour % size;
     final Contact contact = nextBirthdayContacts.get(current);
+    System.out.println("SmallWidgetService#getViewAt for: " + contact.name);
     contactID = contact.userID;
     Calendar birthday = mCalendarUtil.toCalendar(contact.bday);
     birthday = mCalendarUtil.computeNextPossibleEvent(birthday, today);
     daysLeftToBDay = mCalendarUtil.getDaysLeft(today, birthday);
     RemoteViews rv = new RemoteViews(mApplicationContext.getPackageName(), R.layout.widget_small_item);
-    rv.setTextViewText(R.id.widget_item_small, contact.name.concat(Integer.toString(daysLeftToBDay)));
+    rv.setTextViewText(R.id.widget_item_small, contact.name);
+    rv.setTextViewText(R.id.widget_item_small_days_left, Integer.toString(daysLeftToBDay));
 
     Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(mApplicationContext.getContentResolver(), contactID);
     if (bitmap != null) {
@@ -103,11 +104,11 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   }
 
   public int getViewTypeCount() {
-    // Technically, we have two types of views (the dark and light background views)
     return 1;
   }
 
   public long getItemId(int position) {
+    System.out.println("SmallWidgetService#getItemId for position: " + position);
     return position;
   }
 

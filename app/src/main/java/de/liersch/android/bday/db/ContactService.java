@@ -64,15 +64,16 @@ public class ContactService extends Service {
   }
 
   private void notifyChanges() {
-    Intent intent = new Intent(getApplicationContext(), ListWidgetProvider.class);
-    intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+    notifyProvider(ListWidgetProvider.class);
+    notifyProvider(SmallWidgetProvider.class);
+  }
 
+  private void notifyProvider(Class provider) {
+    Intent intent = new Intent(getApplicationContext(), provider);
+    intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
     // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
     // since it seems the onUpdate() is only fired on that:
-    int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), ListWidgetProvider.class));
-    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
-    getApplication().sendBroadcast(intent);
-    ids = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), SmallWidgetProvider.class));
+    int ids[] = AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new ComponentName(getApplication(), provider));
     intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids);
     getApplication().sendBroadcast(intent);
   }
@@ -99,7 +100,7 @@ public class ContactService extends Service {
 
     @Override
     public void onChange(boolean selfChange, Uri uri) {
-      System.out.println("DataProvider#onChange");
+      System.out.println("ContactsObserver#onChange");
       mContactController.refresh();
       notifyChanges();
     }
