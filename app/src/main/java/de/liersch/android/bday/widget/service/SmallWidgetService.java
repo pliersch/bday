@@ -60,7 +60,6 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     final int size = contactController.getNextBirthdayContacts(Calendar.getInstance()).size();
     System.out.println("SmallWidgetService#getCount " + size);
     return size;
-    //return 1;
   }
 
   public RemoteViews getViewAt(int position) {
@@ -105,11 +104,11 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   }
 
   public int getViewTypeCount() {
-    // Technically, we have two types of views (the dark and light background views)
     return 1;
   }
 
   public long getItemId(int position) {
+    System.out.println("SmallWidgetService#getItemId for position: " + position);
     return position;
   }
 

@@ -38,12 +38,12 @@ public class SmallWidgetProvider extends BaseWidgetProvider {
       // When intents are compared, the extras are ignored, so we need to embed the extras
       // into the data so that the extras will not be ignored.
       intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
-      RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_small_layout);
-      rv.setRemoteAdapter(R.id.stack_view, intent);
+      final RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_small_layout);
+      rv.setRemoteAdapter(R.id.small_stack_view, intent);
 
       // The empty view is displayed when the collection has no items. It should be a sibling
       // of the collection view.
-      rv.setEmptyView(R.id.stack_view, R.id.empty_view);
+      rv.setEmptyView(R.id.small_stack_view, R.id.empty_view);
 /*
       // Here we setup the a pending intent template. Individuals items of a collection
       // cannot setup their own pending intents, instead, the collection as a whole can
@@ -58,6 +58,17 @@ public class SmallWidgetProvider extends BaseWidgetProvider {
       rv.setPendingIntentTemplate(R.id.stack_view, toastPendingIntent);
     */
       //appWidgetManager.updateAppWidget(appWidgetIds[i], rv);
+
+      final Context ctx = context;
+      sWorkerQueue.removeMessages(0);
+      sWorkerQueue.post(new Runnable() {
+        @Override
+        public void run() {
+          final AppWidgetManager mgr = AppWidgetManager.getInstance(ctx);
+          final ComponentName cn = new ComponentName(ctx, SmallWidgetProvider.class);
+          mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.small_stack_view);
+        }
+      });
     }
     super.onUpdate(context, appWidgetManager, appWidgetIds);
   }
@@ -67,16 +78,7 @@ public class SmallWidgetProvider extends BaseWidgetProvider {
     final String action = intent.getAction();
     // TODO
     if (action.equals(CLICK_ACTION)) {
-      final Context context = ctx;
-      sWorkerQueue.removeMessages(0);
-      sWorkerQueue.post(new Runnable() {
-        @Override
-        public void run() {
-          final AppWidgetManager mgr = AppWidgetManager.getInstance(context);
-          final ComponentName cn = new ComponentName(context, SmallWidgetProvider.class);
-          mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.small_stack_view);
-        }
-      });
+
     }
     super.onReceive(ctx, intent);
   }
