@@ -52,10 +52,7 @@ public class ListWidgetProvider extends BaseWidgetProvider {
         }
       });
 
-      final int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-    } else if (action.equals(CLICK_ACTION)) {
-      // Show a toast
-      final int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+      //final int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
     } else if (action.equals(RESET_DATABASE_ACTION)) {
       DatabaseManager.getInstance(ctx).reset();
     }

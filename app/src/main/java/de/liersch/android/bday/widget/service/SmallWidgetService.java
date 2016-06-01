@@ -76,12 +76,14 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     final int hour = today.get(Calendar.HOUR_OF_DAY);
     final int current = hour % size;
     final Contact contact = nextBirthdayContacts.get(current);
+    System.out.println("SmallWidgetService#getViewAt for: " + contact.name);
     contactID = contact.userID;
     Calendar birthday = mCalendarUtil.toCalendar(contact.bday);
     birthday = mCalendarUtil.computeNextPossibleEvent(birthday, today);
     daysLeftToBDay = mCalendarUtil.getDaysLeft(today, birthday);
     RemoteViews rv = new RemoteViews(mApplicationContext.getPackageName(), R.layout.widget_small_item);
-    rv.setTextViewText(R.id.widget_item_small, contact.name.concat(Integer.toString(daysLeftToBDay)));
+    rv.setTextViewText(R.id.widget_item_small, contact.name);
+    rv.setTextViewText(R.id.widget_item_small_days_left, Integer.toString(daysLeftToBDay));
 
     Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(mApplicationContext.getContentResolver(), contactID);
     if (bitmap != null) {

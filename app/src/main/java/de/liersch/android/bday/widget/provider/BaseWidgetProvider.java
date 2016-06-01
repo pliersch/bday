@@ -70,6 +70,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
     // Update each of the widgets with the remote adapter
     for (int appWidgetId : appWidgetIds) {
       RemoteViews layout = buildLayout(context, appWidgetId, mIsLargeLayout);
+      System.out.println(TAG + " -> appWidgetManager.updateAppWidget: " + appWidgetId );
       appWidgetManager.updateAppWidget(appWidgetId, layout);
     }
     super.onUpdate(context, appWidgetManager, appWidgetIds);

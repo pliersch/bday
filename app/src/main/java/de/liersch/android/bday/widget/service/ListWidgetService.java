@@ -46,12 +46,14 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   }
 
   public void onCreate() {
+    System.out.println("ListWidgetService#onCreate");
     sAvailableWidgets++;
     // Since we reload the cursor in onDataSetChanged() which gets called immediately after
     // onCreate(), we do nothing here.
   }
 
   public void onDestroy() {
+    System.out.println("ListWidgetService#onDestroy");
     // TODO
     if(--sAvailableWidgets == 0) {
 //      mCursorContacts.close();

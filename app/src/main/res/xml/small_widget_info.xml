@@ -15,7 +15,7 @@
     android:configure="de.liersch.android.bday.widget.ConfigurationActivity"
     android:minWidth="56dip"
     android:minHeight="56dip"
-    android:updatePeriodMillis="3600000"
+    android:updatePeriodMillis="1800000"
     android:previewImage="@drawable/preview_small_widget"
     android:initialLayout="@layout/widget_small_layout">
 </appwidget-provider>
