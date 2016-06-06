@@ -78,7 +78,7 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
       Calendar birthday = mCalendarUtil.toCalendar(mCursorBirthday.getString(2));
       birthday = mCalendarUtil.computeNextPossibleEvent(birthday, today);
       daysLeftToBDay = mCalendarUtil.getDaysLeft(today, birthday);
-      System.out.println("ListWidgetService#getViewAt: " + position + " | provider " + mProviderId + " | daysLeft " + daysLeftToBDay);
+      System.out.println("ListWidgetService#getViewAt: " + position + " | daysLeft " + daysLeftToBDay);
     }
 
     int layoutId = R.layout.widget_list_item;
