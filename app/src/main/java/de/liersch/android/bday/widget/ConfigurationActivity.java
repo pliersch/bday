@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.RemoteViews;
 
 import de.liersch.android.bday.R;
 
@@ -37,15 +38,15 @@ public class ConfigurationActivity extends AppCompatActivity {
     Intent intent = getIntent();
     Bundle extras = intent.getExtras();
     if (extras != null) {
-//      mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-//
-//      AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-//      RemoteViews views = new RemoteViews(this.getPackageName(), R.layout.widget_small_layout);
-//      appWidgetManager.updateAppWidget(mAppWidgetId, views);
-//
-//      Intent resultValue = new Intent();
-//      resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
-//      setResult(RESULT_OK, resultValue);
+      mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+
+      AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+      RemoteViews views = new RemoteViews(this.getPackageName(), R.layout.widget_small_layout);
+      appWidgetManager.updateAppWidget(mAppWidgetId, views);
+
+      Intent resultValue = new Intent();
+      resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+      setResult(RESULT_OK, resultValue);
       finish();
 
 //          AppWidgetProviderInfo providerInfo = AppWidgetManager.getInstance(
