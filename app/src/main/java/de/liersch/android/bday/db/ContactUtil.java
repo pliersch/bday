@@ -28,8 +28,8 @@ public class ContactUtil {
     return mInstance;
   }
 
-  public Bitmap loadContactPhoto(ContentResolver cr, long  id) {
-    Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id);
+  public Bitmap loadContactPhoto(ContentResolver cr, long  contactId) {
+    Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId);
     InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(cr, uri, true);
     if (input == null) {
       return null;

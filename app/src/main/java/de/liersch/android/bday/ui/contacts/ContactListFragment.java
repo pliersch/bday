@@ -57,8 +57,6 @@ public class ContactListFragment extends ListFragment implements AdapterView.OnI
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
 
-    int[] fruitsImages = {R.drawable.robot, R.drawable.robot, R.drawable.robot, R.drawable.robot, R.drawable.robot};
-
     final List<Contact> contacts = new ContactController(getContext()).getSortedContacts(Calendar.getInstance());
 
     ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
@@ -72,13 +70,14 @@ public class ContactListFragment extends ListFragment implements AdapterView.OnI
       HashMap<String, String> hashMap = new HashMap<>();
       hashMap.put("name", contact.name);
       hashMap.put("daysLeft", Integer.toString(daysLeftToBDay));
-      hashMap.put("image", fruitsImages[0] + "");
+      hashMap.put("image", Integer.toString(R.drawable.ic_account_circle_white_48dp));
+      hashMap.put("contactId", Long.toString(contact.userID));
       arrayList.add(hashMap);
     }
 
     String[] from = {"name", "image", "daysLeft"};
     int[] to = {R.id.textViewName, R.id.imageView, R.id.textViewDays};
-    ContactsAdapter simpleAdapter = new ContactsAdapter(getContext(), arrayList, R.layout.list_view_items, from, to);
+    ContactsAdapter simpleAdapter = new ContactsAdapter(getContext(), arrayList, R.layout.listview_contacts_item, from, to);
     setListAdapter(simpleAdapter);
     getListView().setOnItemClickListener(this);
   }

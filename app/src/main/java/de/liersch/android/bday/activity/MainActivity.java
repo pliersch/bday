@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,10 +17,15 @@ import android.view.View;
 
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.db.ContactService;
+import de.liersch.android.bday.fragments.ArticleFragment;
 import de.liersch.android.bday.notification.DateService;
 import de.liersch.android.bday.settings.SettingsActivity;
+import de.liersch.android.bday.ui.contacts.ContactListFragment;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener  {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+  private int mCurrentFragmentId;
+  private final String FRAGMENT_ID = "FRAGMENT_ID";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     startService(new Intent(this, ContactService.class));
 
     setContentView(R.layout.activity_main);
+
+
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
@@ -49,6 +57,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
+
+    if (savedInstanceState == null) {
+      final ContactListFragment contactListFragment = new ContactListFragment();
+      getSupportFragmentManager().beginTransaction()
+          .add(R.id.fragment_container, contactListFragment)
+          .commit();
+      mCurrentFragmentId = contactListFragment.getId();
+    } else  {
+      mCurrentFragmentId =savedInstanceState.getInt(FRAGMENT_ID, R.id.fragment_container);
+    }
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    outState.putInt(FRAGMENT_ID, mCurrentFragmentId);
+    super.onSaveInstanceState(outState);
   }
 
   @Override
@@ -95,25 +119,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
   @SuppressWarnings("StatementWithEmptyBody")
   @Override
   public boolean onNavigationItemSelected(MenuItem item) {
+
     // Handle navigation view item clicks here.
     int id = item.getItemId();
 
-    if (id == R.id.nav_camera) {
-      // Handle the camera action
-    } else if (id == R.id.nav_gallery) {
+    switch (id) {
+      case R.id.nav_camera:
+        replaceFragment(new ContactListFragment());
+        break;
+      case R.id.nav_gallery:
 
-    } else if (id == R.id.nav_slideshow) {
+        break;
+      case R.id.nav_slideshow:
 
-    } else if (id == R.id.nav_manage) {
+        break;
+      case R.id.nav_manage:
 
-    } else if (id == R.id.nav_share) {
-
-    } else if (id == R.id.nav_send) {
-
+        break;
+      case R.id.nav_share:
+        replaceFragment(new ArticleFragment());
+        break;
+      case R.id.nav_send:
+        break;
+      default:
+        System.out.println("MainActivity#onNavigationItemSelected: no valid id");
+        break;
     }
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);
     return true;
   }
+
+  private void replaceFragment(Fragment fragment) {
+    getSupportFragmentManager().beginTransaction()
+        .replace(mCurrentFragmentId, fragment)
+        .commit();
+    mCurrentFragmentId = fragment.getId();
+  }
+
 }
