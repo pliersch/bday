@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +29,7 @@ public class ContactsAdapter extends SimpleAdapter {
   @Override
   public View getView(final int position, View convertView, ViewGroup parent) {
 
-    // TODO re-use converView
+    // TODO re-use convertView
     // http://stackoverflow.com/questions/10120119/how-does-the-getview-method-work-when-creating-your-own-custom-adapter
     View view = super.getView(position, convertView, parent);
     ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
@@ -44,12 +43,6 @@ public class ContactsAdapter extends SimpleAdapter {
       imageView.setImageBitmap(bitmap);
     }
 
-    imageView.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        Toast.makeText(context, hashMap.get("name"), Toast.LENGTH_SHORT).show();
-      }
-    });
     return view;
   }
 
