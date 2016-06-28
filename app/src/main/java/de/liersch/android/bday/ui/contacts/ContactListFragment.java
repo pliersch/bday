@@ -1,5 +1,6 @@
 package de.liersch.android.bday.ui.contacts;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import de.liersch.android.bday.R;
+import de.liersch.android.bday.app.DetailActivity;
 import de.liersch.android.bday.beans.Contact;
 import de.liersch.android.bday.db.ContactController;
 import de.liersch.android.bday.util.CalendarUtil;
@@ -84,6 +86,7 @@ public class ContactListFragment extends ListFragment implements AdapterView.OnI
 
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    startActivity(new Intent(this.getActivity(), DetailActivity.class));
     Toast.makeText(getActivity(), "Item: " + position, Toast.LENGTH_SHORT).show();
   }
 }
