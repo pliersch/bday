@@ -14,6 +14,7 @@ import java.util.HashMap;
 
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.db.ContactUtil;
+import de.liersch.android.bday.util.ImageHelper;
 
 public class ContactsAdapter extends SimpleAdapter {
   Context context;
@@ -40,6 +41,7 @@ public class ContactsAdapter extends SimpleAdapter {
     final long contactId = Long.parseLong(hashMap.get("contactId"), 10);
     Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(contentResolver, contactId);
     if (bitmap != null) {
+      bitmap = ImageHelper.getRoundedCornerBitmap(bitmap, 0.25f);
       imageView.setImageBitmap(bitmap);
     }
 
