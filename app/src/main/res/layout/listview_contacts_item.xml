@@ -36,17 +36,4 @@
         android:layout_alignLeft="@+id/textViewName"
         android:layout_alignStart="@+id/textViewName"/>
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SMS"
-        android:id="@+id/checkBox"
-        android:checked="false"
-        android:focusable="false"
-        android:layout_alignTop="@+id/textViewName"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="18dp"
-        android:layout_marginEnd="18dp"/>
-
 </RelativeLayout>
