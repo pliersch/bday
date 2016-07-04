@@ -4,7 +4,10 @@
 
     <!-- Names -->
     <string name="name">Name</string>
-    <string name="birthday">Birthday</string>
+    <string name="birthday">Birthday: </string>
+    <string name="age">Age: </string>
+    <string name="daysLeft">days left: </string>
+
 
 
     <string name="empty_view_text">Loading</string>
@@ -29,7 +32,8 @@
     <string name="first_alert">First Alert</string>
     <string name="second_alert">Second Alert</string>
 
-
+    <!-- Detail Activity -->
+    <string name="checkbox_sms">SMS</string>
 
 
     <!-- Notification -->

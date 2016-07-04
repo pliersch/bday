@@ -16,6 +16,7 @@ import de.liersch.android.bday.beans.Contact;
 import de.liersch.android.bday.db.ContactController;
 import de.liersch.android.bday.db.ContactUtil;
 import de.liersch.android.bday.util.CalendarUtil;
+import de.liersch.android.bday.util.ImageHelper;
 import de.liersch.android.bday.widget.provider.ListWidgetProvider;
 
 /**
@@ -86,6 +87,7 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(mApplicationContext.getContentResolver(), contactID);
     if (bitmap != null) {
+      bitmap = ImageHelper.getRoundedCornerBitmap(bitmap, 30);
       rv.setImageViewBitmap(R.id.widget_card_image_view, bitmap);
     }
 

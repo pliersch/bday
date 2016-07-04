@@ -8,13 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.db.ContactUtil;
+import de.liersch.android.bday.util.ImageHelper;
 
 public class ContactsAdapter extends SimpleAdapter {
   Context context;
@@ -30,7 +30,7 @@ public class ContactsAdapter extends SimpleAdapter {
   @Override
   public View getView(final int position, View convertView, ViewGroup parent) {
 
-    // TODO re-use converView
+    // TODO re-use convertView
     // http://stackoverflow.com/questions/10120119/how-does-the-getview-method-work-when-creating-your-own-custom-adapter
     View view = super.getView(position, convertView, parent);
     ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
@@ -38,18 +38,13 @@ public class ContactsAdapter extends SimpleAdapter {
     final ContentResolver contentResolver = context.getApplicationContext().getContentResolver();
     final HashMap<String, String> hashMap = arrayList.get(position);
 
-    final long contactId = Long.parseLong(hashMap.get("contactId"), 10);
+    final long contactId = Long.parseLong(hashMap.get(ContactListFragment.CONTACT_ID), 10);
     Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(contentResolver, contactId);
     if (bitmap != null) {
+      bitmap = ImageHelper.getRoundedCornerBitmap(bitmap, 0.2f);
       imageView.setImageBitmap(bitmap);
     }
 
-    imageView.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        Toast.makeText(context, hashMap.get("name"), Toast.LENGTH_SHORT).show();
-      }
-    });
     return view;
   }
 
