@@ -70,6 +70,7 @@ public class ContactListFragment extends ListFragment implements AdapterView.OnI
     for (Contact contact: contacts) {
 
       Calendar today = Calendar.getInstance();
+      today = mCalendarUtil.getFullDayCalendar(today);
       Calendar birthday = mCalendarUtil.toCalendar(contact.bday);
       birthday = mCalendarUtil.computeNextPossibleEvent(birthday, today);
       int daysLeftToBDay = mCalendarUtil.getDaysLeft(today, birthday);
