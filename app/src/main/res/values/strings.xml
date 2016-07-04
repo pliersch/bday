@@ -32,7 +32,8 @@
     <string name="first_alert">First Alert</string>
     <string name="second_alert">Second Alert</string>
 
-
+    <!-- Detail Activity -->
+    <string name="checkbox_sms">SMS</string>
 
 
     <!-- Notification -->
