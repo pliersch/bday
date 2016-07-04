@@ -13,9 +13,12 @@ import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Calendar;
+
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.db.ContactUtil;
 import de.liersch.android.bday.ui.contacts.ContactListFragment;
+import de.liersch.android.bday.util.CalendarUtil;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -45,10 +48,27 @@ public class DetailActivity extends AppCompatActivity {
 
     collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
     collapsingToolbarLayout.setTitle(name);
-    collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+    //collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
 
-    TextView title = (TextView) findViewById(R.id.title);
-    title.setText("Title");
+    TextView textView;
+
+    textView = (TextView) findViewById(R.id.textViewBirthday);
+    String bday = getIntent().getStringExtra(ContactListFragment.BDAY);
+    String string = getResources().getString(R.string.birthday) + bday;
+    textView.setText(string);
+
+    textView = (TextView) findViewById(R.id.textViewAge);
+
+    final Calendar calendar = CalendarUtil.getInstance().toCalendar(bday);
+    final Calendar today = Calendar.getInstance();
+    final int age = today.get(Calendar.YEAR) - calendar.get(Calendar.YEAR);
+    string = getResources().getString(R.string.age) + age;
+    textView.setText(string);
+
+    textView = (TextView) findViewById(R.id.textViewDaysLeft);
+    String daysLeft = getIntent().getStringExtra(ContactListFragment.DAYS_LEFT);
+    string = getResources().getString(R.string.daysLeft) + daysLeft;
+    textView.setText(string);
   }
 
   @Override public boolean dispatchTouchEvent(MotionEvent motionEvent) {

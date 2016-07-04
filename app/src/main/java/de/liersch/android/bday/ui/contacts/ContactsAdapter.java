@@ -38,10 +38,10 @@ public class ContactsAdapter extends SimpleAdapter {
     final ContentResolver contentResolver = context.getApplicationContext().getContentResolver();
     final HashMap<String, String> hashMap = arrayList.get(position);
 
-    final long contactId = Long.parseLong(hashMap.get("contactId"), 10);
+    final long contactId = Long.parseLong(hashMap.get(ContactListFragment.CONTACT_ID), 10);
     Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(contentResolver, contactId);
     if (bitmap != null) {
-      bitmap = ImageHelper.getRoundedCornerBitmap(bitmap, 0.25f);
+      bitmap = ImageHelper.getRoundedCornerBitmap(bitmap, 0.2f);
       imageView.setImageBitmap(bitmap);
     }
 

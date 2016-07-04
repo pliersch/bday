@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,6 +22,12 @@ import de.liersch.android.bday.util.CalendarUtil;
 public class ContactListFragment extends ListFragment implements AdapterView.OnItemClickListener {
 
   private CalendarUtil mCalendarUtil;
+  private ArrayList<HashMap<String, String>> mContactList;
+
+  public static final String NAME = "de.liersch.android.name";
+  public static final String CONTACT_ID = "de.liersch.android.contactid";
+  public static final String BDAY = "de.liersch.android.bday";
+  public static final String DAYS_LEFT = "de.liersch.android.daysleft";
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,7 +66,7 @@ public class ContactListFragment extends ListFragment implements AdapterView.OnI
 
     final List<Contact> contacts = new ContactController(getContext()).getSortedContacts(Calendar.getInstance());
 
-    ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
+    mContactList = new ArrayList<>();
     for (Contact contact: contacts) {
 
       Calendar today = Calendar.getInstance();
@@ -70,23 +75,29 @@ public class ContactListFragment extends ListFragment implements AdapterView.OnI
       int daysLeftToBDay = mCalendarUtil.getDaysLeft(today, birthday);
 
       HashMap<String, String> hashMap = new HashMap<>();
-      hashMap.put("name", contact.name);
-      hashMap.put("daysLeft", Integer.toString(daysLeftToBDay));
+      hashMap.put(NAME, contact.name);
+      hashMap.put(DAYS_LEFT, Integer.toString(daysLeftToBDay));
       hashMap.put("image", Integer.toString(R.drawable.ic_account_circle_white_48dp));
-      hashMap.put("contactId", Long.toString(contact.userID));
-      arrayList.add(hashMap);
+      hashMap.put(CONTACT_ID, Long.toString(contact.userID));
+      hashMap.put(BDAY, contact.bday);
+      mContactList.add(hashMap);
     }
 
-    String[] from = {"name", "image", "daysLeft"};
+    String[] from = {NAME, "image", DAYS_LEFT};
     int[] to = {R.id.textViewName, R.id.imageView, R.id.textViewDays};
-    ContactsAdapter simpleAdapter = new ContactsAdapter(getContext(), arrayList, R.layout.listview_contacts_item, from, to);
+    ContactsAdapter simpleAdapter = new ContactsAdapter(getContext(), mContactList, R.layout.listview_contacts_item, from, to);
     setListAdapter(simpleAdapter);
     getListView().setOnItemClickListener(this);
   }
 
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    startActivity(new Intent(this.getActivity(), DetailActivity.class));
-    Toast.makeText(getActivity(), "Item: " + position, Toast.LENGTH_SHORT).show();
+    final Intent intent = new Intent(this.getActivity(), DetailActivity.class);
+    final HashMap<String, String> contactData = mContactList.get(position);
+    intent.putExtra(NAME, contactData.get(NAME));
+    intent.putExtra(CONTACT_ID, contactData.get(CONTACT_ID));
+    intent.putExtra(DAYS_LEFT, contactData.get(DAYS_LEFT));
+    intent.putExtra(BDAY, contactData.get(BDAY));
+    startActivity(intent);
   }
 }

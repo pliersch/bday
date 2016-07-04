@@ -87,7 +87,7 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(mApplicationContext.getContentResolver(), contactID);
     if (bitmap != null) {
-      bitmap = ImageHelper.getRoundedCornerBitmap(bitmap, 0.2f);
+      bitmap = ImageHelper.getRoundedCornerBitmap(bitmap, 30);
       rv.setImageViewBitmap(R.id.widget_card_image_view, bitmap);
     }
 

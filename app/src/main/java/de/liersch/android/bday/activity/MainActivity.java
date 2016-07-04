@@ -64,8 +64,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
           .add(R.id.fragment_container, contactListFragment)
           .commit();
       mCurrentFragmentId = contactListFragment.getId();
-    } else  {
-      mCurrentFragmentId =savedInstanceState.getInt(FRAGMENT_ID, R.id.fragment_container);
+    } else {
+      mCurrentFragmentId = savedInstanceState.getInt(FRAGMENT_ID, R.id.fragment_container);
     }
   }
 
