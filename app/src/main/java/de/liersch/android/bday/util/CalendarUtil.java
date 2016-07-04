@@ -1,6 +1,7 @@
 package de.liersch.android.bday.util;
 
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 public class CalendarUtil {
 
@@ -14,9 +15,9 @@ public class CalendarUtil {
   }
 
   public int getDaysLeft(Calendar from, Calendar to) {
-    final int i = from.get(Calendar.DAY_OF_YEAR);
-    final int j = to.get(Calendar.DAY_OF_YEAR);
-    return j - i;
+    long diff = to.getTime().getTime() - from.getTime().getTime();
+    long convert = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+    return (int) convert;
   }
 
   public int[] getMonthAndDaysLeft(Calendar from, Calendar to) {
@@ -60,5 +61,15 @@ public class CalendarUtil {
     Calendar calendar = Calendar.getInstance();
     calendar.set(year, month - 1, day, 0, 0);
     return calendar;
+  }
+
+  public Calendar getCalendar(int year, int month, int day) {
+    Calendar calendar = Calendar.getInstance();
+    calendar.set(year, month, day);
+    return calendar;
+  }
+
+  public Calendar getFullDayCalendar(Calendar calendar) {
+    return getCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
   }
 }

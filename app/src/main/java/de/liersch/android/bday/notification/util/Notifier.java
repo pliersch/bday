@@ -56,8 +56,9 @@ public class Notifier {
   }
 
   private int computeDaysLeft(String bday) {
-    Calendar now = Calendar.getInstance();
     final CalendarUtil calendarUtil = CalendarUtil.getInstance();
+    Calendar now = Calendar.getInstance();
+    now = calendarUtil.getFullDayCalendar(now);
     Calendar birthday = calendarUtil.toCalendar(bday);
     birthday = calendarUtil.computeNextPossibleEvent(birthday, now);
     return calendarUtil.getDaysLeft(now, birthday);
