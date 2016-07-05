@@ -65,10 +65,8 @@ public class ContactListFragment extends ListFragment implements AdapterView.OnI
     for (Contact contact: contacts) {
 
       Calendar today = Calendar.getInstance();
-      //System.out.println(today.get(Calendar.DAY_OF_MONTH));
       Calendar birthday = mCalendarUtil.toCalendar(contact.bday);
       birthday = mCalendarUtil.computeNextPossibleEvent(birthday, today);
-      //System.out.println(birthday.get(Calendar.DAY_OF_MONTH));
       int daysLeftToBDay = mCalendarUtil.getDaysLeft(today, birthday);
 
       HashMap<String, String> hashMap = new HashMap<>();
