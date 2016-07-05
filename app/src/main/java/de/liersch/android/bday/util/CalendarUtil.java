@@ -15,6 +15,8 @@ public class CalendarUtil {
   }
 
   public int getDaysLeft(Calendar from, Calendar to) {
+    from = getFullDayCalendar(from);
+    to = getFullDayCalendar(to);
     long diff = to.getTime().getTime() - from.getTime().getTime();
     long convert = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
     return (int) convert;
@@ -63,13 +65,22 @@ public class CalendarUtil {
     return calendar;
   }
 
-  public Calendar getCalendar(int year, int month, int day) {
-    Calendar calendar = Calendar.getInstance();
-    calendar.set(year, month, day);
-    return calendar;
+  private Calendar getFullDayCalendar(Calendar c) {
+    c.set(Calendar.HOUR_OF_DAY, 0);
+    c.set(Calendar.MINUTE, 0);
+    c.set(Calendar.SECOND, 0);
+    return c;
   }
 
-  public Calendar getFullDayCalendar(Calendar calendar) {
-    return getCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+  private String calculateTime(Long timeIn){
+    int day = (int) TimeUnit.MILLISECONDS.toDays(timeIn);
+    long hours = TimeUnit.MILLISECONDS.toHours(timeIn) - (day * 24);
+    long minutes = TimeUnit.MILLISECONDS.toMinutes(timeIn) - (TimeUnit.MILLISECONDS.toHours(timeIn) * 60);
+    long seconds = TimeUnit.MILLISECONDS.toSeconds(timeIn) - (TimeUnit.MILLISECONDS.toMinutes(timeIn) * 60);
+
+    return String.valueOf(day) + " Days " +
+        String.valueOf(hours) + " Hours " +
+        String.valueOf(minutes) + " Minutes " +
+        String.valueOf(seconds) + " Seconds.";
   }
 }
