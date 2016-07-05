@@ -122,6 +122,6 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     if (mCursorBirthday != null) {
       mCursorBirthday.close();
     }
-    mCursorBirthday = DatabaseManager.getInstance(mApplicationContext).read();
+    mCursorBirthday = DatabaseManager.getInstance(mApplicationContext).getAllContacts();
   }
 }

@@ -39,9 +39,9 @@ public class DatabaseManager {
     db = new DatabaseHelper(context);
   }
 
-  public Cursor read() {
+  public Cursor getAllContacts() {
     Cursor cursor = null;
-    // TODO read is calling but db isn't open
+    // TODO getAllContacts is calling but db isn't open
     if (mDatabase != null && mDatabase.isOpen()) {
       cursor = mDatabase.query(
           TABLE_NOTIFICATIONS,
@@ -51,12 +51,26 @@ public class DatabaseManager {
     return cursor;
   }
 
+  public Cursor getContact(long userID) {
+    Cursor cursor = null;
+    // TODO getContact is calling but db isn't open
+    if (mDatabase != null && mDatabase.isOpen()) {
+      String where = "user_id = ?";
+      String[] whereArgs = new String[]{ Long.toString(userID) };
+      cursor = mDatabase.query(
+          TABLE_NOTIFICATIONS,
+          new String[]{"user_id", "name", "bday", "notified"},
+          where, whereArgs, null, null, null);
+    }
+    return cursor;
+  }
+
   public void close() {
     db.getReadableDatabase().close();
   }
 
   public void addContact(Contact contact) {
-    // TODO read is calling but db isn't open
+    // TODO getAllContacts is calling but db isn't open
     if(mDatabase != null && mDatabase.isOpen()) {
       final long primaryKey = mDatabase.insert(TABLE_NOTIFICATIONS, null, createValues(contact));
       System.out.println("DatabaseManager#addContact: " + "primaryKey: " + primaryKey + " | userID: " + contact.userID + " | birthday: " + contact.bday);
@@ -64,7 +78,7 @@ public class DatabaseManager {
   }
 
   public void updateContact(Contact contact) {
-    // TODO read is calling but db isn't open
+    // TODO updateContact is calling but db isn't open
     if(mDatabase != null && mDatabase.isOpen()) {
       String where = "user_id = ?";
       String[] whereArgs = new String[]{ Long.toString(contact.userID) };

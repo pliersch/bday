@@ -16,6 +16,8 @@ import android.widget.TextView;
 import java.util.Calendar;
 
 import de.liersch.android.bday.R;
+import de.liersch.android.bday.beans.Contact;
+import de.liersch.android.bday.db.ContactController;
 import de.liersch.android.bday.db.ContactUtil;
 import de.liersch.android.bday.ui.contacts.ContactListFragment;
 import de.liersch.android.bday.util.CalendarUtil;
@@ -23,13 +25,23 @@ import de.liersch.android.bday.util.CalendarUtil;
 public class DetailActivity extends AppCompatActivity {
 
   private static final String EXTRA_IMAGE = "com.antonioleiva.materializeyourapp.extraImage";
-  private CollapsingToolbarLayout collapsingToolbarLayout;
+  private Contact mContact;
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    updateView(true);
+  }
 
   @SuppressWarnings("ConstantConditions")
-  @Override protected void onCreate(Bundle savedInstanceState) {
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     initActivityTransitions();
     setContentView(R.layout.activity_detail);
+
+    long userID = Long.parseLong(getIntent().getStringExtra(ContactListFragment.CONTACT_ID));
+    mContact = new ContactController(getApplicationContext()).getContact(userID);
 
     ViewCompat.setTransitionName(findViewById(R.id.app_bar_layout), EXTRA_IMAGE);
     supportPostponeEnterTransition();
@@ -37,41 +49,51 @@ public class DetailActivity extends AppCompatActivity {
     setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+    CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+    collapsingToolbarLayout.setTitle(mContact.name);
+    //collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+
+    updateView(false);
+  }
+
+  private void updateView(boolean resume) {
+    if (resume) {
+      mContact = new ContactController(getApplicationContext()).getContact(mContact.userID);
+    }
     final ImageView imageView = (ImageView) findViewById(R.id.image);
-    String name = getIntent().getStringExtra(ContactListFragment.NAME);
-    long contactId = Long.parseLong(getIntent().getStringExtra(ContactListFragment.CONTACT_ID));
     final ContentResolver contentResolver = getApplicationContext().getContentResolver();
-    Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(contentResolver, contactId);
+    Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(contentResolver, mContact.userID);
     if (bitmap != null) {
       imageView.setImageBitmap(bitmap);
     }
 
-    collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-    collapsingToolbarLayout.setTitle(name);
-    //collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
-
     TextView textView;
 
     textView = (TextView) findViewById(R.id.textViewBirthday);
-    String bday = getIntent().getStringExtra(ContactListFragment.BDAY);
-    String string = getResources().getString(R.string.birthday) + bday;
+    String string = getResources().getString(R.string.birthday) + mContact.bday;
     textView.setText(string);
 
     textView = (TextView) findViewById(R.id.textViewAge);
 
-    final Calendar calendar = CalendarUtil.getInstance().toCalendar(bday);
+    final CalendarUtil calendarUtil = CalendarUtil.getInstance();
+    final Calendar calendar = calendarUtil.toCalendar(mContact.bday);
     final Calendar today = Calendar.getInstance();
+    // TODO: Provide age via ContactController
     final int age = today.get(Calendar.YEAR) - calendar.get(Calendar.YEAR);
     string = getResources().getString(R.string.age) + age;
     textView.setText(string);
 
     textView = (TextView) findViewById(R.id.textViewDaysLeft);
-    String daysLeft = getIntent().getStringExtra(ContactListFragment.DAYS_LEFT);
+    // TODO: Provide daysLeft via ContactController
+    Calendar birthday = calendarUtil.toCalendar(mContact.bday);
+    birthday = calendarUtil.computeNextPossibleEvent(birthday, today);
+    int daysLeft = calendarUtil.getDaysLeft(today, birthday);
     string = getResources().getString(R.string.daysLeft) + daysLeft;
     textView.setText(string);
   }
 
-  @Override public boolean dispatchTouchEvent(MotionEvent motionEvent) {
+  @Override
+  public boolean dispatchTouchEvent(MotionEvent motionEvent) {
     try {
       return super.dispatchTouchEvent(motionEvent);
     } catch (NullPointerException e) {
