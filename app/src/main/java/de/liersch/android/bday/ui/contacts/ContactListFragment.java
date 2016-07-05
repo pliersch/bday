@@ -56,9 +56,12 @@ public class ContactListFragment extends ListFragment implements AdapterView.OnI
   }
 
   @Override
-  public void onActivityCreated(Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
+  public void onResume() {
+    super.onResume();
+    updateView();
+  }
 
+  private void updateView() {
     final List<Contact> contacts = new ContactController(getContext()).getSortedContacts(Calendar.getInstance());
 
     mContactList = new ArrayList<>();
@@ -83,6 +86,12 @@ public class ContactListFragment extends ListFragment implements AdapterView.OnI
     ContactsAdapter simpleAdapter = new ContactsAdapter(getContext(), mContactList, R.layout.listview_contacts_item, from, to);
     setListAdapter(simpleAdapter);
     getListView().setOnItemClickListener(this);
+  }
+
+  @Override
+  public void onActivityCreated(Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    updateView();
   }
 
   @Override

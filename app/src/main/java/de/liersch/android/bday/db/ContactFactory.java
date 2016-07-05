@@ -49,7 +49,7 @@ public class ContactFactory {
   }
 
 //  public List<Contact> createBirthdayContacts(Context applicationContext) {
-//    Cursor cursorBirthday = DatabaseManager.getInstance(applicationContext).read();
+//    Cursor cursorBirthday = DatabaseManager.getInstance(applicationContext).getAllContacts();
 //    List<Contact> contacts = new ArrayList<Contact>();
 //    while (cursorBirthday.moveToNext()) {
 //      contacts.add(createContact(cursorBirthday));
