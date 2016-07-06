@@ -8,8 +8,6 @@ import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.IBinder;
 
-import de.liersch.android.bday.notification.util.Notifier;
-
 public class DateService extends Service {
 
   public static final String ACTION_BROADCAST = "de.liersch.android.bday.DATE_SERVICE";
@@ -48,7 +46,7 @@ public class DateService extends Service {
   }
 
   private BroadcastReceiver createReceiver() {
-    final BroadcastReceiver receiver = new BroadcastReceiver() {
+    return new BroadcastReceiver() {
       @Override
       public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
@@ -57,7 +55,6 @@ public class DateService extends Service {
         mNotifier.notifyBirthdays();
       }
     };
-    return receiver;
   }
 
   public class ServiceBinder extends Binder {

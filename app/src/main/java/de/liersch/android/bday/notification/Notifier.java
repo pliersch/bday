@@ -1,4 +1,4 @@
-package de.liersch.android.bday.notification.util;
+package de.liersch.android.bday.notification;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,9 +10,6 @@ import java.util.List;
 
 import de.liersch.android.bday.beans.Contact;
 import de.liersch.android.bday.db.ContactController;
-import de.liersch.android.bday.notification.BirthdayNofificationBuilder;
-import de.liersch.android.bday.notification.SingleNotificationBuilder;
-import de.liersch.android.bday.notification.SummaryNotificationBuilder;
 import de.liersch.android.bday.settings.SettingsActivity;
 import de.liersch.android.bday.util.CalendarUtil;
 

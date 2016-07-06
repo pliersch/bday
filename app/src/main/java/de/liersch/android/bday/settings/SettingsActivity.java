@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import de.liersch.android.bday.notification.util.Notifier;
+import de.liersch.android.bday.notification.Notifier;
 
 public class SettingsActivity extends Activity {
 
