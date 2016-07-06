@@ -10,13 +10,13 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
-import java.util.Calendar;
-
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.beans.Contact;
 import de.liersch.android.bday.db.ContactUtil;
 
 public class SingleNotificationBuilder extends NotificationBuilder {
+
+  private static int NOTIFICATION_ID = 1;
 
   public void createNotification(Contact contact, int daysLeft, Context applicationContext) {
     final String name = contact.name;
@@ -53,8 +53,7 @@ public class SingleNotificationBuilder extends NotificationBuilder {
 
     // Use the NotificationManager to show the notification
     NotificationManager nm = (NotificationManager) applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
-    int notificationId = (int) Calendar.getInstance().getTimeInMillis();
-    nm.notify(notificationId, notification);
+    nm.notify(NOTIFICATION_ID, notification);
   }
 
 

@@ -9,7 +9,6 @@ import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
-import java.util.Calendar;
 import java.util.List;
 
 import de.liersch.android.bday.R;
@@ -17,6 +16,8 @@ import de.liersch.android.bday.beans.Contact;
 import de.liersch.android.bday.settings.SettingsActivity;
 
 public class SummaryNotificationBuilder extends NotificationBuilder {
+
+  private static int NOTIFICATION_ID = 0;
 
   public void createNotification(List<Contact> contacts, List<Integer> days, Context applicationContext) {
     int size = contacts.size();
@@ -58,7 +59,6 @@ public class SummaryNotificationBuilder extends NotificationBuilder {
 
     // Use the NotificationManager to show the notification
     NotificationManager nm = (NotificationManager) applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
-    int notificationId = (int) Calendar.getInstance().getTimeInMillis();
-    nm.notify(notificationId, notification);
+    nm.notify(NOTIFICATION_ID, notification);
   }
 }
