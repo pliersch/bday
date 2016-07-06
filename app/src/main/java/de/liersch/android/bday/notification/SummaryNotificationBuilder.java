@@ -24,7 +24,7 @@ public class SummaryNotificationBuilder extends NotificationBuilder {
     PendingIntent pendingIntent = getOpenActivityIntent(applicationContext);
     final Resources resources = applicationContext.getResources();
     SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(applicationContext);
-    final int first = Integer.parseInt(sharedPref.getString(SettingsActivity.FIRST_ALTER, "30"));
+    final int first = Integer.parseInt(sharedPref.getString(SettingsActivity.FIRST_ALERT, "30"));
     String tickerText = resources.getString(R.string.notification_summary_content_title, size, first);
     String contentText = "";
     for (Contact contact : contacts) {

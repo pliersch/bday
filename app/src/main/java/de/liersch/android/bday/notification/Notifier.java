@@ -32,8 +32,8 @@ public class Notifier {
       List<Contact> contacts = new ArrayList<Contact>();
       ArrayList<Integer> days = new ArrayList<Integer>();
       SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mApplicationContext);
-      final int first = Integer.parseInt(sharedPref.getString(SettingsActivity.FIRST_ALTER, "30"));
-      final int second = Integer.parseInt(sharedPref.getString(SettingsActivity.SECOND_ALTER, "3"));
+      final int first = Integer.parseInt(sharedPref.getString(SettingsActivity.FIRST_ALERT, "30"));
+      final int second = Integer.parseInt(sharedPref.getString(SettingsActivity.SECOND_ALERT, "3"));
 
       for (Contact contact : sortedContacts) {
         final int daysLeft = computeDaysLeft(contact.bday);
@@ -52,6 +52,7 @@ public class Notifier {
     }
   }
 
+  // TODO: here to. provide daysLeft via ContactController!
   private int computeDaysLeft(String bday) {
     final CalendarUtil calendarUtil = CalendarUtil.getInstance();
     Calendar now = Calendar.getInstance();
