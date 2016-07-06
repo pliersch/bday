@@ -4,15 +4,15 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import de.liersch.android.bday.notification.util.Notifier;
+import de.liersch.android.bday.notification.Notifier;
 
 public class SettingsActivity extends Activity {
 
   private SharedPreferences.OnSharedPreferenceChangeListener listener;
   private SharedPreferences preferences;
 
-  public static String FIRST_ALTER = "first";
-  public static String SECOND_ALTER = "second";
+  public static String FIRST_ALERT = "first";
+  public static String SECOND_ALERT = "second";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

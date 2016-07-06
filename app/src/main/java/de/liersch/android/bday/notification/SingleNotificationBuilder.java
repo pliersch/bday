@@ -6,13 +6,11 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.beans.Contact;
-import de.liersch.android.bday.db.ContactUtil;
 
 public class SingleNotificationBuilder extends NotificationBuilder {
 
@@ -54,17 +52,6 @@ public class SingleNotificationBuilder extends NotificationBuilder {
     // Use the NotificationManager to show the notification
     NotificationManager nm = (NotificationManager) applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
     nm.notify(NOTIFICATION_ID, notification);
-  }
-
-
-
-  private Bitmap getIcon(long userID, Context applicationContext) {
-    Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(applicationContext.getContentResolver(), userID);
-    if (bitmap == null) {
-      // TODO: why share icon not shown
-      bitmap = BitmapFactory.decodeResource(applicationContext.getResources(), R.drawable.ic_menu_share);
-    }
-    return bitmap;
   }
 
   private PendingIntent getCallPhoneIntent(Context applicationContext, String phoneNumber) {

@@ -1,4 +1,4 @@
-package de.liersch.android.bday.notification.util;
+package de.liersch.android.bday.notification;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,9 +10,6 @@ import java.util.List;
 
 import de.liersch.android.bday.beans.Contact;
 import de.liersch.android.bday.db.ContactController;
-import de.liersch.android.bday.notification.BirthdayNofificationBuilder;
-import de.liersch.android.bday.notification.SingleNotificationBuilder;
-import de.liersch.android.bday.notification.SummaryNotificationBuilder;
 import de.liersch.android.bday.settings.SettingsActivity;
 import de.liersch.android.bday.util.CalendarUtil;
 
@@ -35,8 +32,7 @@ public class Notifier {
       List<Contact> contacts = new ArrayList<Contact>();
       ArrayList<Integer> days = new ArrayList<Integer>();
       SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mApplicationContext);
-      final int first = Integer.parseInt(sharedPref.getString(SettingsActivity.FIRST_ALTER, "30"));
-      final int second = Integer.parseInt(sharedPref.getString(SettingsActivity.SECOND_ALTER, "3"));
+      final int first = Integer.parseInt(sharedPref.getString(SettingsActivity.FIRST_ALERT, "30"));
 
       for (Contact contact : sortedContacts) {
         final int daysLeft = computeDaysLeft(contact.bday);
@@ -55,6 +51,7 @@ public class Notifier {
     }
   }
 
+  // TODO: here to. provide daysLeft via ContactController!
   private int computeDaysLeft(String bday) {
     final CalendarUtil calendarUtil = CalendarUtil.getInstance();
     Calendar now = Calendar.getInstance();
