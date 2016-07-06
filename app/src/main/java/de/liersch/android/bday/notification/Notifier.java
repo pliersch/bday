@@ -33,7 +33,6 @@ public class Notifier {
       ArrayList<Integer> days = new ArrayList<Integer>();
       SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mApplicationContext);
       final int first = Integer.parseInt(sharedPref.getString(SettingsActivity.FIRST_ALERT, "30"));
-      final int second = Integer.parseInt(sharedPref.getString(SettingsActivity.SECOND_ALERT, "3"));
 
       for (Contact contact : sortedContacts) {
         final int daysLeft = computeDaysLeft(contact.bday);
