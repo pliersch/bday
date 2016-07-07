@@ -26,9 +26,6 @@ public class ContactUtilTest {
     final Calendar calendar = Calendar.getInstance();
     calendar.set(2015, 2, 1);
     final List<Contact> sortedContacts = mUtil.sortContacts(contacts, calendar);
-    for (Contact contact: sortedContacts) {
-      System.out.println(contact.bday);
-    }
     assertEquals("1990-03-03", sortedContacts.get(0).bday);
   }
 

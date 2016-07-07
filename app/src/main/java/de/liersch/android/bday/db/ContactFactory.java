@@ -38,7 +38,6 @@ public class ContactFactory {
             // TODO: implement boolean notified (current hard coded with false)
             Contact contact = new Contact(l, name, bday, false);
             systemContacts.add(contact);
-            System.out.println("xxx " + l + " | " +  name + " | "  + bday);
           }
         }
       }

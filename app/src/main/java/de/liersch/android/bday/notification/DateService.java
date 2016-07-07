@@ -50,7 +50,6 @@ public class DateService extends Service {
       @Override
       public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
-        System.out.println("DateService#BroadcastReceiver#onReceive" + action);
         mNotifier = new Notifier(getApplicationContext());
         mNotifier.notifyBirthdays();
       }

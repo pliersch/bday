@@ -39,6 +39,8 @@ public class ContactsAdapter extends SimpleAdapter {
     final ContentResolver contentResolver = context.getApplicationContext().getContentResolver();
     final HashMap<String, String> hashMap = arrayList.get(position);
 
+    // TODO move image creation into ContactListFragment#updateView
+
     final long contactId = Long.parseLong(hashMap.get(ContactListFragment.CONTACT_ID), 10);
     Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(contentResolver, contactId);
     if (bitmap != null) {
