@@ -65,6 +65,7 @@ public class DetailActivity extends AppCompatActivity {
     Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(contentResolver, mContact.userID);
     if (bitmap != null) {
       imageView.setImageBitmap(bitmap);
+      imageView.setPadding(0,0,0,0);
     }
 
     TextView textView;
