@@ -17,7 +17,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-    System.out.println("SettingsFragment#onSharedPreferenceChanged");
 //    if (key.equals(KEY_PREF_SYNC_CONN)) {
 //      //Preference connectionPref = findPreference(key);
 //      // Set summary to be the user-description for the selected value

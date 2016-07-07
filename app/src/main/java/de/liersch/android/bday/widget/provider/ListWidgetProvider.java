@@ -22,7 +22,6 @@ public class ListWidgetProvider extends BaseWidgetProvider {
 
   public ListWidgetProvider() {
     super();
-    TAG = ListWidgetProvider.class.getSimpleName();
   }
 
   @Override

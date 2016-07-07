@@ -19,9 +19,6 @@ public class SingleNotificationBuilder extends NotificationBuilder {
   public void createNotification(Contact contact, int daysLeft, Context applicationContext) {
     final String name = contact.name;
     final long userID = contact.userID;
-    System.out.println("SummaryNotificationBuilder#createSingleNotification for: " + name);
-
-
 
     PendingIntent pendingIntent = getOpenActivityIntent(applicationContext);
     String tickerText = applicationContext.getResources().getString(R.string.notification_single_content_title, name, daysLeft);

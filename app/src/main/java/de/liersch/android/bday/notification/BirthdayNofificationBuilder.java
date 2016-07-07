@@ -22,7 +22,6 @@ public class BirthdayNofificationBuilder extends NotificationBuilder {
   public void createNotification(Contact contact, Context applicationContext) {
     final String name = contact.name;
     final long userID = contact.userID;
-    System.out.println("BirthdayNofificationBuilder#createNotification for: " + name);
 
     String[] numbers = readPhoneNumbers(applicationContext, userID);
     PendingIntent phoneHomeIntent = null;

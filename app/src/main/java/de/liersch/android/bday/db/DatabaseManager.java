@@ -72,8 +72,7 @@ public class DatabaseManager {
   public void addContact(Contact contact) {
     // TODO getAllContacts is calling but db isn't open
     if(mDatabase != null && mDatabase.isOpen()) {
-      final long primaryKey = mDatabase.insert(TABLE_NOTIFICATIONS, null, createValues(contact));
-      System.out.println("DatabaseManager#addContact: " + "primaryKey: " + primaryKey + " | userID: " + contact.userID + " | birthday: " + contact.bday);
+      mDatabase.insert(TABLE_NOTIFICATIONS, null, createValues(contact));
     }
   }
 

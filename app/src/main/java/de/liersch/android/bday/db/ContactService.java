@@ -100,7 +100,6 @@ public class ContactService extends Service {
 
     @Override
     public void onChange(boolean selfChange, Uri uri) {
-      System.out.println("ContactsObserver#onChange");
       mContactController.refresh();
       notifyChanges();
     }
