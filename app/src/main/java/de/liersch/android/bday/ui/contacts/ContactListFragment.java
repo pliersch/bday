@@ -70,11 +70,19 @@ public class ContactListFragment extends ListFragment implements AdapterView.OnI
       Calendar today = Calendar.getInstance();
       Calendar birthday = mCalendarUtil.toCalendar(contact.bday);
       birthday = mCalendarUtil.computeNextPossibleEvent(birthday, today);
-      int daysLeftToBDay = mCalendarUtil.getDaysLeft(today, birthday);
+      final int daysLeft = mCalendarUtil.getDaysLeft(today, birthday);
+      String msg;
+      if (daysLeft == 0) {
+        msg = "today";
+      } else if (daysLeft == 1) {
+        msg = Integer.toString(daysLeft) + " day";
+      } else {
+        msg = Integer.toString(daysLeft) + " days";
+      }
 
       HashMap<String, String> hashMap = new HashMap<>();
       hashMap.put(NAME, contact.name);
-      hashMap.put(DAYS_LEFT, Integer.toString(daysLeftToBDay));
+      hashMap.put(DAYS_LEFT, msg);
       hashMap.put(CONTACT_ID, Long.toString(contact.userID));
       hashMap.put(BDAY, contact.bday);
       mContactList.add(hashMap);
