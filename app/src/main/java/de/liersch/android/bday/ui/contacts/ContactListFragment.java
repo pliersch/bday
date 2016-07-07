@@ -75,14 +75,13 @@ public class ContactListFragment extends ListFragment implements AdapterView.OnI
       HashMap<String, String> hashMap = new HashMap<>();
       hashMap.put(NAME, contact.name);
       hashMap.put(DAYS_LEFT, Integer.toString(daysLeftToBDay));
-      hashMap.put("image", Integer.toString(R.drawable.ic_account_circle_white_48dp));
       hashMap.put(CONTACT_ID, Long.toString(contact.userID));
       hashMap.put(BDAY, contact.bday);
       mContactList.add(hashMap);
     }
 
-    String[] from = {NAME, "image", DAYS_LEFT};
-    int[] to = {R.id.textViewName, R.id.imageView, R.id.textViewDays};
+    String[] from = {NAME, DAYS_LEFT};
+    int[] to = {R.id.textViewName, R.id.textViewDays};
     ContactsAdapter simpleAdapter = new ContactsAdapter(getContext(), mContactList, R.layout.listview_contacts_item, from, to);
     setListAdapter(simpleAdapter);
     getListView().setOnItemClickListener(this);

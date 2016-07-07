@@ -3,6 +3,7 @@ package de.liersch.android.bday.ui.contacts;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +30,11 @@ public class ContactsAdapter extends SimpleAdapter {
 
   @Override
   public View getView(final int position, View convertView, ViewGroup parent) {
-
     // TODO re-use convertView
     // http://stackoverflow.com/questions/10120119/how-does-the-getview-method-work-when-creating-your-own-custom-adapter
     View view = super.getView(position, convertView, parent);
     ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
+    imageView.setImageBitmap(null);
 
     final ContentResolver contentResolver = context.getApplicationContext().getContentResolver();
     final HashMap<String, String> hashMap = arrayList.get(position);
@@ -43,8 +44,10 @@ public class ContactsAdapter extends SimpleAdapter {
     if (bitmap != null) {
       bitmap = ImageHelper.getRoundedCornerBitmap(bitmap, 0.2f);
       imageView.setImageBitmap(bitmap);
+    } else {
+      bitmap = BitmapFactory.decodeResource(context.getApplicationContext().getResources(), R.drawable.ic_account_circle_blue_48dp);
     }
-
+    imageView.setImageBitmap(bitmap);
     return view;
   }
 
