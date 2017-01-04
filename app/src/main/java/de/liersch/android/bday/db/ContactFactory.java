@@ -38,7 +38,6 @@ public class ContactFactory {
             // TODO: implement boolean notified (current hard coded with false)
             Contact contact = new Contact(l, name, bday, false);
             systemContacts.add(contact);
-            System.out.println("xxx " + l + " | " +  name + " | "  + bday);
           }
         }
       }
@@ -49,7 +48,7 @@ public class ContactFactory {
   }
 
 //  public List<Contact> createBirthdayContacts(Context applicationContext) {
-//    Cursor cursorBirthday = DatabaseManager.getInstance(applicationContext).read();
+//    Cursor cursorBirthday = DatabaseManager.getInstance(applicationContext).getAllContacts();
 //    List<Contact> contacts = new ArrayList<Contact>();
 //    while (cursorBirthday.moveToNext()) {
 //      contacts.add(createContact(cursorBirthday));

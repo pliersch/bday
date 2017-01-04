@@ -18,7 +18,6 @@ public class SmallWidgetProvider extends BaseWidgetProvider {
 
   public SmallWidgetProvider() {
     super();
-    TAG = SmallWidgetProvider.class.getSimpleName();
   }
 
   @Override
@@ -29,7 +28,6 @@ public class SmallWidgetProvider extends BaseWidgetProvider {
   @Override
   public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
     for (int i = 0; i < appWidgetIds.length; ++i) {
-      System.out.println("SmallWidgetProvider#onUpdate for : " + appWidgetIds[i]);
 
       // Here we setup the intent which points to the StackViewService which will
       // provide the views for this collection.

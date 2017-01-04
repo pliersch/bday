@@ -13,10 +13,12 @@ public class ContactController {
 
   private final DatabaseManager mDatabaseManager;
   private final Context mApplicationContext;
+  private final ContactUtil mContactUtil;
 
   public ContactController(Context applicationContext) {
     mApplicationContext = applicationContext;
     mDatabaseManager = DatabaseManager.getInstance(applicationContext);
+    mContactUtil = ContactUtil.getInstance();
   }
 
   public void refresh() {
@@ -37,7 +39,7 @@ public class ContactController {
   }
 
   public List<Contact> getContacts() {
-    final Cursor cursor = mDatabaseManager.read();
+    final Cursor cursor = mDatabaseManager.getAllContacts();
     List<Contact> contacts = new ArrayList<Contact>();
     while (cursor.moveToNext()) {
       contacts.add(createContact(cursor));
@@ -46,13 +48,20 @@ public class ContactController {
     return contacts;
   }
 
+  public Contact getContact(long userId) {
+    final Cursor cursor = mDatabaseManager.getContact(userId);
+    cursor.moveToNext();
+    final Contact contact = createContact(cursor);
+    cursor.close();
+    return contact;
+  }
+
   public List<Contact> getSortedContacts(Calendar date) {
-    final List<Contact> sortedContacts = ContactUtil.getInstance().sortContacts(getContacts(), date);
-    return sortedContacts;
+    return mContactUtil.sortContacts(getContacts(), date);
   }
 
   public List<Contact> getNextBirthdayContacts(Calendar date) {
-    return ContactUtil.getInstance().getNextBirthdayContacts(getContacts(), date);
+    return mContactUtil.getNextBirthdayContacts(getContacts(), date);
   }
 
   private void addContact(List<Contact> birthdayContacts, List<Contact> systemContacts) {
@@ -108,7 +117,7 @@ public class ContactController {
 
   private void writeAllContacts(List<Contact> contacts) {
     mDatabaseManager.deleteAllContacts();
-    contacts = ContactUtil.getInstance().sortContacts(contacts, Calendar.getInstance());
+    contacts = mContactUtil.sortContacts(contacts, Calendar.getInstance());
     for (Contact contact : contacts) {
       mDatabaseManager.addContact(contact);
     }

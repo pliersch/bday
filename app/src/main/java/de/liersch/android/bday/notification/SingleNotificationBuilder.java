@@ -6,24 +6,19 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
-import java.util.Calendar;
-
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.beans.Contact;
-import de.liersch.android.bday.db.ContactUtil;
 
 public class SingleNotificationBuilder extends NotificationBuilder {
+
+  private static int NOTIFICATION_ID = 1;
 
   public void createNotification(Contact contact, int daysLeft, Context applicationContext) {
     final String name = contact.name;
     final long userID = contact.userID;
-    System.out.println("SummaryNotificationBuilder#createSingleNotification for: " + name);
-
-
 
     PendingIntent pendingIntent = getOpenActivityIntent(applicationContext);
     String tickerText = applicationContext.getResources().getString(R.string.notification_single_content_title, name, daysLeft);
@@ -53,19 +48,7 @@ public class SingleNotificationBuilder extends NotificationBuilder {
 
     // Use the NotificationManager to show the notification
     NotificationManager nm = (NotificationManager) applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
-    int notificationId = (int) Calendar.getInstance().getTimeInMillis();
-    nm.notify(notificationId, notification);
-  }
-
-
-
-  private Bitmap getIcon(long userID, Context applicationContext) {
-    Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(applicationContext.getContentResolver(), userID);
-    if (bitmap == null) {
-      // TODO: why share icon not shown
-      bitmap = BitmapFactory.decodeResource(applicationContext.getResources(), R.drawable.ic_menu_share);
-    }
-    return bitmap;
+    nm.notify(NOTIFICATION_ID, notification);
   }
 
   private PendingIntent getCallPhoneIntent(Context applicationContext, String phoneNumber) {

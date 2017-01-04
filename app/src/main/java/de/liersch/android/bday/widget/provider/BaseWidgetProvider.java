@@ -3,7 +3,6 @@ package de.liersch.android.bday.widget.provider;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -14,9 +13,6 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
   public static String EXTRA_DAY_ID = "com.example.android.weatherlistwidget.day";
   public static String PROVIDER_ID = "de.liersch.android.bday.provider";
 
-  protected String TAG = "not set";
-
-
   protected static HandlerThread sWorkerThread;
   protected static Handler sWorkerQueue;
 
@@ -24,7 +20,6 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
 
   public BaseWidgetProvider() {
     super();
-    System.out.println(TAG + "#constructor");
     initThread(getThreadName());
   }
 
@@ -38,39 +33,14 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
 
   // TODO: clear the worker queue if we are destroyed?
 
-  @Override
-  public void onEnabled(Context context) {
-    System.out.println(TAG + "#onEnabled");
-  }
-
-  @Override
-  public void onRestored(Context context, int[] oldWidgetIds, int[] newWidgetIds) {
-    System.out.println(TAG + "#onRestored");
-    super.onRestored(context, oldWidgetIds, newWidgetIds);
-  }
-
-  @Override
-  public void onDeleted(Context context, int[] appWidgetIds) {
-    System.out.println(TAG + "#onDeleted");
-    super.onDeleted(context, appWidgetIds);
-  }
 
   protected abstract RemoteViews buildLayout(Context context, int appWidgetId, boolean largeLayout);
 
   @Override
-  public void onReceive(Context context, Intent intent) {
-    System.out.println(TAG + "#onReceive: " + context.toString() + intent);
-    super.onReceive(context, intent);
-  }
-
-  @Override
   public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-    System.out.println(TAG + "#onUpdate");
-
     // Update each of the widgets with the remote adapter
     for (int appWidgetId : appWidgetIds) {
       RemoteViews layout = buildLayout(context, appWidgetId, mIsLargeLayout);
-      System.out.println(TAG + " -> appWidgetManager.updateAppWidget: " + appWidgetId );
       appWidgetManager.updateAppWidget(appWidgetId, layout);
     }
     super.onUpdate(context, appWidgetManager, appWidgetIds);

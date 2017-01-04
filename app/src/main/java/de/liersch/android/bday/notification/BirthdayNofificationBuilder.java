@@ -7,23 +7,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v4.app.NotificationCompat;
 
-import java.util.Calendar;
-
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.beans.Contact;
-import de.liersch.android.bday.db.ContactUtil;
 import de.liersch.android.bday.db.SystemContactsQuery;
 
 public class BirthdayNofificationBuilder extends NotificationBuilder {
+
+  private static int NOTIFICATION_ID = 0;
+
   public void createNotification(Contact contact, Context applicationContext) {
     final String name = contact.name;
     final long userID = contact.userID;
-    System.out.println("SummaryNotificationBuilder#createSingleNotification for: " + name);
 
     String[] numbers = readPhoneNumbers(applicationContext, userID);
     PendingIntent phoneHomeIntent = null;
@@ -71,8 +69,7 @@ public class BirthdayNofificationBuilder extends NotificationBuilder {
 
     // Use the NotificationManager to show the notification
     NotificationManager nm = (NotificationManager) applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
-    int notificationId = (int) Calendar.getInstance().getTimeInMillis();
-    nm.notify(notificationId, notification);
+    nm.notify(NOTIFICATION_ID, notification);
   }
 
   private String[] readPhoneNumbers(Context applicationContext, long userID) {
@@ -97,15 +94,6 @@ public class BirthdayNofificationBuilder extends NotificationBuilder {
     }
     c.close();
     return numbers;
-  }
-
-  private Bitmap getIcon(long userID, Context applicationContext) {
-    Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(applicationContext.getContentResolver(), userID);
-    if (bitmap == null) {
-      // TODO: why share icon not shown
-      bitmap = BitmapFactory.decodeResource(applicationContext.getResources(), R.drawable.ic_menu_share);
-    }
-    return bitmap;
   }
 
   private PendingIntent getCallPhoneIntent(Context applicationContext, String phoneNumber) {

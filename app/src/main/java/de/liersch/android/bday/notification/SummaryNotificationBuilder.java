@@ -9,7 +9,6 @@ import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
-import java.util.Calendar;
 import java.util.List;
 
 import de.liersch.android.bday.R;
@@ -18,12 +17,14 @@ import de.liersch.android.bday.settings.SettingsActivity;
 
 public class SummaryNotificationBuilder extends NotificationBuilder {
 
+  private static int NOTIFICATION_ID = 3;
+
   public void createNotification(List<Contact> contacts, List<Integer> days, Context applicationContext) {
     int size = contacts.size();
     PendingIntent pendingIntent = getOpenActivityIntent(applicationContext);
     final Resources resources = applicationContext.getResources();
     SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(applicationContext);
-    final int first = Integer.parseInt(sharedPref.getString(SettingsActivity.FIRST_ALTER, "30"));
+    final int first = Integer.parseInt(sharedPref.getString(SettingsActivity.FIRST_ALERT, "30"));
     String tickerText = resources.getString(R.string.notification_summary_content_title, size, first);
     String contentText = "";
     for (Contact contact : contacts) {
@@ -58,7 +59,6 @@ public class SummaryNotificationBuilder extends NotificationBuilder {
 
     // Use the NotificationManager to show the notification
     NotificationManager nm = (NotificationManager) applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
-    int notificationId = (int) Calendar.getInstance().getTimeInMillis();
-    nm.notify(notificationId, notification);
+    nm.notify(NOTIFICATION_ID, notification);
   }
 }

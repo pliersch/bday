@@ -16,6 +16,7 @@ import de.liersch.android.bday.beans.Contact;
 import de.liersch.android.bday.db.ContactController;
 import de.liersch.android.bday.db.ContactUtil;
 import de.liersch.android.bday.util.CalendarUtil;
+import de.liersch.android.bday.util.ImageHelper;
 import de.liersch.android.bday.widget.provider.ListWidgetProvider;
 
 /**
@@ -24,7 +25,7 @@ import de.liersch.android.bday.widget.provider.ListWidgetProvider;
 public class SmallWidgetService extends RemoteViewsService {
   @Override
   public RemoteViewsFactory onGetViewFactory(Intent intent) {
-    return new SmallRemoteViewsFactory(this.getApplicationContext(), intent);
+    return new SmallRemoteViewsFactory(this.getApplicationContext());
   }
 }
 
@@ -34,37 +35,27 @@ public class SmallWidgetService extends RemoteViewsService {
 class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   private Context mApplicationContext;
   private CalendarUtil mCalendarUtil;
-  private static int sAvailableWidgets = 0;
 
-  public SmallRemoteViewsFactory(Context context, Intent intent) {
-    System.out.println("SmallWidgetService StackRemoteViewsFactory#constructor");
+  public SmallRemoteViewsFactory(Context context) {
     mApplicationContext = context;
     mCalendarUtil = CalendarUtil.getInstance();
   }
 
   public void onCreate() {
-    sAvailableWidgets++;
-    // Since we reload the cursor in onDataSetChanged() which gets called immediately after
-    // onCreate(), we do nothing here.
+
   }
 
   public void onDestroy() {
-    // TODO
-    if(--sAvailableWidgets == 0) {
-//      mCursorBirthday.close();
-    }
+
   }
 
   public int getCount() {
     final ContactController contactController = new ContactController(mApplicationContext);
     final int size = contactController.getNextBirthdayContacts(Calendar.getInstance()).size();
-    System.out.println("SmallWidgetService#getCount " + size);
     return size;
   }
 
   public RemoteViews getViewAt(int position) {
-    System.out.println("SmallWidgetService#getViewAt: " + position);
-
     final Calendar today = Calendar.getInstance();
     final List<Contact> nextBirthdayContacts = new ContactController(mApplicationContext).getNextBirthdayContacts(today);
 
@@ -75,7 +66,6 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     final int hour = today.get(Calendar.HOUR_OF_DAY);
     final int current = hour % size;
     final Contact contact = nextBirthdayContacts.get(current);
-    System.out.println("SmallWidgetService#getViewAt for: " + contact.name);
     contactID = contact.userID;
     Calendar birthday = mCalendarUtil.toCalendar(contact.bday);
     birthday = mCalendarUtil.computeNextPossibleEvent(birthday, today);
@@ -86,6 +76,7 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(mApplicationContext.getContentResolver(), contactID);
     if (bitmap != null) {
+      bitmap = ImageHelper.getRoundedCornerBitmap(bitmap, 30);
       rv.setImageViewBitmap(R.id.widget_card_image_view, bitmap);
     }
 
@@ -108,7 +99,6 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   }
 
   public long getItemId(int position) {
-    System.out.println("SmallWidgetService#getItemId for position: " + position);
     return position;
   }
 
@@ -117,6 +107,5 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   }
 
   public void onDataSetChanged() {
-    System.out.println("SmallWidgetService#onDataSetChanged");
   }
 }

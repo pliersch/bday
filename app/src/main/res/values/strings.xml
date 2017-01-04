@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Birthday-App</string>
+
+    <!-- Names -->
+    <string name="name">Name</string>
+    <string name="birthday">Birthday: </string>
+    <string name="age">Age: </string>
+    <string name="daysLeft">days left: </string>
+
+
+
     <string name="empty_view_text">Loading</string>
     <string name="item_format_string">%1$d\u00B0 on %2$s</string>
     <string name="header_format_string">%1$d\u00B0 in %2$s</string>
@@ -23,7 +32,8 @@
     <string name="first_alert">First Alert</string>
     <string name="second_alert">Second Alert</string>
 
-
+    <!-- Detail Activity -->
+    <string name="checkbox_sms">SMS</string>
 
 
     <!-- Notification -->
