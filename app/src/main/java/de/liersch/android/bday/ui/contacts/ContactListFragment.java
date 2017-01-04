@@ -96,12 +96,6 @@ public class ContactListFragment extends ListFragment implements AdapterView.OnI
   }
 
   @Override
-  public void onActivityCreated(Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
-    updateView();
-  }
-
-  @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
     final Intent intent = new Intent(this.getActivity(), DetailActivity.class);
     final HashMap<String, String> contactData = mContactList.get(position);
