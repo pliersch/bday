@@ -17,7 +17,7 @@ import de.liersch.android.bday.db.ContactController;
 import de.liersch.android.bday.db.ContactUtil;
 import de.liersch.android.bday.util.CalendarUtil;
 import de.liersch.android.bday.util.ImageHelper;
-import de.liersch.android.bday.widget.provider.ListWidgetProvider;
+import de.liersch.android.bday.widget.provider.SmallWidgetProvider;
 
 /**
  * This is the service that provides the factory to be bound to the collection service.
@@ -83,7 +83,7 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     final Intent fillInIntent = new Intent();
     final Bundle extras = new Bundle();
     // TODO try without casting
-    extras.putString(ListWidgetProvider.EXTRA_DAY_ID, String.valueOf(contactID));
+    extras.putString(SmallWidgetProvider.EXTRA_DAY_ID, String.valueOf(contactID));
     fillInIntent.putExtras(extras);
     rv.setOnClickFillInIntent(R.id.widget_card_image_view, fillInIntent);
     return rv;
