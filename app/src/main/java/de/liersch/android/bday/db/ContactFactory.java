@@ -22,7 +22,7 @@ public class ContactFactory {
   public List<Contact> createSystemContacts(Context applicationContext) {
     String contactID;
     String bday;
-    List<Contact> systemContacts = new ArrayList<Contact>();
+    List<Contact> contacts = new ArrayList<Contact>();
     Cursor cursorBDay = SystemContactsQuery.getInstance().queryBirthdayContacts(applicationContext);
     Cursor cursorContacts = SystemContactsQuery.getInstance().queryVisibleContacts(applicationContext);
     while (cursorContacts.moveToNext()) {
@@ -37,14 +37,14 @@ public class ContactFactory {
             String name = cursorContacts.getString(1);
             // TODO: implement boolean notified (current hard coded with false)
             Contact contact = new Contact(l, name, bday, false);
-            systemContacts.add(contact);
+            contacts.add(contact);
           }
         }
       }
     }
     cursorContacts.close();
     cursorBDay.close();
-    return systemContacts;
+    return contacts;
   }
 
 //  public List<Contact> createBirthdayContacts(Context applicationContext) {
@@ -58,12 +58,12 @@ public class ContactFactory {
 //  }
 
   // TODO: same method exists in ContactController
-  private Contact createContact(Cursor cursorBirthday) {
-    return new Contact(
-        cursorBirthday.getLong(0),
-        cursorBirthday.getString(1),
-        cursorBirthday.getString(2),
-        cursorBirthday.getInt(3) != 0
-    );
-  }
+//  private Contact createContact(Cursor cursorBirthday) {
+//    return new Contact(
+//        cursorBirthday.getLong(0),
+//        cursorBirthday.getString(1),
+//        cursorBirthday.getString(2),
+//        cursorBirthday.getInt(3) != 0
+//    );
+//  }
 }

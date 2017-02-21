@@ -15,12 +15,18 @@ import de.liersch.android.bday.R;
 import de.liersch.android.bday.beans.Contact;
 import de.liersch.android.bday.settings.SettingsActivity;
 
-public class SummaryNotificationBuilder extends NotificationBuilder {
+public class SummaryNotificationBuilder extends BaseNotificationBuilder {
 
-  private static int NOTIFICATION_ID = 3;
+  private static int NOTIFICATION_ID = 2;
+  private static int MAX_ENTRIES = 3;
 
   public void createNotification(List<Contact> contacts, List<Integer> days, Context applicationContext) {
     int size = contacts.size();
+    long[] userID = new long[contacts.size()];
+    for (int i = 0; i < contacts.size(); i++) {
+      userID[i] = contacts.get(i).userID;
+    }
+
     PendingIntent pendingIntent = getOpenActivityIntent(applicationContext);
     final Resources resources = applicationContext.getResources();
     SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(applicationContext);
@@ -33,7 +39,7 @@ public class SummaryNotificationBuilder extends NotificationBuilder {
     contentText = contentText.substring(0, contentText.length() - 2);
 
     final NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-    int count = size < 2 ? size : 2;
+    int count = size < MAX_ENTRIES ? size : MAX_ENTRIES;
 
     for (int i = 0; i < count; i++) {
       inboxStyle.addLine(resources.getString(R.string.notification_single_content_title, contacts.get(i).name, days.get(i)));
@@ -53,9 +59,11 @@ public class SummaryNotificationBuilder extends NotificationBuilder {
         .setContentTitle(tickerText)
         .setContentText(contentText)
         .setAutoCancel(true)
-        .setStyle(inboxStyle);
+        .setStyle(inboxStyle)
+        .setDeleteIntent(getDeleteIntent(applicationContext, userID));
 
     Notification notification = builder.build();
+
 
     // Use the NotificationManager to show the notification
     NotificationManager nm = (NotificationManager) applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);

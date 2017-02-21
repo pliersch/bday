@@ -1,5 +1,6 @@
 package de.liersch.android.bday.notification;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -21,13 +22,11 @@ public class Notifier {
     mApplicationContext = applicationContext;
   }
 
-  // TODO: remove or update old notifications
-  // SEE: http://developer.android.com/training/notify-user/managing.html
   public void notifyBirthdays() {
-
-    // TODO maybe closed db
-
+    NotificationManager nm = (NotificationManager) mApplicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
+    nm.cancelAll();
     final List<Contact> sortedContacts = new ContactController(mApplicationContext).getSortedContacts(Calendar.getInstance());
+
     if (sortedContacts.size() > 0) {
       List<Contact> contacts = new ArrayList<Contact>();
       ArrayList<Integer> days = new ArrayList<Integer>();
@@ -37,8 +36,8 @@ public class Notifier {
       for (Contact contact : sortedContacts) {
         final int daysLeft = computeDaysLeft(contact.bday);
         if (daysLeft == 0) {
-          new BirthdayNofificationBuilder().createNotification(contact, mApplicationContext);
-        } else if (daysLeft <= first) {
+          new BirthdayNotificationBuilder().createNotification(contact, mApplicationContext);
+        } else if (daysLeft <= first && !contact.notified) {
           contacts.add(contact);
           days.add(daysLeft);
         }

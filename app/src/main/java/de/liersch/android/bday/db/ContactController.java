@@ -64,6 +64,12 @@ public class ContactController {
     return mContactUtil.getNextBirthdayContacts(getContacts(), date);
   }
 
+  public void setNotified(long userId) {
+    Contact contact = getContact(userId);
+    contact.notified = true;
+    mDatabaseManager.updateContact(contact);
+  }
+
   private void addContact(List<Contact> birthdayContacts, List<Contact> systemContacts) {
     // TODO: update the position is complicated. at this time all contacts will replaced
     writeAllContacts(systemContacts);
@@ -85,6 +91,7 @@ public class ContactController {
     for (Contact systemContact : systemContacts) {
       for (Contact birthdayContact : birthdayContacts) {
         if (systemContact.userID == birthdayContact.userID) {
+          systemContact.notified = birthdayContact.notified;
           ContactCompare result = compare(systemContact, birthdayContact);
           if (result != ContactCompare.EQUALS) {
             if (result == ContactCompare.BDAY) {
@@ -148,7 +155,7 @@ public class ContactController {
     return ContactCompare.EQUALS;
   }
 
-  enum ContactCompare {
+  private enum ContactCompare {
     EQUALS, USER_ID, NAME, BDAY, NOTIFIED
   }
 }

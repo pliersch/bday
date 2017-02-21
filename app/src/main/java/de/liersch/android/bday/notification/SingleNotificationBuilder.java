@@ -12,7 +12,7 @@ import android.support.v4.app.NotificationCompat;
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.beans.Contact;
 
-public class SingleNotificationBuilder extends NotificationBuilder {
+public class SingleNotificationBuilder extends BaseNotificationBuilder {
 
   private static int NOTIFICATION_ID = 1;
 
@@ -34,7 +34,8 @@ public class SingleNotificationBuilder extends NotificationBuilder {
         .setLargeIcon(bitmap)
         .setContentTitle(name)
         .setContentText(tickerText)
-        .setAutoCancel(true);
+        .setAutoCancel(true)
+        .setDeleteIntent(getDeleteIntent(applicationContext, userID));
 
     Notification notification = builder.build();
 
