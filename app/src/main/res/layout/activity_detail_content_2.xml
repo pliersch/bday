@@ -93,17 +93,19 @@
             android:layout_marginTop="@dimen/spacing_large">
 
             <CheckBox
-                android:id="@+id/checkBox2"
+                android:id="@+id/checkBoxFirst"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
+                android:onClick="onCheckboxClicked"
                 android:text="@string/first_alert"/>
 
             <CheckBox
-                android:id="@+id/checkBox3"
+                android:id="@+id/checkBoxSecond"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/checkBox2"
+                android:layout_toEndOf="@+id/checkBoxFirst"
+                android:onClick="onCheckboxClicked"
                 android:text="@string/second_alert"/>
 
         </RelativeLayout>
