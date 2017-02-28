@@ -13,6 +13,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import de.liersch.android.bday.R;
+import de.liersch.android.bday.common.logger.Log;
+import de.liersch.android.bday.common.logger.LogFragment;
+import de.liersch.android.bday.common.logger.LogWrapper;
+import de.liersch.android.bday.common.logger.MessageOnlyLogFilter;
 import de.liersch.android.bday.db.ContactController;
 import de.liersch.android.bday.db.ContactService;
 import de.liersch.android.bday.fragments.ArticleFragment;
@@ -22,6 +26,7 @@ import de.liersch.android.bday.ui.contacts.ContactListFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+  public static final String TAG = "MainActivity";
   private int mCurrentFragmentId;
   private final String FRAGMENT_ID = "FRAGMENT_ID";
 
@@ -147,4 +152,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     mCurrentFragmentId = fragment.getId();
   }
 
+  /** Set up targets to receive log data */
+  public void initializeLogging() {
+    // Using Log, front-end to the logging chain, emulates android.util.log method signatures.
+    // Wraps Android's native log framework
+    LogWrapper logWrapper = new LogWrapper();
+    Log.setLogNode(logWrapper);
+
+    // Filter strips out everything except the message text.
+    MessageOnlyLogFilter msgFilter = new MessageOnlyLogFilter();
+    logWrapper.setNext(msgFilter);
+
+    // On screen logging via a fragment with a TextView.
+    LogFragment logFragment = (LogFragment) getSupportFragmentManager()
+        .findFragmentById(R.id.log_fragment);
+    msgFilter.setNext(logFragment.getLogView());
+  }
+
+  public void stopLogging() {
+    Log.setLogNode(null);
+  }
+
+  @Override
+  protected void onStart() {
+    super.onStart();
+    initializeLogging();
+    Log.i(TAG, "Logging Ready");
+  }
 }
