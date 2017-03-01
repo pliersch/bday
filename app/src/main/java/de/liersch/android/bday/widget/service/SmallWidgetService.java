@@ -36,7 +36,7 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   private Context mApplicationContext;
   private CalendarUtil mCalendarUtil;
 
-  public SmallRemoteViewsFactory(Context context) {
+  SmallRemoteViewsFactory(Context context) {
     mApplicationContext = context;
     mCalendarUtil = CalendarUtil.getInstance();
   }
@@ -70,9 +70,15 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     Calendar birthday = mCalendarUtil.toCalendar(contact.bday);
     birthday = mCalendarUtil.computeNextPossibleEvent(birthday, today);
     daysLeftToBDay = mCalendarUtil.getDaysLeft(today, birthday);
-    RemoteViews rv = new RemoteViews(mApplicationContext.getPackageName(), R.layout.widget_small_item);
+    RemoteViews rv;
+    if (daysLeftToBDay == 0) {
+      rv = new RemoteViews(mApplicationContext.getPackageName(), R.layout.widget_bday);
+    } else {
+      rv = new RemoteViews(mApplicationContext.getPackageName(), R.layout.widget_countdown);
+      rv.setTextViewText(R.id.widget_text_days_left, Integer.toString(daysLeftToBDay));
+    }
+
     rv.setTextViewText(R.id.widget_item_small, contact.name);
-    rv.setTextViewText(R.id.widget_item_small_days_left, Integer.toString(daysLeftToBDay));
 
     Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(mApplicationContext.getContentResolver(), contactID);
     if (bitmap != null) {
@@ -95,7 +101,7 @@ class SmallRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
   }
 
   public int getViewTypeCount() {
-    return 1;
+    return 2;
   }
 
   public long getItemId(int position) {
