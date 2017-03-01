@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 The Android Open Source Project
+ * Copyright (C) 2013 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,24 +16,45 @@
 package de.liersch.android.bday.common.logger;
 
 /**
- * Basic interface for a logging system that can output to one or more targets.
- * Note that in addition to classes that will output these logs in some format,
- * one can also implement this interface over a filter and insert that in the chain,
- * such that no targets further down see certain data, or see manipulated forms of the data.
- * You could, for instance, write a "ToHtmlLoggerNode" that just converted all the log data
- * it received to HTML and sent it along to the next node in the chain, without printing it
- * anywhere.
+ * Simple {@link ILogNode} filter, removes everything except the message.
+ * Useful for situations like on-screen log output where you don't want a lot of metadata displayed,
+ * just easy-to-read message updates as they're happening.
  */
-public interface LogNode {
+public class LogNode implements ILogNode {
+
+    ILogNode mNext;
 
     /**
-     * Instructs first LogNode in the list to print the log data provided.
-     * @param priority Log level of the data being logged.  Verbose, Error, etc.
-     * @param tag Tag for for the log data.  Can be used to organize log statements.
-     * @param msg The actual message to be logged. The actual message to be logged.
-     * @param tr If an exception was thrown, this can be sent along for the logging facilities
-     *           to extract and print useful information.
+     * Takes the "next" ILogNode as a parameter, to simplify chaining.
+     *
+     * @param next The next ILogNode in the pipeline.
      */
-    public void println(int priority, String tag, String msg, Throwable tr);
+    public LogNode(ILogNode next) {
+        mNext = next;
+    }
+
+    public LogNode() {
+    }
+
+    @Override
+    public void println(int priority, String tag, String msg, Throwable tr) {
+        if (mNext != null) {
+            getNext().println(Log.NONE, tag, msg, null);
+        }
+    }
+
+    /**
+     * Returns the next ILogNode in the chain.
+     */
+    public ILogNode getNext() {
+        return mNext;
+    }
+
+    /**
+     * Sets the ILogNode data will be sent to..
+     */
+    public void setNext(ILogNode node) {
+        mNext = node;
+    }
 
 }

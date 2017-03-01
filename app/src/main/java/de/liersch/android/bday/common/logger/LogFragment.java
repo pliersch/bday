@@ -44,7 +44,7 @@ import android.widget.ScrollView;
 
 /**
  * Simple fraggment which contains a LogView and uses is to output log data it receives
- * through the LogNode interface.
+ * through the ILogNode interface.
  */
 public class LogFragment extends Fragment {
 

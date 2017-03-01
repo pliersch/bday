@@ -21,7 +21,7 @@ package de.liersch.android.bday.common.logger;
  * <p>When this is set as the head of the list,
  * an instance of it can function as a drop-in replacement for {@link android.util.Log}.
  * Most of the methods in this class server only to map a method call in Log to its equivalent
- * in LogNode.</p>
+ * in ILogNode.</p>
  */
 public class Log {
     // Grabbing the native values from Android's native logging facilities,
@@ -34,26 +34,26 @@ public class Log {
     public static final int ERROR = android.util.Log.ERROR;
     public static final int ASSERT = android.util.Log.ASSERT;
 
-    // Stores the beginning of the LogNode topology.
-    private static LogNode mLogNode;
+    // Stores the beginning of the ILogNode topology.
+    private static ILogNode mLogNode;
 
     /**
-     * Returns the next LogNode in the linked list.
+     * Returns the next ILogNode in the linked list.
      */
-    public static LogNode getLogNode() {
+    public static ILogNode getLogNode() {
         return mLogNode;
     }
 
     /**
-     * Sets the LogNode data will be sent to.
+     * Sets the ILogNode data will be sent to.
      */
-    public static void setLogNode(LogNode node) {
+    public static void setLogNode(ILogNode node) {
         mLogNode = node;
     }
 
     /**
-     * Instructs the LogNode to print the log data provided. Other LogNodes can
-     * be chained to the end of the LogNode as desired.
+     * Instructs the ILogNode to print the log data provided. Other LogNodes can
+     * be chained to the end of the ILogNode as desired.
      *
      * @param priority Log level of the data being logged. Verbose, Error, etc.
      * @param tag Tag for for the log data. Can be used to organize log statements.
@@ -68,8 +68,8 @@ public class Log {
     }
 
     /**
-     * Instructs the LogNode to print the log data provided. Other LogNodes can
-     * be chained to the end of the LogNode as desired.
+     * Instructs the ILogNode to print the log data provided. Other LogNodes can
+     * be chained to the end of the ILogNode as desired.
      *
      * @param priority Log level of the data being logged. Verbose, Error, etc.
      * @param tag Tag for for the log data. Can be used to organize log statements.
