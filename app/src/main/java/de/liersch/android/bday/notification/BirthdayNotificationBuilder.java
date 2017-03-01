@@ -15,7 +15,7 @@ import de.liersch.android.bday.R;
 import de.liersch.android.bday.beans.Contact;
 import de.liersch.android.bday.db.SystemContactsQuery;
 
-public class BirthdayNofificationBuilder extends NotificationBuilder {
+public class BirthdayNotificationBuilder extends BaseNotificationBuilder {
 
   private static int NOTIFICATION_ID = 0;
 

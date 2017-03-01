@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import de.liersch.android.bday.beans.Contact;
 
-public class DatabaseManager {
+  class DatabaseManager {
 
   private static DatabaseManager dbManager;
   private final DatabaseHelper db;
@@ -39,7 +39,7 @@ public class DatabaseManager {
     db = new DatabaseHelper(context);
   }
 
-  public Cursor getAllContacts() {
+  Cursor getAllContacts() {
     Cursor cursor = null;
     // TODO getAllContacts is calling but db isn't open
     if (mDatabase != null && mDatabase.isOpen()) {
@@ -51,7 +51,7 @@ public class DatabaseManager {
     return cursor;
   }
 
-  public Cursor getContact(long userID) {
+  Cursor getContact(long userID) {
     Cursor cursor = null;
     // TODO getContact is calling but db isn't open
     if (mDatabase != null && mDatabase.isOpen()) {
@@ -69,14 +69,14 @@ public class DatabaseManager {
     db.getReadableDatabase().close();
   }
 
-  public void addContact(Contact contact) {
+  void addContact(Contact contact) {
     // TODO getAllContacts is calling but db isn't open
     if(mDatabase != null && mDatabase.isOpen()) {
       mDatabase.insert(TABLE_NOTIFICATIONS, null, createValues(contact));
     }
   }
 
-  public void updateContact(Contact contact) {
+  void updateContact(Contact contact) {
     // TODO updateContact is calling but db isn't open
     if(mDatabase != null && mDatabase.isOpen()) {
       String where = "user_id = ?";
@@ -85,11 +85,11 @@ public class DatabaseManager {
     }
   }
 
-  public void deleteAllContacts() {
+  void deleteAllContacts() {
     mDatabase.delete(TABLE_NOTIFICATIONS, null, null);
   }
 
-  public void deleteContact(Contact contact) {
+  void deleteContact(Contact contact) {
     String where = "user_id = ?";
     String[] whereArgs = new String[]{ Long.toString(contact.userID) };
     mDatabase.delete(TABLE_NOTIFICATIONS, where, whereArgs);
@@ -131,7 +131,7 @@ public class DatabaseManager {
 
   class DatabaseHelper extends SQLiteOpenHelper {
 
-    public DatabaseHelper(Context applicationContext) {
+    DatabaseHelper(Context applicationContext) {
       super(applicationContext, DB_NAME, null, DB_VERSION);
       mDatabase = getWritableDatabase();
     }

@@ -39,6 +39,11 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/small_widget_info"/>
         </receiver>
+        <receiver android:name=".notification.NotificationBroadcastReceiver">
+            <intent-filter>
+                <action android:name="notification_cancelled"/>
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".widget.service.SmallWidgetService"
