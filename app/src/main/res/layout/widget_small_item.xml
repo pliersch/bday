@@ -38,11 +38,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:singleLine="true"
             android:text="1"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@android:color/secondary_text_light"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:maxLines="1"/>
     </FrameLayout>
 
     <TextView
@@ -51,9 +51,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:gravity="center"
-        android:singleLine="true"
         android:text="@string/textWidgetName"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="#ffffff"/>
+        android:textColor="#ffffff"
+        android:maxLines="1"/>
 
 </FrameLayout>

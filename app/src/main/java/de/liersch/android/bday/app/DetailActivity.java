@@ -71,7 +71,7 @@ public class DetailActivity extends AppCompatActivity {
     TextView textView;
 
     textView = (TextView) findViewById(R.id.textViewBirthday);
-    String string = getResources().getString(R.string.birthday) + mContact.bday;
+    String string = getResources().getString(R.string.birthday) + " " + mContact.bday;
     textView.setText(string);
 
     textView = (TextView) findViewById(R.id.textViewAge);

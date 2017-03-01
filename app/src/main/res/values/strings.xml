@@ -4,9 +4,9 @@
 
     <!-- Names -->
     <string name="name">Name</string>
-    <string name="birthday">Birthday: </string>
-    <string name="age">Age: </string>
-    <string name="daysLeft">days left: </string>
+    <string name="birthday">Birthday</string>
+    <string name="age">Age</string>
+    <string name="daysLeft">days left</string>
 
 
 
