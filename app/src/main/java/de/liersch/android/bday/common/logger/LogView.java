@@ -20,9 +20,9 @@ import android.content.Context;
 import android.util.*;
 import android.widget.TextView;
 
-/** Simple TextView which is used to output log data received through the LogNode interface.
+/** Simple TextView which is used to output log data received through the ILogNode interface.
 */
-public class LogView extends TextView implements LogNode {
+public class LogView extends TextView implements ILogNode {
 
     public LogView(Context context) {
         super(context);
@@ -105,11 +105,11 @@ public class LogView extends TextView implements LogNode {
         }
     }
 
-    public LogNode getNext() {
+    public ILogNode getNext() {
         return mNext;
     }
 
-    public void setNext(LogNode node) {
+    public void setNext(ILogNode node) {
         mNext = node;
     }
 
@@ -133,8 +133,8 @@ public class LogView extends TextView implements LogNode {
         return source;
     }
 
-    // The next LogNode in the chain.
-    LogNode mNext;
+    // The next ILogNode in the chain.
+    ILogNode mNext;
 
     /** Outputs the string as a new line of log data in the LogView. */
     public void appendToLog(String s) {

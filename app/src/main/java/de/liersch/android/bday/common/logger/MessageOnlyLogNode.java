@@ -16,24 +16,24 @@
 package de.liersch.android.bday.common.logger;
 
 /**
- * Simple {@link LogNode} filter, removes everything except the message.
+ * Simple {@link ILogNode} filter, removes everything except the message.
  * Useful for situations like on-screen log output where you don't want a lot of metadata displayed,
  * just easy-to-read message updates as they're happening.
  */
-public class MessageOnlyLogFilter implements LogNode {
+public class MessageOnlyLogNode implements ILogNode {
 
-    LogNode mNext;
+    ILogNode mNext;
 
     /**
-     * Takes the "next" LogNode as a parameter, to simplify chaining.
+     * Takes the "next" ILogNode as a parameter, to simplify chaining.
      *
-     * @param next The next LogNode in the pipeline.
+     * @param next The next ILogNode in the pipeline.
      */
-    public MessageOnlyLogFilter(LogNode next) {
+    public MessageOnlyLogNode(ILogNode next) {
         mNext = next;
     }
 
-    public MessageOnlyLogFilter() {
+    public MessageOnlyLogNode() {
     }
 
     @Override
@@ -44,16 +44,16 @@ public class MessageOnlyLogFilter implements LogNode {
     }
 
     /**
-     * Returns the next LogNode in the chain.
+     * Returns the next ILogNode in the chain.
      */
-    public LogNode getNext() {
+    public ILogNode getNext() {
         return mNext;
     }
 
     /**
-     * Sets the LogNode data will be sent to..
+     * Sets the ILogNode data will be sent to..
      */
-    public void setNext(LogNode node) {
+    public void setNext(ILogNode node) {
         mNext = node;
     }
 

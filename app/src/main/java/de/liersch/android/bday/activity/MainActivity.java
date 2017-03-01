@@ -15,8 +15,9 @@ import android.view.MenuItem;
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.common.logger.Log;
 import de.liersch.android.bday.common.logger.LogFragment;
+import de.liersch.android.bday.common.logger.LogNode;
 import de.liersch.android.bday.common.logger.LogWrapper;
-import de.liersch.android.bday.common.logger.MessageOnlyLogFilter;
+import de.liersch.android.bday.common.logger.MessageOnlyLogNode;
 import de.liersch.android.bday.db.ContactController;
 import de.liersch.android.bday.db.ContactService;
 import de.liersch.android.bday.fragments.ArticleFragment;
@@ -160,17 +161,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Log.setLogNode(logWrapper);
 
     // Filter strips out everything except the message text.
-    MessageOnlyLogFilter msgFilter = new MessageOnlyLogFilter();
-    logWrapper.setNext(msgFilter);
+    // MessageOnlyLogNode msgFilter = new MessageOnlyLogNode();
+    // logWrapper.setNext(msgFilter);
+    LogNode logNode = new LogNode();
+    logWrapper.setNext(logNode);
 
     // On screen logging via a fragment with a TextView.
     LogFragment logFragment = (LogFragment) getSupportFragmentManager()
         .findFragmentById(R.id.log_fragment);
-    msgFilter.setNext(logFragment.getLogView());
-  }
-
-  public void stopLogging() {
-    Log.setLogNode(null);
+    logNode.setNext(logFragment.getLogView());
   }
 
   @Override
