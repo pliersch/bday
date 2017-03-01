@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import de.liersch.android.bday.R;
+import de.liersch.android.bday.db.ContactController;
 import de.liersch.android.bday.db.ContactService;
 import de.liersch.android.bday.fragments.ArticleFragment;
 import de.liersch.android.bday.notification.DateService;
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    new ContactController(getApplicationContext()).refresh();
 
     startService(new Intent(this, DateService.class));
     startService(new Intent(this, ContactService.class));
@@ -63,13 +66,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     super.onSaveInstanceState(outState);
   }
 
-  @Override
-  protected void onDestroy() {
-    // TODO: killing service? really?
-    stopService(new Intent(this, DateService.class));
-    stopService(new Intent(this, ContactService.class));
-    super.onDestroy();
-  }
+//  @Override
+//  protected void onDestroy() {
+//    // TODO: killing service? really?
+//    stopService(new Intent(this, DateService.class));
+//    stopService(new Intent(this, ContactService.class));
+//    super.onDestroy();
+//  }
 
   @Override
   public void onBackPressed() {

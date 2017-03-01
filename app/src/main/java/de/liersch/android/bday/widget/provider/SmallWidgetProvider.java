@@ -41,7 +41,7 @@ public class SmallWidgetProvider extends BaseWidgetProvider {
 
       // The empty view is displayed when the collection has no items. It should be a sibling
       // of the collection view.
-      rv.setEmptyView(R.id.small_stack_view, R.id.empty_view);
+      rv.setEmptyView(R.id.small_stack_view, R.id.small_empty_view);
 /*
       // Here we setup the a pending intent template. Individuals items of a collection
       // cannot setup their own pending intents, instead, the collection as a whole can

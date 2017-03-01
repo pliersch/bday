@@ -12,7 +12,6 @@
 -->
 <appwidget-provider
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:configure="de.liersch.android.bday.widget.ConfigurationActivity"
     android:minWidth="56dip"
     android:minHeight="56dip"
     android:updatePeriodMillis="1800000"

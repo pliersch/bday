@@ -31,24 +31,6 @@
             android:name=".settings.SettingsActivity">
         </activity>
 
-        <!-- app widget configuration activity in manifest -->
-        <activity
-            android:name=".widget.ConfigurationActivity"
-            android:label="@string/title_activity_configuration"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
-            </intent-filter>
-        </activity>
-
-        <receiver android:name=".widget.provider.ListWidgetProvider">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/list_widget_info"/>
-        </receiver>
         <receiver android:name=".widget.provider.SmallWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
@@ -58,10 +40,6 @@
                 android:resource="@xml/small_widget_info"/>
         </receiver>
 
-        <service
-            android:name=".widget.service.ListWidgetService"
-            android:exported="false"
-            android:permission="android.permission.BIND_REMOTEVIEWS"/>
         <service
             android:name=".widget.service.SmallWidgetService"
             android:exported="false"

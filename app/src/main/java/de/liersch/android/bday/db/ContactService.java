@@ -14,7 +14,6 @@ import android.os.IBinder;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 
-import de.liersch.android.bday.widget.provider.ListWidgetProvider;
 import de.liersch.android.bday.widget.provider.SmallWidgetProvider;
 
 public class ContactService extends Service {
@@ -64,7 +63,6 @@ public class ContactService extends Service {
   }
 
   private void notifyChanges() {
-    notifyProvider(ListWidgetProvider.class);
     notifyProvider(SmallWidgetProvider.class);
   }
 
