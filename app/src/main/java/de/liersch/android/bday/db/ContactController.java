@@ -64,9 +64,9 @@ public class ContactController {
     return mContactUtil.getNextBirthdayContacts(getContacts(), date);
   }
 
-  public void setNotified(long userId) {
+  public void setNotified(long userId, boolean isNotified) {
     Contact contact = getContact(userId);
-    contact.notified = true;
+    contact.notified = isNotified;
     mDatabaseManager.updateContact(contact);
   }
 
