@@ -16,6 +16,7 @@ import de.liersch.android.bday.util.CalendarUtil;
 
 public class Notifier {
 
+  public static final String TAG = "Notifier";
   private final Context mApplicationContext;
 
   public Notifier(Context applicationContext) {

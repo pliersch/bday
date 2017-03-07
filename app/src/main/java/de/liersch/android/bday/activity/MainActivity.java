@@ -17,10 +17,10 @@ import de.liersch.android.bday.common.logger.Log;
 import de.liersch.android.bday.common.logger.LogFragment;
 import de.liersch.android.bday.common.logger.LogNode;
 import de.liersch.android.bday.common.logger.LogWrapper;
-import de.liersch.android.bday.common.logger.MessageOnlyLogNode;
 import de.liersch.android.bday.db.ContactController;
 import de.liersch.android.bday.db.ContactService;
 import de.liersch.android.bday.fragments.ArticleFragment;
+import de.liersch.android.bday.fragments.DevFragment;
 import de.liersch.android.bday.notification.DateService;
 import de.liersch.android.bday.settings.SettingsActivity;
 import de.liersch.android.bday.ui.contacts.ContactListFragment;
@@ -131,10 +131,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
       case R.id.nav_manage:
 
         break;
-      case R.id.nav_share:
-        replaceFragment(new ArticleFragment());
+      case R.id.nav_dev_actions:
+        replaceFragment(new DevFragment());
         break;
-      case R.id.nav_send:
+      case R.id.nav_logging:
         break;
       default:
         System.out.println("MainActivity#onNavigationItemSelected: no valid id");
