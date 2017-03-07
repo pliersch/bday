@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,11 +18,11 @@ import de.liersch.android.bday.R;
 import de.liersch.android.bday.db.ContactUtil;
 import de.liersch.android.bday.util.ImageHelper;
 
-public class ContactsAdapter extends SimpleAdapter {
-  Context context;
-  ArrayList<HashMap<String, String>> arrayList;
+class ContactsAdapter extends SimpleAdapter {
+  private Context context;
+  private ArrayList<HashMap<String, String>> arrayList;
 
-  public ContactsAdapter(Context context, ArrayList<HashMap<String, String>> data, int resource, String[] from, int[] to) {
+  ContactsAdapter(Context context, ArrayList<HashMap<String, String>> data, int resource, String[] from, int[] to) {
     super(context, data, resource, from, to);
     this.context = context;
     this.arrayList = data;
@@ -30,11 +31,17 @@ public class ContactsAdapter extends SimpleAdapter {
 
   @Override
   public View getView(final int position, View convertView, ViewGroup parent) {
-    // TODO re-use convertView
-    // http://stackoverflow.com/questions/10120119/how-does-the-getview-method-work-when-creating-your-own-custom-adapter
-    View view = super.getView(position, convertView, parent);
+    View view;
+    if (convertView == null) {
+      view = super.getView(position, convertView, parent);
+    } else {
+      view = convertView;
+      TextView textViewName = (TextView) view.findViewById(R.id.textViewName);
+      textViewName.setText(arrayList.get(position).get(ContactListFragment.NAME));
+      TextView textViewDays = (TextView) view.findViewById(R.id.textViewDays);
+      textViewDays.setText(arrayList.get(position).get(ContactListFragment.DAYS_LEFT));
+    }
     ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
-    imageView.setImageBitmap(null);
 
     final ContentResolver contentResolver = context.getApplicationContext().getContentResolver();
     final HashMap<String, String> hashMap = arrayList.get(position);
