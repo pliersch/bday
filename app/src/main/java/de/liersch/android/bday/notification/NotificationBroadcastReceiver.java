@@ -18,13 +18,12 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
         setUserNotified(userID, context.getApplicationContext());
       } else {
         setUsersNotified(intent.getLongArrayExtra("userID"), context.getApplicationContext());
-  
       }
     }
   }
   
   private void setUserNotified(long userID, Context applicationContext) {
-    new ContactController(applicationContext).setNotified(userID);
+    new ContactController(applicationContext).setNotified(userID, true);
   }
   
   private void setUsersNotified(long[] userIDs, Context applicationContext) {
@@ -32,5 +31,4 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
       setUserNotified(userID, applicationContext.getApplicationContext());
     }
   }
-  
 }

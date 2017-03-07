@@ -37,6 +37,10 @@ public class Notifier {
 
       for (Contact contact : sortedContacts) {
         final int daysLeft = computeDaysLeft(contact.bday);
+        if (daysLeft > first && contact.notified) {
+          contact.notified = false;
+          new ContactController(mApplicationContext).setNotified(contact.userID, false);
+        }
         if (daysLeft == 0) {
           new BirthdayNotificationBuilder().createNotification(contact, mApplicationContext);
         } else if (daysLeft <= first && !contact.notified || daysLeft <= second ) {
