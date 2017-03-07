@@ -26,7 +26,7 @@ import de.liersch.android.bday.util.CalendarUtil;
 
 public class DetailActivity extends AppCompatActivity {
 
-  private static final String EXTRA_IMAGE = "com.antonioleiva.materializeyourapp.extraImage";
+  private static final String EXTRA_IMAGE = "de.liersch.extraImage";
   private Contact mContact;
 
   @Override
