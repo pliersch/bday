@@ -33,12 +33,13 @@ public class Notifier {
       ArrayList<Integer> days = new ArrayList<Integer>();
       SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mApplicationContext);
       final int first = Integer.parseInt(sharedPref.getString(SettingsActivity.FIRST_ALERT, "30"));
+      final int second = Integer.parseInt(sharedPref.getString(SettingsActivity.SECOND_ALERT, "5"));
 
       for (Contact contact : sortedContacts) {
         final int daysLeft = computeDaysLeft(contact.bday);
         if (daysLeft == 0) {
           new BirthdayNotificationBuilder().createNotification(contact, mApplicationContext);
-        } else if (daysLeft <= first && !contact.notified) {
+        } else if (daysLeft <= first && !contact.notified || daysLeft <= second ) {
           contacts.add(contact);
           days.add(daysLeft);
         }
