@@ -31,10 +31,10 @@ public class ContactUtilTest {
 
   private List<Contact> createContactsMock() {
     List<Contact> contacts = new ArrayList<Contact>();
-    contacts.add(new Contact(4,"d","1990-04-02",false));
-    contacts.add(new Contact(2,"b","1990-02-02",false));
-    contacts.add(new Contact(1,"a","1990-01-02",false));
-    contacts.add(new Contact(3,"c","1990-03-03",false));
+    contacts.add(new Contact(4,"d","1990-04-02",false, false, false));
+    contacts.add(new Contact(2,"b","1990-02-02",false, false, false));
+    contacts.add(new Contact(1,"a","1990-01-02",false, false, false));
+    contacts.add(new Contact(3,"c","1990-03-03",false, false, false));
     return contacts;
   }
 

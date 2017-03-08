@@ -6,9 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import de.liersch.android.bday.R;
+import de.liersch.android.bday.db.DatabaseManager;
 import de.liersch.android.bday.notification.Notifier;
 
 public class DevFragment extends Fragment {
@@ -21,6 +21,13 @@ public class DevFragment extends Fragment {
       @Override
       public void onClick(View v) {
         new Notifier(getContext()).notifyBirthdays();
+      }
+    });
+    Button btnResetDB = (Button) view.findViewById(R.id.buttonResetDB);
+    btnResetDB.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        DatabaseManager.getInstance(getContext()).reset();
       }
     });
     return view;

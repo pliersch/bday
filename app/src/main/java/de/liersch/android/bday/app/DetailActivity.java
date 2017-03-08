@@ -54,7 +54,12 @@ public class DetailActivity extends AppCompatActivity {
     CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
     collapsingToolbarLayout.setTitle(mContact.name);
     //collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
-
+  
+    CheckBox firstAlert = (CheckBox) findViewById(R.id.checkBoxFirst);
+    firstAlert.setChecked(mContact.firstAlert);
+    CheckBox secondAlert = (CheckBox) findViewById(R.id.checkBoxSecond);
+    secondAlert.setChecked(mContact.secondAlert);
+  
     updateView(false);
   }
 
@@ -109,7 +114,9 @@ public class DetailActivity extends AppCompatActivity {
     boolean checked = checkBox.isChecked();
     switch (view.getId()) {
       case R.id.checkBoxFirst:
+        new ContactController(getApplicationContext()).setEnabledFirstAlert(mContact.userID, checked);
+      case R.id.checkBoxSecond:
+        new ContactController(getApplicationContext()).setEnabledSecondAlert(mContact.userID, checked);
     }
-
   }
 }
