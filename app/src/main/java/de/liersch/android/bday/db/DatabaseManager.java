@@ -8,12 +8,19 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import de.liersch.android.bday.beans.Contact;
 
-  class DatabaseManager {
+  public class DatabaseManager {
 
   private static DatabaseManager dbManager;
   private final DatabaseHelper db;
   private SQLiteDatabase mDatabase;
 
+  private static final String USER_ID = "user_id";
+  private static final String NAME = "name";
+  private static final String BDAY = "bday";
+  private static final String NOTIFIED = "notified";
+  private static final String FIRST_ALERT = "first_alert";
+  private static final String SECOND_ALERT = "second_alert";
+    
   private static final String DB_NAME = "bday.db";
   private static final String TABLE_NOTIFICATIONS = "notifications";
   private static final int DB_VERSION = 1;
@@ -24,7 +31,9 @@ import de.liersch.android.bday.beans.Contact;
           "user_id INTEGER NOT NULL, " +
           "name STRING NOT NULL, " +
           "bday STRING NOT NULL, " +
-          "notified INTEGER NOT NULL" +
+          "notified INTEGER NOT NULL," +
+          "first_alert INTEGER NOT NULL," +
+          "second_alert INTEGER NOT NULL" +
           ")");
 
   // context seems to be the application context
@@ -45,7 +54,7 @@ import de.liersch.android.bday.beans.Contact;
     if (mDatabase != null && mDatabase.isOpen()) {
       cursor = mDatabase.query(
           TABLE_NOTIFICATIONS,
-          new String[]{"user_id", "name", "bday", "notified"},
+          new String[]{USER_ID, NAME, BDAY, NOTIFIED, FIRST_ALERT, SECOND_ALERT},
           null, null, null, null, null);
     }
     return cursor;
@@ -59,7 +68,7 @@ import de.liersch.android.bday.beans.Contact;
       String[] whereArgs = new String[]{ Long.toString(userID) };
       cursor = mDatabase.query(
           TABLE_NOTIFICATIONS,
-          new String[]{"user_id", "name", "bday", "notified"},
+          new String[]{USER_ID, NAME, BDAY, NOTIFIED, FIRST_ALERT, SECOND_ALERT},
           where, whereArgs, null, null, null);
     }
     return cursor;
@@ -102,10 +111,12 @@ import de.liersch.android.bday.beans.Contact;
 
   private ContentValues createValues(Contact contact) {
     ContentValues values = new ContentValues();
-    values.put("user_id", contact.userID);
-    values.put("name", contact.name);
-    values.put("bday", contact.bday);
-    values.put("notified", contact.notified ? 1 : 0);
+    values.put(USER_ID, contact.userID);
+    values.put(NAME, contact.name);
+    values.put(BDAY, contact.bday);
+    values.put(NOTIFIED, contact.notified ? 1 : 0);
+    values.put(FIRST_ALERT, !contact.firstAlert ? 0 : 1);
+    values.put(SECOND_ALERT, !contact.secondAlert ? 0 : 1);
     return values;
   }
 
@@ -128,8 +139,8 @@ import de.liersch.android.bday.beans.Contact;
       e.printStackTrace();
     }
   }*/
-
-  class DatabaseHelper extends SQLiteOpenHelper {
+  
+    private class DatabaseHelper extends SQLiteOpenHelper {
 
     DatabaseHelper(Context applicationContext) {
       super(applicationContext, DB_NAME, null, DB_VERSION);

@@ -70,6 +70,18 @@ public class ContactController {
     mDatabaseManager.updateContact(contact);
   }
 
+  public void setEnabledFirstAlert(long userId, boolean isAlertEnable) {
+    Contact contact = getContact(userId);
+    contact.firstAlert = isAlertEnable;
+    mDatabaseManager.updateContact(contact);
+  }
+
+  public void setEnabledSecondAlert(long userId, boolean isAlertEnable) {
+    Contact contact = getContact(userId);
+    contact.secondAlert = isAlertEnable;
+    mDatabaseManager.updateContact(contact);
+  }
+
   private void addContact(List<Contact> birthdayContacts, List<Contact> systemContacts) {
     // TODO: update the position is complicated. at this time all contacts will replaced
     writeAllContacts(systemContacts);
@@ -135,7 +147,9 @@ public class ContactController {
         cursorBirthday.getLong(0),
         cursorBirthday.getString(1),
         cursorBirthday.getString(2),
-        cursorBirthday.getInt(3) != 0
+        cursorBirthday.getInt(3) != 0,
+        cursorBirthday.getInt(4) != 0,
+        cursorBirthday.getInt(5) != 0
     );
   }
 

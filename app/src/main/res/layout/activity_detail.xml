@@ -55,7 +55,7 @@
             android:layout_height="wrap_content">
 
             <include
-                layout="@layout/activity_detail_content_2"/>
+                layout="@layout/activity_detail_content"/>
 
         </FrameLayout>
 

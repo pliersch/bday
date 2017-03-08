@@ -36,7 +36,7 @@ public class ContactFactory {
           if(bday.matches(DateParser.ENGLISH_FORMAT)) {
             String name = cursorContacts.getString(1);
             // TODO: implement boolean notified (current hard coded with false)
-            Contact contact = new Contact(l, name, bday, false);
+            Contact contact = new Contact(l, name, bday, false, false, false);
             contacts.add(contact);
           }
         }

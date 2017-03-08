@@ -37,9 +37,6 @@ public class DateService extends Service {
   public void onDestroy() {
     Log.i(TAG, "onDestroy ");
     unregisterReceiver(mReceiver);
-    if (mNotifier != null) {
-      mNotifier.destroy();
-    }
     super.onDestroy();
   }
 

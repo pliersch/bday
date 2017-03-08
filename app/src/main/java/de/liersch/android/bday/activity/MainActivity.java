@@ -19,6 +19,7 @@ import de.liersch.android.bday.common.logger.LogNode;
 import de.liersch.android.bday.common.logger.LogWrapper;
 import de.liersch.android.bday.db.ContactController;
 import de.liersch.android.bday.db.ContactService;
+import de.liersch.android.bday.db.DatabaseManager;
 import de.liersch.android.bday.fragments.ArticleFragment;
 import de.liersch.android.bday.fragments.DevFragment;
 import de.liersch.android.bday.notification.DateService;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
+    //DatabaseManager.getInstance(getApplicationContext()).reset();
     new ContactController(getApplicationContext()).refresh();
 
     startService(new Intent(this, DateService.class));
