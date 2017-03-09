@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.db.DatabaseManager;
+import de.liersch.android.bday.notification.LoggingNotificationBuilder;
 import de.liersch.android.bday.notification.Notifier;
 
 public class DevFragment extends Fragment {
@@ -21,6 +22,7 @@ public class DevFragment extends Fragment {
       @Override
       public void onClick(View v) {
         new Notifier(getContext()).notifyBirthdays();
+        new LoggingNotificationBuilder().showNotification(getContext(), "Date change");
       }
     });
     Button btnResetDB = (Button) view.findViewById(R.id.buttonResetDB);
