@@ -13,12 +13,8 @@ import de.liersch.android.bday.common.logger.Log;
 public class DateService extends Service {
 
   public static final String TAG = "DateService";
-  public static final String ACTION_BROADCAST = "de.liersch.android.bday.DATE_SERVICE";
   private ServiceBinder mBinder = new ServiceBinder();
   private BroadcastReceiver mReceiver;
-  private Notifier mNotifier;
-
-  // TODO
 
   @Override
   public IBinder onBind(Intent intent) {
@@ -30,12 +26,14 @@ public class DateService extends Service {
   public void onCreate() {
     super.onCreate();
     Log.i(TAG, "onCreate ");
+    new LoggingNotificationBuilder().showNotification(getApplicationContext(), "Create Date Service");
     mReceiver  = createReceiver();
   }
 
   @Override
   public void onDestroy() {
     Log.i(TAG, "onDestroy ");
+    new LoggingNotificationBuilder().showNotification(getApplicationContext(), "Destroy Date Service");
     unregisterReceiver(mReceiver);
     super.onDestroy();
   }
@@ -53,14 +51,13 @@ public class DateService extends Service {
     return new BroadcastReceiver() {
       @Override
       public void onReceive(Context context, Intent intent) {
-        final String action = intent.getAction();
-        mNotifier = new Notifier(getApplicationContext());
-        mNotifier.notifyBirthdays();
+        new Notifier(getApplicationContext()).notifyBirthdays();
+        new LoggingNotificationBuilder().showNotification(context, "Date change");
       }
     };
   }
 
-  public class ServiceBinder extends Binder {
+  private class ServiceBinder extends Binder {
     // Schnittstellenmethoden für den Service
   }
 }
