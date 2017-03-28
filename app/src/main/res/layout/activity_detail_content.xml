@@ -30,15 +30,14 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textViewBirthdayEntry"
+                android:id="@+id/textViewBirthday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Foo"
+                android:text="no entry"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"/>
 
             <TextView
-                android:id="@+id/textViewBirthday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/birthday"
@@ -48,7 +47,7 @@
                 android:id="@+id/textViewAge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/age"
+                android:text="no entry"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"/>
 
@@ -62,7 +61,7 @@
                 android:id="@+id/textViewDaysLeft"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/daysLeft"
+                android:text="no entry"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"/>
 

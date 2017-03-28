@@ -9,7 +9,6 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -78,8 +77,7 @@ public class DetailActivity extends AppCompatActivity {
     TextView textView;
 
     textView = (TextView) findViewById(R.id.textViewBirthday);
-    String string = getResources().getString(R.string.birthday) + " " + mContact.bday;
-    textView.setText(string);
+    textView.setText(mContact.bday);
 
     textView = (TextView) findViewById(R.id.textViewAge);
 
@@ -87,17 +85,15 @@ public class DetailActivity extends AppCompatActivity {
     final Calendar calendar = calendarUtil.toCalendar(mContact.bday);
     final Calendar today = Calendar.getInstance();
     // TODO: Provide age via ContactController
-    final int age = today.get(Calendar.YEAR) - calendar.get(Calendar.YEAR);
-    string = getResources().getString(R.string.age) + age;
-    textView.setText(string);
+    final String age = String.valueOf(today.get(Calendar.YEAR) - calendar.get(Calendar.YEAR));
+    textView.setText(age);
 
     textView = (TextView) findViewById(R.id.textViewDaysLeft);
     // TODO: Provide daysLeft via ContactController
     Calendar birthday = calendarUtil.toCalendar(mContact.bday);
     birthday = calendarUtil.computeNextPossibleEvent(birthday, today);
-    int daysLeft = calendarUtil.getDaysLeft(today, birthday);
-    string = getResources().getString(R.string.daysLeft) + daysLeft;
-    textView.setText(string);
+    String daysLeft = String.valueOf(calendarUtil.getDaysLeft(today, birthday));
+    textView.setText(daysLeft);
   }
 
   private void initActivityTransitions() {
