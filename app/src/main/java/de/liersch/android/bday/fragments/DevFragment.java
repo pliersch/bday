@@ -22,7 +22,7 @@ public class DevFragment extends Fragment {
       @Override
       public void onClick(View v) {
         new Notifier(getContext()).notifyBirthdays();
-        new LoggingNotificationBuilder().showNotification(getContext(), "Date change");
+        new LoggingNotificationBuilder().showNotification(getContext(), "Debug Test by button");
       }
     });
     Button btnResetDB = (Button) view.findViewById(R.id.buttonResetDB);

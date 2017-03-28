@@ -19,10 +19,8 @@ import de.liersch.android.bday.common.logger.LogNode;
 import de.liersch.android.bday.common.logger.LogWrapper;
 import de.liersch.android.bday.db.ContactController;
 import de.liersch.android.bday.db.ContactService;
-import de.liersch.android.bday.db.DatabaseManager;
-import de.liersch.android.bday.fragments.ArticleFragment;
 import de.liersch.android.bday.fragments.DevFragment;
-import de.liersch.android.bday.notification.DateService;
+import de.liersch.android.bday.notification.alarm.AlarmReceiver;
 import de.liersch.android.bday.settings.SettingsActivity;
 import de.liersch.android.bday.ui.contacts.ContactListFragment;
 
@@ -36,9 +34,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     //DatabaseManager.getInstance(getApplicationContext()).reset();
+    new AlarmReceiver().setAlarm(this);
     new ContactController(getApplicationContext()).refresh();
 
-    startService(new Intent(this, DateService.class));
     startService(new Intent(this, ContactService.class));
 
     setContentView(R.layout.activity_main);
@@ -76,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //  @Override
 //  protected void onDestroy() {
 //    // TODO: killing service? really?
-//    stopService(new Intent(this, DateService.class));
 //    stopService(new Intent(this, ContactService.class));
 //    super.onDestroy();
 //  }

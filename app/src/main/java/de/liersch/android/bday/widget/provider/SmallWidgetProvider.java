@@ -11,11 +11,13 @@ import android.widget.RemoteViews;
 
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.activity.MainActivity;
+import de.liersch.android.bday.notification.LoggingNotificationBuilder;
+import de.liersch.android.bday.notification.alarm.AlarmReceiver;
 import de.liersch.android.bday.widget.service.SmallWidgetService;
 
 
 public class SmallWidgetProvider extends BaseWidgetProvider {
-
+  
   public SmallWidgetProvider() {
     super();
   }
@@ -27,6 +29,7 @@ public class SmallWidgetProvider extends BaseWidgetProvider {
 
   @Override
   public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    
     for (int i = 0; i < appWidgetIds.length; ++i) {
 
       // Here we setup the intent which points to the StackViewService which will
