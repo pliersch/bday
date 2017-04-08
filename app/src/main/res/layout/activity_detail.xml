@@ -44,20 +44,15 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
-        android:id="@+id/scroll"
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
+        android:layout_gravity="fill_vertical"
+        android:scrollbars="none"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <include
-                layout="@layout/activity_detail_content"/>
-
-        </FrameLayout>
+        <include
+            layout="@layout/activity_detail_content"/>
 
     </android.support.v4.widget.NestedScrollView>
 
