@@ -10,8 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -24,44 +24,44 @@ import de.liersch.android.bday.ui.contacts.ContactListFragment;
 import de.liersch.android.bday.util.CalendarUtil;
 
 public class DetailActivity extends AppCompatActivity {
-
+  
   private static final String EXTRA_IMAGE = "de.liersch.extraImage";
   private Contact mContact;
-
+  
   @Override
   protected void onResume() {
     super.onResume();
     updateView(true);
   }
-
+  
   @SuppressWarnings("ConstantConditions")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     initActivityTransitions();
     setContentView(R.layout.activity_detail);
-
+    
     long userID = Long.parseLong(getIntent().getStringExtra(ContactListFragment.CONTACT_ID));
     mContact = new ContactController(getApplicationContext()).getContact(userID);
-
+    
     ViewCompat.setTransitionName(findViewById(R.id.app_bar_layout), EXTRA_IMAGE);
     supportPostponeEnterTransition();
-
+    
     setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+    
     CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
     collapsingToolbarLayout.setTitle(mContact.name);
     //collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
   
-    CheckBox firstAlert = (CheckBox) findViewById(R.id.checkBoxFirst);
+    Switch firstAlert = (Switch) findViewById(R.id.switchFirst);
     firstAlert.setChecked(mContact.firstAlert);
-    CheckBox secondAlert = (CheckBox) findViewById(R.id.checkBoxSecond);
+    Switch secondAlert = (Switch) findViewById(R.id.switchSecond);
     secondAlert.setChecked(mContact.secondAlert);
-  
+    
     updateView(false);
   }
-
+  
   private void updateView(boolean resume) {
     if (resume) {
       mContact = new ContactController(getApplicationContext()).getContact(mContact.userID);
@@ -71,23 +71,23 @@ public class DetailActivity extends AppCompatActivity {
     Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(contentResolver, mContact.userID);
     if (bitmap != null) {
       imageView.setImageBitmap(bitmap);
-      imageView.setPadding(0,0,0,0);
+      imageView.setPadding(0, 0, 0, 0);
     }
-
+    
     TextView textView;
-
+    
     textView = (TextView) findViewById(R.id.textViewBirthday);
     textView.setText(mContact.bday);
-
+    
     textView = (TextView) findViewById(R.id.textViewAge);
-
+    
     final CalendarUtil calendarUtil = CalendarUtil.getInstance();
     final Calendar calendar = calendarUtil.toCalendar(mContact.bday);
     final Calendar today = Calendar.getInstance();
     // TODO: Provide age via ContactController
     final String age = String.valueOf(today.get(Calendar.YEAR) - calendar.get(Calendar.YEAR));
     textView.setText(age);
-
+    
     textView = (TextView) findViewById(R.id.textViewDaysLeft);
     // TODO: Provide daysLeft via ContactController
     Calendar birthday = calendarUtil.toCalendar(mContact.bday);
@@ -95,7 +95,7 @@ public class DetailActivity extends AppCompatActivity {
     String daysLeft = String.valueOf(calendarUtil.getDaysLeft(today, birthday));
     textView.setText(daysLeft);
   }
-
+  
   private void initActivityTransitions() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       Slide transition = new Slide();
@@ -104,14 +104,14 @@ public class DetailActivity extends AppCompatActivity {
       getWindow().setReturnTransition(transition);
     }
   }
-
-  public void onCheckboxClicked(View view) {
-    CheckBox checkBox = (CheckBox) view;
+  
+  public void onSwitchClicked(View view) {
+    Switch checkBox = (Switch) view;
     boolean checked = checkBox.isChecked();
     switch (view.getId()) {
-      case R.id.checkBoxFirst:
+      case R.id.switchFirst:
         new ContactController(getApplicationContext()).setEnabledFirstAlert(mContact.userID, checked);
-      case R.id.checkBoxSecond:
+      case R.id.switchSecond:
         new ContactController(getApplicationContext()).setEnabledSecondAlert(mContact.userID, checked);
     }
   }
