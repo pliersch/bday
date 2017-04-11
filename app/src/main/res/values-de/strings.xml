@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Birthday-App</string>
+
+    <!-- Names -->
+    <string name="name">Name</string>
+    <string name="birthday">Geburtstag</string>
+    <string name="age">Alter</string>
+    <string name="daysLeft">Tage übrig</string>
+
+    <string name="empty_view_text">Lade</string>
+    <!--<string name="item_format_string">%1$d\u00B0 on %2$s</string>-->
+    <!--<string name="header_format_string">%1$d\u00B0 in %2$s</string>-->
+
+    <string name="refresh">Aktualisiere</string>
+    <string name="image_description">eine Beschreibung</string>
+
+    <string name="options">Optionen</string>
+    <string name="db_reset">DB RESET</string>
+
+    <string name="textWidgetName">Name</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- Preferences -->
+    <string name="settings">Einstellungen</string>
+    <string name="first_alert">Erster Alarm</string>
+    <string name="second_alert">Zweiter Alarm</string>
+
+    <!-- Detail Activity -->
+    <string name="checkbox_sms">SMS</string>
+
+    <!-- Notification -->
+    <string name="notification_birthday_content_title">%1$s hat heute Geburtstag.</string>
+    <string name="notification_single_content_title">%1$s hat Geburtstag in %2$d Tagen.</string>
+    <string name="notification_summary_content_title">%1$d Geburtstage in den %2$d days.</string>
+    <string name="notification_expanded">expanded text here.</string>
+    <string name="today">heute</string>
+    <string name="day">%1$s Tag</string>
+    <string name="days">%1$s Tage</string>
+
+</resources>

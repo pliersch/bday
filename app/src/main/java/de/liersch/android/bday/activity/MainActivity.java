@@ -1,6 +1,9 @@
 package de.liersch.android.bday.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -11,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.common.logger.Log;
@@ -29,13 +33,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
   public static final String TAG = "MainActivity";
   private int mCurrentFragmentId;
   private final String FRAGMENT_ID = "FRAGMENT_ID";
+  // Request code for READ_CONTACTS. It can be any number > 0.
+  private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     //DatabaseManager.getInstance(getApplicationContext()).reset();
+  
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+        && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+      requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
+      //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
+    }
+    
     new AlarmReceiver().setAlarm(this);
-    new ContactController(getApplicationContext()).refresh();
 
     startService(new Intent(this, ContactService.class));
 
@@ -149,6 +161,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         .replace(mCurrentFragmentId, fragment)
         .commit();
     mCurrentFragmentId = fragment.getId();
+  }
+  
+  @Override
+  public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                         int[] grantResults) {
+    if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
+      if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        // Permission is granted
+        new ContactController(getApplicationContext()).refresh();
+      } else {
+        Toast.makeText(this, "Until you grant the permission, we canot display the names", Toast.LENGTH_SHORT).show();
+      }
+    }
   }
 
   /** Set up targets to receive log data */
