@@ -1,6 +1,7 @@
 package de.liersch.android.bday.ui.contacts;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -72,12 +73,13 @@ public class ContactListFragment extends ListFragment implements AdapterView.OnI
       birthday = mCalendarUtil.computeNextPossibleEvent(birthday, today);
       final int daysLeft = mCalendarUtil.getDaysLeft(today, birthday);
       String msg;
+      final Resources resources = getActivity().getApplicationContext().getResources();
       if (daysLeft == 0) {
-        msg = "today";
+        msg = resources.getString(R.string.today);
       } else if (daysLeft == 1) {
-        msg = Integer.toString(daysLeft) + " day";
+        msg = resources.getString(R.string.day, "1");
       } else {
-        msg = Integer.toString(daysLeft) + " days";
+        msg = resources.getString(R.string.days, Integer.toString(daysLeft));
       }
 
       HashMap<String, String> hashMap = new HashMap<>();
