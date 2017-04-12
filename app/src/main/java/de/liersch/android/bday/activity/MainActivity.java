@@ -16,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import de.liersch.android.bday.R;
@@ -29,6 +31,9 @@ import de.liersch.android.bday.fragments.DevFragment;
 import de.liersch.android.bday.notification.alarm.AlarmReceiver;
 import de.liersch.android.bday.settings.SettingsActivity;
 import de.liersch.android.bday.ui.contacts.ContactListFragment;
+
+import static de.liersch.android.bday.R.id.fragment_container2;
+import static de.liersch.android.bday.R.id.log_fragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
   
@@ -70,6 +75,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     toggle.syncState();
     
     if (CURRENT_DEV_MODE == RELEASE_MODE) {
+  
+      final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.main_linear_layout);
+      final FrameLayout child = (FrameLayout) findViewById(fragment_container2);
+      linearLayout.removeView(child);
+  
       drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
       final ActionBar actionBar = getSupportActionBar();
       if (actionBar != null) {
@@ -204,15 +214,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     logWrapper.setNext(logNode);
     
     // On screen logging via a fragment with a TextView.
-    LogFragment logFragment = (LogFragment) getSupportFragmentManager()
-        .findFragmentById(R.id.log_fragment);
+    LogFragment logFragment = (LogFragment) getSupportFragmentManager().findFragmentById(log_fragment);
     logNode.setNext(logFragment.getLogView());
   }
   
   @Override
   protected void onStart() {
     super.onStart();
-    initializeLogging();
+    if (CURRENT_DEV_MODE == DEBUG_MODE) {
+      initializeLogging();
+    }
     Log.i(TAG, "Logging Ready");
   }
 }
