@@ -1,48 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
+
     <PreferenceCategory
-        android:title="@string/settings">
-        <CheckBoxPreference
-            android:key="alarm_in_silent_mode"
-            android:title="this is a title"
-            android:summary="this is a summary" />
-    </PreferenceCategory>
-    <PreferenceCategory
-        android:key="data_usage"
-        android:title="another Category">
+        android:title="@string/preference_reminder">
 
         <ListPreference
-            android:title="@string/first_alert"
-            android:key="first"
+            android:defaultValue="10"
+            android:dialogTitle="@string/preference_first_alert"
             android:entries="@array/settings_first_alert_entries"
             android:entryValues="@array/settings_first_alert_values"
-            android:dialogTitle="wählen" />
+            android:key="@string/preference_first_alert_key"
+            android:title="@string/preference_first_alert"
+            android:summary="@string/preference_first_alert_summary"/>
 
         <ListPreference
-            android:title="@string/second_alert"
-            android:key="second"
+            android:defaultValue="3"
+            android:dialogTitle="string/preference_second_alert"
             android:entries="@array/settings_second_alert_entries"
             android:entryValues="@array/settings_second_alert_values"
-            android:dialogTitle="wählen"
-            android:defaultValue="3"/>
+            android:key="second"
+            android:title="@string/preference_second_alert"
+            android:summary="@string/preference_second_alert_summary"/>
 
     </PreferenceCategory>
-<!--    <PreferenceCategory
-        android:title="@string/txt_voreinstellungen_persoenliches"
-        >
 
-
-
-                    android:defaultValue="30"
-            android:order="1"
-
-
-        <ListPreference
-            android:entries="@array/lieblingsfarbe"
-            android:entryValues="@array/lieblingsfarbwerte"
-            android:key="lieblingsfarbe"
-            android:title="@string/txt_voreinstellungen_lieblingsfarbe"
-            />
-    </PreferenceCategory>-->
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="switch_preference_1"
+            android:title="Switch preference"/>
+    </PreferenceCategory>
 </PreferenceScreen>

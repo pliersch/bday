@@ -24,9 +24,9 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <!-- Preferences -->
-    <string name="settings">Einstellungen</string>
-    <string name="first_alert">Erster Alarm</string>
-    <string name="second_alert">Zweiter Alarm</string>
+    <string name="preference_settings">Einstellungen</string>
+    <string name="preference_first_alert">frühe vorab Erinnerung</string>
+    <string name="preference_second_alert">Countdown Erinnerung</string>
 
     <!-- Detail Activity -->
     <string name="checkbox_sms">SMS</string>
@@ -39,5 +39,6 @@
     <string name="today">heute</string>
     <string name="day">%1$s Tag</string>
     <string name="days">%1$s Tage</string>
+    <string name="preference_reminder">Erinnerungen</string>
 
 </resources>

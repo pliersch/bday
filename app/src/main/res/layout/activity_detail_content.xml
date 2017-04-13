@@ -94,7 +94,7 @@
                 android:layout_alignParentStart="true"
                 android:onClick="onSwitchClicked"
                 android:textSize="16sp"
-                android:text="@string/first_alert"
+                android:text="@string/preference_first_alert"
                 />
 
             <Switch
@@ -102,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="onSwitchClicked"
-                android:text="@string/second_alert"
+                android:text="@string/preference_second_alert"
                 android:layout_marginTop="@dimen/spacing_medium"
                 android:layout_below="@+id/switchFirst"
                 android:textSize="16sp"

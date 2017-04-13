@@ -1,27 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="settings_first_alert_entries">
+        <item>"5"</item>
+        <item>"7"</item>
         <item>"10"</item>
-        <item>"14"</item>
-        <item>"30"</item>
-        <item>"kein Alarm"</item>
     </string-array>
     <string-array name="settings_first_alert_values">
+        <item>"5"</item>
+        <item>"7"</item>
         <item>"10"</item>
-        <item>"14"</item>
-        <item>"30"</item>
-        <item>"0"</item>
     </string-array>
     <string-array name="settings_second_alert_entries">
-        <item>"7"</item>
         <item>"3"</item>
+        <item>"2"</item>
         <item>"1"</item>
-        <item>"kein Alarm"</item>
     </string-array>
     <string-array name="settings_second_alert_values">
-        <item>"7"</item>
         <item>"3"</item>
+        <item>"2"</item>
         <item>"1"</item>
-        <item>"0"</item>
     </string-array>
 </resources>

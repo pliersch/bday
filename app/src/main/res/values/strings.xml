@@ -25,9 +25,16 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <!-- Preferences -->
-    <string name="settings">Settings</string>
-    <string name="first_alert">First Alert</string>
-    <string name="second_alert">Second Alert</string>
+    <string name="preference_settings">Settings</string>
+    <string name="preference_reminder">reminder</string>
+
+    <string name="preference_first_alert">early reminder</string>
+    <string name="preference_first_alert_summary">notification once %1$s days before contacts birthday</string>
+    <string name="preference_first_alert_key" translatable="false">first</string>
+
+    <string name="preference_second_alert">countdown reminder</string>
+    <string name="preference_second_alert_summary">notification each %1$s days before contacts birthday</string>
+    <string name="preference_second_alert_key" translatable="false">second</string>
 
     <!-- Detail Activity -->
     <string name="checkbox_sms">SMS</string>
