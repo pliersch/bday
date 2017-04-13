@@ -3,15 +3,16 @@ package de.liersch.android.bday.notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import de.liersch.android.bday.R;
 import de.liersch.android.bday.beans.Contact;
 import de.liersch.android.bday.db.ContactController;
-import de.liersch.android.bday.settings.SettingsActivity;
 import de.liersch.android.bday.util.CalendarUtil;
 
 public class Notifier {
@@ -32,8 +33,11 @@ public class Notifier {
       List<Contact> contacts = new ArrayList<Contact>();
       ArrayList<Integer> days = new ArrayList<Integer>();
       SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mApplicationContext);
-      final int first = Integer.parseInt(sharedPref.getString(SettingsActivity.FIRST_ALERT, "30"));
-      final int second = Integer.parseInt(sharedPref.getString(SettingsActivity.SECOND_ALERT, "5"));
+      final Resources resources = mApplicationContext.getResources();
+      final int first =
+          Integer.parseInt(sharedPref.getString(resources.getString(R.string.preference_first_alert_key), "10"));
+      final int second =
+          Integer.parseInt(sharedPref.getString(resources.getString(R.string.preference_second_alert_key), "3"));
       
       for (Contact contact : sortedContacts) {
         final int daysLeft = computeDaysLeft(contact.bday);

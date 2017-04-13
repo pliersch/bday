@@ -13,7 +13,6 @@ import java.util.List;
 
 import de.liersch.android.bday.R;
 import de.liersch.android.bday.beans.Contact;
-import de.liersch.android.bday.settings.SettingsActivity;
 
 public class SummaryNotificationBuilder extends BaseNotificationBuilder {
 
@@ -30,7 +29,8 @@ public class SummaryNotificationBuilder extends BaseNotificationBuilder {
     PendingIntent pendingIntent = getOpenActivityIntent(applicationContext);
     final Resources resources = applicationContext.getResources();
     SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(applicationContext);
-    final int first = Integer.parseInt(sharedPref.getString(SettingsActivity.FIRST_ALERT, "30"));
+    final int first =
+        Integer.parseInt(sharedPref.getString(resources.getString(R.string.preference_first_alert_key), "10"));
     String tickerText = resources.getString(R.string.notification_summary_content_title, size, first);
     String contentText = "";
     for (Contact contact : contacts) {
