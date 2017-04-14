@@ -36,7 +36,6 @@ import de.liersch.android.bday.beans.Contact;
           "second_alert INTEGER NOT NULL" +
           ")");
 
-  // context seems to be the application context
   public static DatabaseManager getInstance(Context applicationContext) {
     if (dbManager == null) {
       dbManager = new DatabaseManager(applicationContext);
