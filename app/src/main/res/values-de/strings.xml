@@ -40,5 +40,7 @@
     <string name="day">%1$s Tag</string>
     <string name="days">%1$s Tage</string>
     <string name="preference_reminder">Erinnerungen</string>
+    <string name="preference_first_alert_summary">Erinnerung einmalig %1$s Tage vor Geburtstag</string>
+    <string name="preference_second_alert_summary">Erinnerung täglich %1$s Tage vor Geburtstag</string>
 
 </resources>
