@@ -55,7 +55,7 @@ public class SummaryNotificationBuilder extends BaseNotificationBuilder {
         .setCategory(Notification.CATEGORY_EVENT)
         .setContentIntent(pendingIntent)
         .setTicker(tickerText)
-        .setSmallIcon(R.drawable.ic_stautsbar_icon)
+        .setSmallIcon(R.drawable.ic_statusbar_icon)
         .setContentTitle(tickerText)
         .setContentText(contentText)
         .setAutoCancel(true)

@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-//    CURRENT_DEV_MODE = DEBUG_MODE;
-    CURRENT_DEV_MODE = RELEASE_MODE;
+    CURRENT_DEV_MODE = DEBUG_MODE;
+//    CURRENT_DEV_MODE = RELEASE_MODE;
     super.onCreate(savedInstanceState);
     //DatabaseManager.getInstance(getApplicationContext()).reset();
     
