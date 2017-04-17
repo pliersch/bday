@@ -30,7 +30,7 @@ public class SingleNotificationBuilder extends BaseNotificationBuilder {
         //.setCategory(Notification.CATEGORY_EVENT)
         .setContentIntent(pendingIntent)
         .setTicker(tickerText)
-        .setSmallIcon(R.drawable.ic_stautsbar_icon)
+        .setSmallIcon(R.drawable.ic_statusbar_icon)
         .setLargeIcon(bitmap)
         .setContentTitle(name)
         .setContentText(tickerText)

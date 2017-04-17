@@ -3,8 +3,6 @@ package de.liersch.android.bday.notification;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 
 import de.liersch.android.bday.R;
@@ -20,7 +18,7 @@ public class LoggingNotificationBuilder extends NotificationBuilder {
     NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
     builder
         .setTicker("Date Checker")
-        .setSmallIcon(R.drawable.ic_stautsbar_icon)
+        .setSmallIcon(R.drawable.ic_statusbar_icon)
         .setContentTitle("Logging")
         .setContentText(msg)
         .setAutoCancel(true)
