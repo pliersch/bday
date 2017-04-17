@@ -17,9 +17,7 @@ import de.liersch.android.bday.db.SystemContactsQuery;
 
 public class BirthdayNotificationBuilder extends BaseNotificationBuilder {
 
-  private static int NOTIFICATION_ID = 0;
-
-  public void createNotification(Contact contact, Context applicationContext) {
+  void createNotification(Contact contact, Context applicationContext) {
     final String name = contact.name;
     final long userID = contact.userID;
 
@@ -69,7 +67,9 @@ public class BirthdayNotificationBuilder extends BaseNotificationBuilder {
 
     // Use the NotificationManager to show the notification
     NotificationManager nm = (NotificationManager) applicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
-    nm.notify(NOTIFICATION_ID, notification);
+    // we need a unique id
+    int uID = contact.hashCode();
+    nm.notify(uID, notification);
   }
 
   private String[] readPhoneNumbers(Context applicationContext, long userID) {

@@ -41,6 +41,7 @@ public class Notifier {
       
       for (Contact contact : sortedContacts) {
         final int daysLeft = computeDaysLeft(contact.bday);
+        // contacts birthday was in the last days. So we have to reset notified property for the next year
         if (daysLeft > first && contact.notified) {
           contact.notified = false;
           new ContactController(mApplicationContext).setNotified(contact.userID, false);
