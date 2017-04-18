@@ -38,7 +38,7 @@
     <dimen name="elevation_low">9dp</dimen>
     <dimen name="elevation_high">12dp</dimen>
     <dimen name="status_bar_height">25dp</dimen>
-    <dimen name="sheet_text_scrim_height_top">20dp</dimen>
-    <dimen name="sheet_text_scrim_height_bottom">20dp</dimen>
+    <dimen name="sheet_text_scrim_height_top">50dp</dimen>
+    <dimen name="sheet_text_scrim_height_bottom">70dp</dimen>
 
 </resources>
