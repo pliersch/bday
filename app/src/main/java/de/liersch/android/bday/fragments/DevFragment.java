@@ -34,14 +34,4 @@ public class DevFragment extends Fragment {
     });
     return view;
   }
-
-  @Override
-  public void onStart() {
-    super.onStart();
-  }
-
-  @Override
-  public void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-  }
 }

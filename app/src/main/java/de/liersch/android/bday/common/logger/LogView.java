@@ -17,12 +17,12 @@ package de.liersch.android.bday.common.logger;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.*;
-import android.widget.TextView;
+import android.support.v7.widget.AppCompatTextView;
+import android.util.AttributeSet;
 
 /** Simple TextView which is used to output log data received through the ILogNode interface.
 */
-public class LogView extends TextView implements ILogNode {
+public class LogView extends AppCompatTextView implements ILogNode {
 
     public LogView(Context context) {
         super(context);
