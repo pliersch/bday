@@ -111,8 +111,10 @@ public class DetailActivity extends AppCompatActivity {
     switch (view.getId()) {
       case R.id.switchFirst:
         new ContactController(getApplicationContext()).setEnabledFirstAlert(mContact.userID, checked);
+        break;
       case R.id.switchSecond:
         new ContactController(getApplicationContext()).setEnabledSecondAlert(mContact.userID, checked);
+        break;
     }
   }
 }
