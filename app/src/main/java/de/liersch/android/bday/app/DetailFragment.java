@@ -1,4 +1,4 @@
-package de.liersch.android.bday.fragments;
+package de.liersch.android.bday.app;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

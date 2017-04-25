@@ -1,4 +1,4 @@
-package de.liersch.android.bday.app;
+package de.liersch.android.bday.app.ui;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;

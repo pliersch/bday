@@ -14,7 +14,7 @@
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-            <de.liersch.android.bday.app.SquareImageView
+            <de.liersch.android.bday.app.ui.SquareImageView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

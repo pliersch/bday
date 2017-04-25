@@ -1,4 +1,4 @@
-package de.liersch.android.bday.app.util;
+package de.liersch.android.bday.app.ui;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

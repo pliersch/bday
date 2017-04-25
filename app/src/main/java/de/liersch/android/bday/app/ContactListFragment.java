@@ -1,4 +1,4 @@
-package de.liersch.android.bday.ui.contacts;
+package de.liersch.android.bday.app;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import de.liersch.android.bday.R;
-import de.liersch.android.bday.app.DetailActivity;
+import de.liersch.android.bday.app.util.ContactsAdapter;
 import de.liersch.android.bday.beans.Contact;
 import de.liersch.android.bday.db.ContactController;
 import de.liersch.android.bday.util.CalendarUtil;
