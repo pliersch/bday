@@ -76,11 +76,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     toggle.syncState();
     
     if (CURRENT_DEV_MODE == RELEASE_MODE) {
-  
+      
       final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.main_linear_layout);
       final FrameLayout child = (FrameLayout) findViewById(fragment_container2);
       linearLayout.removeView(child);
-  
+      
       drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
       final ActionBar actionBar = getSupportActionBar();
       if (actionBar != null) {
@@ -152,26 +152,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
   
   @Override
   public boolean onNavigationItemSelected(MenuItem item) {
-    
-    int id = item.getItemId();
-    
-    switch (id) {
+    switch (item.getItemId()) {
       case R.id.nav_camera:
         replaceFragment(new ContactListFragment());
-        break;
-      case R.id.nav_gallery:
-        
-        break;
-      case R.id.nav_slideshow:
-        
-        break;
-      case R.id.nav_manage:
-        
         break;
       case R.id.nav_dev_actions:
         replaceFragment(new DevFragment());
         break;
+      case R.id.nav_gallery:
+      case R.id.nav_slideshow:
+      case R.id.nav_manage:
+        break;
       case R.id.nav_logging:
+        final FrameLayout frameLayout = (FrameLayout) findViewById(R.id.fragment_container2);
+        LinearLayout.LayoutParams layoutParams =
+            new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                0, 1);
+        
+        frameLayout.setLayoutParams(layoutParams);
         break;
       default:
         System.out.println("MainActivity#onNavigationItemSelected: no valid id");
