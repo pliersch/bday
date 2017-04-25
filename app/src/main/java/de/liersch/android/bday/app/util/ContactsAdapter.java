@@ -1,4 +1,4 @@
-package de.liersch.android.bday.ui.contacts;
+package de.liersch.android.bday.app.util;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -15,10 +15,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.liersch.android.bday.R;
+import de.liersch.android.bday.app.ContactListFragment;
 import de.liersch.android.bday.db.ContactUtil;
 import de.liersch.android.bday.util.ImageHelper;
 
-class ContactsAdapter extends SimpleAdapter {
+public class ContactsAdapter extends SimpleAdapter {
   private Context context;
   private ArrayList<HashMap<String, String>> arrayList;
 

@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:fitsSystemWindows="true"
-        tools:context="de.liersch.android.bday.activity.MainActivity">
+        tools:context="de.liersch.android.bday.app.MainActivity">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"

@@ -15,7 +15,7 @@
         android:layout_height="0px"
         android:layout_weight="3"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="de.liersch.android.bday.activity.MainActivity"
+        tools:context="de.liersch.android.bday.app.MainActivity"
         tools:showIn="@layout/activity_main">
     </FrameLayout>
 
@@ -25,7 +25,7 @@
         android:layout_height="0px"
         android:layout_weight="0"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="de.liersch.android.bday.activity.MainActivity"
+        tools:context="de.liersch.android.bday.app.MainActivity"
         tools:showIn="@layout/activity_main">
 
         <fragment

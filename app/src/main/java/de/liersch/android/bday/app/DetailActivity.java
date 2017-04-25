@@ -14,8 +14,6 @@ import de.liersch.android.bday.R;
 import de.liersch.android.bday.beans.Contact;
 import de.liersch.android.bday.db.ContactController;
 import de.liersch.android.bday.db.ContactUtil;
-import de.liersch.android.bday.fragments.DetailFragment;
-import de.liersch.android.bday.ui.contacts.ContactListFragment;
 
 public class DetailActivity extends AppCompatActivity {
   

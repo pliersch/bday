@@ -1,4 +1,4 @@
-package de.liersch.android.bday.app;
+package de.liersch.android.bday.app.util;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;

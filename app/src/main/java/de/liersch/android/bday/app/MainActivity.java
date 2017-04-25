@@ -1,4 +1,4 @@
-package de.liersch.android.bday.activity;
+package de.liersch.android.bday.app;
 
 import android.Manifest;
 import android.content.Intent;
@@ -23,7 +23,6 @@ import de.liersch.android.bday.db.ContactController;
 import de.liersch.android.bday.db.ContactService;
 import de.liersch.android.bday.notification.alarm.AlarmReceiver;
 import de.liersch.android.bday.settings.SettingsActivity;
-import de.liersch.android.bday.ui.contacts.ContactListFragment;
 
 import static de.liersch.android.bday.R.id.log_fragment;
 

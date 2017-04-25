@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 
-import de.liersch.android.bday.activity.MainActivity;
+import de.liersch.android.bday.app.MainActivity;
 import de.liersch.android.bday.db.ContactUtil;
 
 abstract class NotificationBuilder {
