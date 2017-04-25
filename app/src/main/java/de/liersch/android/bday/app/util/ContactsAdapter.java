@@ -23,7 +23,7 @@ public class ContactsAdapter extends SimpleAdapter {
   private Context context;
   private ArrayList<HashMap<String, String>> arrayList;
 
-  ContactsAdapter(Context context, ArrayList<HashMap<String, String>> data, int resource, String[] from, int[] to) {
+  public ContactsAdapter(Context context, ArrayList<HashMap<String, String>> data, int resource, String[] from, int[] to) {
     super(context, data, resource, from, to);
     this.context = context;
     this.arrayList = data;
