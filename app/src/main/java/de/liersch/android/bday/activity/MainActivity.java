@@ -6,18 +6,12 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import de.liersch.android.bday.R;
@@ -27,15 +21,13 @@ import de.liersch.android.bday.common.logger.LogNode;
 import de.liersch.android.bday.common.logger.LogWrapper;
 import de.liersch.android.bday.db.ContactController;
 import de.liersch.android.bday.db.ContactService;
-import de.liersch.android.bday.fragments.DevFragment;
 import de.liersch.android.bday.notification.alarm.AlarmReceiver;
 import de.liersch.android.bday.settings.SettingsActivity;
 import de.liersch.android.bday.ui.contacts.ContactListFragment;
 
-import static de.liersch.android.bday.R.id.fragment_container2;
 import static de.liersch.android.bday.R.id.log_fragment;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
   
   public static final String TAG = "MainActivity";
   public static final int DEBUG_MODE = -1;
@@ -49,8 +41,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    CURRENT_DEV_MODE = DEBUG_MODE;
-//    CURRENT_DEV_MODE = RELEASE_MODE;
+//    CURRENT_DEV_MODE = DEBUG_MODE;
+    CURRENT_DEV_MODE = RELEASE_MODE;
     super.onCreate(savedInstanceState);
     //DatabaseManager.getInstance(getApplicationContext()).reset();
     
@@ -68,30 +60,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
-    
-    DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-    ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-        this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-    drawerLayout.setDrawerListener(toggle);
-    toggle.syncState();
-    
-    if (CURRENT_DEV_MODE == RELEASE_MODE) {
-      
-      final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.main_linear_layout);
-      final FrameLayout child = (FrameLayout) findViewById(fragment_container2);
-      linearLayout.removeView(child);
-      
-      drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-      final ActionBar actionBar = getSupportActionBar();
-      if (actionBar != null) {
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setHomeButtonEnabled(false);
-      }
-      toolbar.setNavigationIcon(null);
-    }
-    
-    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-    navigationView.setNavigationItemSelectedListener(this);
+
+//    if (CURRENT_DEV_MODE == RELEASE_MODE) {
+//
+//      final LinearLayout linearLayout = (LinearLayout) findViewById(R.id.main_linear_layout);
+//      final FrameLayout child = (FrameLayout) findViewById(fragment_container2);
+//      linearLayout.removeView(child);
+
+//      final ActionBar actionBar = getSupportActionBar();
+//      if (actionBar != null) {
+//        actionBar.setDisplayHomeAsUpEnabled(false);
+//        actionBar.setHomeButtonEnabled(false);
+//      }
+//      toolbar.setNavigationIcon(null);
+
+//      final FrameLayout frameLayout = (FrameLayout) findViewById(R.id.fragment_container2);
+//      LinearLayout.LayoutParams layoutParams =
+//          new LinearLayout.LayoutParams(
+//              LinearLayout.LayoutParams.MATCH_PARENT,
+//              0, 1);
+//
+//      frameLayout.setLayoutParams(layoutParams);
+
+//    }
     
     if (savedInstanceState == null) {
       final ContactListFragment contactListFragment = new ContactListFragment();
@@ -148,45 +139,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     
     return super.onOptionsItemSelected(item);
-  }
-  
-  @Override
-  public boolean onNavigationItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-      case R.id.nav_camera:
-        replaceFragment(new ContactListFragment());
-        break;
-      case R.id.nav_dev_actions:
-        replaceFragment(new DevFragment());
-        break;
-      case R.id.nav_gallery:
-      case R.id.nav_slideshow:
-      case R.id.nav_manage:
-        break;
-      case R.id.nav_logging:
-        final FrameLayout frameLayout = (FrameLayout) findViewById(R.id.fragment_container2);
-        LinearLayout.LayoutParams layoutParams =
-            new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                0, 1);
-        
-        frameLayout.setLayoutParams(layoutParams);
-        break;
-      default:
-        System.out.println("MainActivity#onNavigationItemSelected: no valid id");
-        break;
-    }
-    
-    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-    drawer.closeDrawer(GravityCompat.START);
-    return true;
-  }
-  
-  private void replaceFragment(Fragment fragment) {
-    getSupportFragmentManager().beginTransaction()
-        .replace(mCurrentFragmentId, fragment)
-        .commit();
-    mCurrentFragmentId = fragment.getId();
   }
   
   @Override
