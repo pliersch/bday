@@ -23,9 +23,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
   
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    if (savedInstanceState == null) {
-      view = inflater.inflate(R.layout.fragment_detail_content, container, false);
-    }
+    view = inflater.inflate(R.layout.fragment_detail_content, container, false);
     return view;
   }
   
@@ -37,21 +35,21 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     Switch secondAlert = (Switch) view.findViewById(R.id.switchSecond);
     secondAlert.setOnClickListener(this);
     secondAlert.setChecked(mContact.secondAlert);
-  
+    
     TextView textView;
-  
+    
     textView = (TextView) view.findViewById(R.id.textViewBirthday);
     textView.setText(mContact.bday);
-  
+    
     textView = (TextView) view.findViewById(R.id.textViewAge);
-  
+    
     final CalendarUtil calendarUtil = CalendarUtil.getInstance();
     final Calendar calendar = calendarUtil.toCalendar(mContact.bday);
     final Calendar today = Calendar.getInstance();
     // TODO: Provide age via ContactController
     final String age = String.valueOf(today.get(Calendar.YEAR) - calendar.get(Calendar.YEAR));
     textView.setText(age);
-  
+    
     textView = (TextView) view.findViewById(R.id.textViewDaysLeft);
     // TODO: Provide daysLeft via ContactController
     Calendar birthday = calendarUtil.toCalendar(mContact.bday);
@@ -59,7 +57,7 @@ public class DetailFragment extends Fragment implements View.OnClickListener {
     String daysLeft = String.valueOf(calendarUtil.getDaysLeft(today, birthday));
     textView.setText(daysLeft);
   }
-
+  
   @Override
   public void onClick(View view) {
     Switch checkBox = (Switch) view;

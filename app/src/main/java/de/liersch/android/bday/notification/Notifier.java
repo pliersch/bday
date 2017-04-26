@@ -27,7 +27,7 @@ public class Notifier {
   public void notifyBirthdays() {
     NotificationManager nm = (NotificationManager) mApplicationContext.getSystemService(Context.NOTIFICATION_SERVICE);
     nm.cancelAll();
-    final List<Contact> sortedContacts = new ContactController(mApplicationContext).getSortedContacts(Calendar.getInstance());
+    final List<Contact> sortedContacts = new ContactController(mApplicationContext).getSortedContacts();
     
     if (sortedContacts.size() > 0) {
       List<Contact> contacts = new ArrayList<Contact>();

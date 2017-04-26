@@ -56,6 +56,10 @@ public class ContactController {
     return contact;
   }
   
+  public List<Contact> getSortedContacts() {
+    return mContactUtil.sortContacts(getContacts(), Calendar.getInstance());
+  }
+  
   public List<Contact> getSortedContacts(Calendar date) {
     return mContactUtil.sortContacts(getContacts(), date);
   }
