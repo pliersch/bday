@@ -37,27 +37,35 @@ public class ContactsAdapter extends SimpleAdapter {
       view = super.getView(position, convertView, parent);
     } else {
       view = convertView;
-      TextView textViewName = (TextView) view.findViewById(R.id.textViewName);
-      textViewName.setText(arrayList.get(position).get(ContactListFragment.NAME));
-      TextView textViewDays = (TextView) view.findViewById(R.id.textViewDays);
+    }
+    TextView textViewName = (TextView) view.findViewById(R.id.textViewName);
+    textViewName.setText(arrayList.get(position).get(ContactListFragment.NAME));
+    TextView textViewDays = (TextView) view.findViewById(R.id.textViewDays);
+    // we are in portrait not in landscape
+    if (textViewDays != null) {
       textViewDays.setText(arrayList.get(position).get(ContactListFragment.DAYS_LEFT));
     }
     ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
-
-    final ContentResolver contentResolver = context.getApplicationContext().getContentResolver();
-    final HashMap<String, String> hashMap = arrayList.get(position);
-
-    // TODO move image creation into ContactListFragment#updateView
-
-    final long contactId = Long.parseLong(hashMap.get(ContactListFragment.CONTACT_ID), 10);
-    Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(contentResolver, contactId);
-    if (bitmap != null) {
-      bitmap = ImageHelper.getRoundedCornerBitmap(bitmap, 0.2f);
+    
+    // we are in portrait not in landscape
+    if (imageView != null) {
+  
+      final ContentResolver contentResolver = context.getApplicationContext().getContentResolver();
+      final HashMap<String, String> hashMap = arrayList.get(position);
+  
+      // TODO move image creation into ContactListFragment#updateView
+  
+      final long contactId = Long.parseLong(hashMap.get(ContactListFragment.CONTACT_ID), 10);
+      Bitmap bitmap = ContactUtil.getInstance().loadContactPhoto(contentResolver, contactId);
+      if (bitmap != null) {
+        bitmap = ImageHelper.getRoundedCornerBitmap(bitmap, 0.2f);
+        imageView.setImageBitmap(bitmap);
+      } else {
+        bitmap = BitmapFactory.decodeResource(context.getApplicationContext().getResources(), R.drawable.ic_account_circle_blue_48dp);
+      }
       imageView.setImageBitmap(bitmap);
-    } else {
-      bitmap = BitmapFactory.decodeResource(context.getApplicationContext().getResources(), R.drawable.ic_account_circle_blue_48dp);
     }
-    imageView.setImageBitmap(bitmap);
+
     return view;
   }
 
