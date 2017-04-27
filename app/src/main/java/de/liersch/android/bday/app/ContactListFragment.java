@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,7 +37,12 @@ public class ContactListFragment extends ListFragment implements AdapterView.OnI
   public static final String CONTACT_ID = "de.liersch.android.contactid";
   public static final String BDAY = "de.liersch.android.bday";
   public static final String DAYS_LEFT = "de.liersch.android.daysleft";
+  
+  private static final String POSITION = "pos";
+  
   private boolean mIsDualPane;
+  private int mPosition = -1;
+  private TextView mCurrentTextView;
   
   @Override
   public void onAttach(Context context) {
@@ -56,7 +62,7 @@ public class ContactListFragment extends ListFragment implements AdapterView.OnI
     // the previous article selection set by onSaveInstanceState().
     // This is primarily necessary when in the two-pane layout.
     if (savedInstanceState != null) {
-      // mCurrentPosition = savedInstanceState.getInt(ARG_POSITION);
+      mPosition = savedInstanceState.getInt(POSITION);
     }
     mCalendarUtil = CalendarUtil.getInstance();
     return inflater.inflate(R.layout.fragment_contact_list_layout, container, false);
@@ -65,7 +71,19 @@ public class ContactListFragment extends ListFragment implements AdapterView.OnI
   @Override
   public void onResume() {
     super.onResume();
+    if (mIsDualPane && mPosition >= 0) {
+      
+      final View childAt = getListView().getChildAt(mPosition);
+      //getListView().getChildAt(mPosition).setBackgroundColor(ContextCompat.getColor(getContext(), android.R.color.holo_blue_light));
+      //getListView().setItemChecked(mPosition, true);
+    }
     updateView();
+  }
+  
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putInt(POSITION, mPosition);
   }
   
   public void setDualPane(boolean isDualPane){
@@ -126,15 +144,20 @@ public class ContactListFragment extends ListFragment implements AdapterView.OnI
   
   @Override
   public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    mPosition = position;
+    view.setSelected(true);
     final HashMap<String, String> contactData = mContactList.get(position);
     if (mIsDualPane) {
+//      if (mCurrentTextView != null) {
+//        mCurrentTextView.setBackgroundColor(ContextCompat.getColor(getContext(), android.R.color.transparent));
+//      }
+//      final TextView textView = (TextView) view.findViewById(R.id.textViewName);
+//      mCurrentTextView = textView;
+//      textView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
       mListener.onContactSelected(contactData);
     } else {
       final Intent intent = new Intent(this.getActivity(), DetailActivity.class);
-//      intent.putExtra(NAME, contactData.get(NAME));
       intent.putExtra(CONTACT_ID, contactData.get(CONTACT_ID));
-//      intent.putExtra(DAYS_LEFT, contactData.get(DAYS_LEFT));
-//      intent.putExtra(BDAY, contactData.get(BDAY));
       startActivity(intent);
     }
   }
